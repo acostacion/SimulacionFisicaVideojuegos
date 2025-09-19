@@ -29,6 +29,7 @@ PxPvd*                  gPvd        = NULL;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
+RenderItem*			  gRenderItem   = NULL;
 
 
 // Initialize physics engine
@@ -54,7 +55,17 @@ void initPhysics(bool interactive)
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
-	}
+
+	// Escribir aqui movidas en la practica 0.
+	physx::PxShape* _shape = CreateShape(PxSphereGeometry(5.0f));
+	const physx::PxTransform* _trans = new physx::PxTransform( physx::PxVec3(0.0f, 0.0f, 0.0f));
+	const Vector4 _color = { 0.75f, 0.0f, 1.0f, 1.0f };
+
+
+	gRenderItem = new RenderItem(_shape, _trans, _color);
+
+	
+}
 
 
 // Function to configure what happens in each step of physics
@@ -84,7 +95,11 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
-	}
+
+	gRenderItem->release();
+}
+
+
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)

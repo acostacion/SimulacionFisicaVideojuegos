@@ -301,6 +301,8 @@ void startRender(const PxVec3& cameraEye, const PxVec3& cameraDir, PxReal clipNe
 
 	glColor4f(0.4f, 0.4f, 0.4f, 1.0f);
 
+	
+
 	assert(glGetError() == GL_NO_ERROR);
 }
 
