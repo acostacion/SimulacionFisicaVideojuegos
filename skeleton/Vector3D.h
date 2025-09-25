@@ -18,15 +18,15 @@ public:
 		_z /= m; // z = z/m
 	}
 
-	// producto escalar de este vector por otro: TODO
+	// producto escalar de este vector por otro: 
 	// A * B = (a1 * b1) + (a2 * b2) + (a3 * b3)
 	inline float scalarProduct(Vector3D v) {
 		return (_x * v.getX()) + (_y * v.getY()) + (_z * v.getZ());
 	}
 
-	// multiplicar el vector por un escalar TODO
-	inline Vector3D scalarMultiplication(float k) {
-		return *this* k;
+	// multiplicar el vector por un escalar 
+	inline Vector3D& operator*(float k) { // (a,b,c) -> (ka,kb,kc)
+		return Vector3D(_x * k, _y * k, _z * k);
 	}
 
 	// sobrecargar los operadores =, +, -, *
@@ -46,14 +46,13 @@ public:
 		return Vector3D(-_x, -_y, -_z);
 	}
 
-	// vector por escalar TODO
-	inline Vector3D& operator*(float k) { // (a,b,c) -> (ka,kb,kc)
-		return Vector3D(_x * k, _y * k, _z * k);
-	}
-
-	// producto vectorial (lo del determinante) TODO
+	// producto vectorial (lo del determinante) 
 	inline Vector3D& operator*(Vector3D& v) { // (a,b,c) -> (ka,kb,kc)
-		return Vector3D(_x * v.getX(), _y * v.getY(), _z * v.getZ());
+		return Vector3D(
+			_x * v.getZ() - v.getY() * _z, 
+			v.getX() * _z - _x * v.getZ(), 
+			_x * v.getY() - v.getX() * _y
+		);
 	}
 
 	// getters

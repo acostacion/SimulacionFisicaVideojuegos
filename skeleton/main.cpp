@@ -7,6 +7,7 @@
 #include "core.hpp"
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
+#include "Vector3D.h"
 
 #include <iostream>
 
@@ -31,6 +32,13 @@ PxScene*				gScene      = NULL;
 ContactReportCallback gContactReportCallback;
 RenderItem*			  gRenderItem   = NULL;
 
+void generateBall(float radius, Vector3D pos, Vector4 color) {
+	physx::PxShape* _shape = CreateShape(PxSphereGeometry(radius));
+	const physx::PxTransform* _trans = new physx::PxTransform(physx::PxVec3(pos.getX(), pos.getY(), pos.getZ()));
+	const Vector4 _color = { color.x, color.y, color.z, color.w };
+
+	gRenderItem = new RenderItem(_shape, _trans, _color);
+}
 
 // Initialize physics engine
 void initPhysics(bool interactive)
@@ -57,12 +65,12 @@ void initPhysics(bool interactive)
 	gScene = gPhysics->createScene(sceneDesc);
 
 	// Escribir aqui movidas en la practica 0.
-	physx::PxShape* _shape = CreateShape(PxSphereGeometry(5.0f));
-	const physx::PxTransform* _trans = new physx::PxTransform( physx::PxVec3(0.0f, 0.0f, 0.0f));
-	const Vector4 _color = { 0.75f, 0.0f, 1.0f, 1.0f };
+	//generateBall(5.0f, { 0.0f, 0.0f, 0.0f }, { 0.75f, 0.0f, 1.0f, 1.0f });
 
-
-	gRenderItem = new RenderItem(_shape, _trans, _color);
+	generateBall(1.0f, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }); // 0.
+	generateBall(1.0f, { 7.0f, 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }); // X.
+	generateBall(1.0f, { 0.0f, 7.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }); // Y.
+	generateBall(1.0f, { 0.0f, 0.0f, 7.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }); // Z.
 
 	
 }
