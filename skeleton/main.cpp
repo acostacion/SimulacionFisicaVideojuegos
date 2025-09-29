@@ -8,6 +8,7 @@
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
 #include "Vector3D.h"
+#include "Particle.h"
 
 #include <iostream>
 
@@ -30,7 +31,10 @@ PxPvd*                  gPvd        = NULL;
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
 ContactReportCallback   gContactReportCallback;
+
 RenderItem*			    gRenderItem = NULL;
+
+Particle*				_particle   = nullptr;
 
 void generateBall(float radius, Vector3D pos, Vector4 color) {
 	physx::PxShape* _shape = CreateShape(PxSphereGeometry(radius));
@@ -67,11 +71,17 @@ void initPhysics(bool interactive)
 	// Escribir aqui movidas en la practica 0.
 	//generateBall(5.0f, { 0.0f, 0.0f, 0.0f }, { 0.75f, 0.0f, 1.0f, 1.0f });
 
+	/*
 	generateBall(1.0f, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }); // 0.
 	generateBall(1.0f, { 7.0f, 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }); // X.
 	generateBall(1.0f, { 0.0f, 7.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }); // Y.
 	generateBall(1.0f, { 0.0f, 0.0f, 7.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }); // Z.
+	*/
 
+	_particle = new Particle(
+		{ 0.0, 0.0, 0.0 },
+		{ 0.0, 0.0, 0.0 }
+	);
 	
 }
 
@@ -85,6 +95,8 @@ void stepPhysics(bool interactive, double t)
 
 	gScene->simulate(t);
 	gScene->fetchResults(true);
+
+	_particle->integrate(t, Particle::EULER);
 }
 
 // Function to clean data
@@ -105,6 +117,8 @@ void cleanupPhysics(bool interactive)
 	transport->release();
 	
 	gFoundation->release();
+
+	delete _particle;
 
 }
 
