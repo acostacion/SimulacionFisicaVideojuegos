@@ -8,7 +8,7 @@
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
 #include "Vector3D.h"
-#include "Particle.h"
+//#include "Particle.h" TODO
 
 #include <iostream>
 
@@ -34,7 +34,7 @@ ContactReportCallback   gContactReportCallback;
 
 RenderItem*			    gRenderItem = NULL;
 
-Particle*				_particle   = nullptr;
+//Particle*				_particle   = nullptr; TODO
 
 void generateBall(float radius, Vector3D pos, Vector4 color) {
 	physx::PxShape* _shape = CreateShape(PxSphereGeometry(radius));
@@ -78,10 +78,11 @@ void initPhysics(bool interactive)
 	generateBall(1.0f, { 0.0f, 0.0f, 7.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }); // Z.
 	*/
 
-	_particle = new Particle(
+	/* TODO
+	 *_particle = new Particle(
 		{ 0.0, 0.0, 0.0 },
 		{ 0.0, 0.0, 0.0 }
-	);
+	);*/
 	
 }
 
@@ -96,7 +97,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	_particle->integrate(t, Particle::EULER);
+	//_particle->integrate(t, Particle::EULER); TODO
 }
 
 // Function to clean data
@@ -118,7 +119,7 @@ void cleanupPhysics(bool interactive)
 	
 	gFoundation->release();
 
-	delete _particle;
+	//delete _particle; TODO
 
 }
 
