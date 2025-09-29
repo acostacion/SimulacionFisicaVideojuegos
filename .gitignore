@@ -40,4 +40,4 @@ skeleton/debug/**
 /skeleton/.vs/game/**
 
 # Zip files
-*.zip
+#*.zip
