@@ -8,7 +8,7 @@
 #include "RenderUtils.hpp"
 #include "callbacks.hpp"
 #include "Vector3D.h"
-//#include "Particle.h" TODO
+#include "Particle.h" 
 
 #include <iostream>
 
@@ -34,7 +34,7 @@ ContactReportCallback   gContactReportCallback;
 
 RenderItem*			    gRenderItem = NULL;
 
-//Particle*				_particle   = nullptr; TODO
+Particle*				_particle   = nullptr; 
 
 void generateBall(float radius, Vector3D pos, Vector4 color) {
 	physx::PxShape* _shape = CreateShape(PxSphereGeometry(radius));
@@ -78,11 +78,11 @@ void initPhysics(bool interactive)
 	generateBall(1.0f, { 0.0f, 0.0f, 7.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }); // Z.
 	*/
 
-	/* TODO
-	 *_particle = new Particle(
-		{ 0.0, 0.0, 0.0 },
-		{ 0.0, 0.0, 0.0 }
-	);*/
+	
+	_particle = new Particle(
+		{ 7.0, 0.0, 10.0 },
+		{ 200.0, 5.0, 5.0 }
+	);
 	
 }
 
@@ -97,14 +97,14 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	//_particle->integrate(t, Particle::EULER); TODO
+	_particle->integrate(t, Particle::EULER); // TODO el integrate no mueve nada.
 }
 
 // Function to clean data
 // Add custom code to the begining of the function
 void cleanupPhysics(bool interactive)
 {
-	gRenderItem->release();
+	//gRenderItem->release(); si no hay gRenderItem no activar
 
 	PX_UNUSED(interactive);
 
@@ -119,7 +119,7 @@ void cleanupPhysics(bool interactive)
 	
 	gFoundation->release();
 
-	//delete _particle; TODO
+	delete _particle; 
 
 }
 

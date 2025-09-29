@@ -33,5 +33,8 @@ private:
 	//void integrateSemiEuler(double t); TODO
 	//void integrateVerlet(double t); TODO
 
+	// TODO hacer getters y setters de las cosas
+
+
 };
 
