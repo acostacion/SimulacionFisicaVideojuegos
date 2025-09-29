@@ -29,8 +29,8 @@ PxPvd*                  gPvd        = NULL;
 
 PxDefaultCpuDispatcher*	gDispatcher = NULL;
 PxScene*				gScene      = NULL;
-ContactReportCallback gContactReportCallback;
-RenderItem*			  gRenderItem   = NULL;
+ContactReportCallback   gContactReportCallback;
+RenderItem*			    gRenderItem = NULL;
 
 void generateBall(float radius, Vector3D pos, Vector4 color) {
 	physx::PxShape* _shape = CreateShape(PxSphereGeometry(radius));
@@ -91,6 +91,8 @@ void stepPhysics(bool interactive, double t)
 // Add custom code to the begining of the function
 void cleanupPhysics(bool interactive)
 {
+	gRenderItem->release();
+
 	PX_UNUSED(interactive);
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
@@ -104,7 +106,6 @@ void cleanupPhysics(bool interactive)
 	
 	gFoundation->release();
 
-	gRenderItem->release();
 }
 
 
