@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3D pos, Vector3D vel, float size, Vector4 color)
+Particle::Particle(Vector3D pos, Vector3D vel, double size, Vector4 color)
 : _pos(pos), _vel(vel), _size(size), _color(color)
 {
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(_size));
@@ -38,5 +38,6 @@ void Particle::integrateEuler(double t){
 	// VEL_n+1 = VEL_n + a * t, a: acceleration
 	_vel = _vel + _a * t;
 
-	// damping
+	// VEL_n+1 = VEL_n * d^t damping
+	_vel = _vel * std::pow(_damping, t);
 }
