@@ -34,4 +34,9 @@ void Particle::integrate(double t, integrateMode i){
 void Particle::integrateEuler(double t){
 	// POS_n+1 = POS_n + VEL_n * t
 	_pos = _pos + _vel * t;
+
+	// VEL_n+1 = VEL_n + a * t, a: acceleration
+	_vel = _vel + _a * t;
+
+	// damping
 }
