@@ -1,13 +1,13 @@
 #include "Particle.h"
 
-Particle::Particle(Vector3D pos, Vector3D vel, integrateMode i, double size, Vector4 color)
-: _pos(pos), _vel(vel), _i(i), _size(size), _color(color)
+Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, integrateMode i, double size, Vector4 color)
+: _vel(vel), _i(i), _size(size)
 {
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(_size));
-	const physx::PxTransform* tf = new physx::PxTransform(physx::PxVec3(_pos.getX(), _pos.getY(), _pos.getZ()));
-	const Vector4 c = { _color.x, _color.y, _color.z, _color.w };
+	_tf = new physx::PxTransform(physx::PxVec3(pos.x, pos.y, pos.z));
+	_color = { color.x, color.y, color.z, color.w };
 
-	_renderItem = new RenderItem(shape, tf, c);
+	_renderItem = new RenderItem(shape, _tf, _color);
 
 	RegisterRenderItem(_renderItem);
 
@@ -36,8 +36,6 @@ void Particle::integrate(double t){
 
 	// VEL_n+1 = VEL_n * d^t damping (va en los tres metodos)
 	_vel = _vel * std::pow(_damping, t);
-
-	_tf.p = { _pos.getX(), _pos.getY(), _pos.getZ() }; // modifica el transform
 }
 
 /*
@@ -47,7 +45,7 @@ Pocas veces se usa directamente en motores modernos, mas como ejemplo educativo.
 */
 void Particle::integrateEuler(double t){
 	// POS_n+1 = POS_n + VEL_n * t
-	_pos = _pos + _vel * t;
+	_tf->p = _tf->p + _vel * t;
 
 	// VEL_n+1 = VEL_n + a * t, a: acceleration
 	_vel = _vel + _a * t;
@@ -63,7 +61,7 @@ void Particle::integrateSemiEuler(double t){
 	_vel = _vel + _a * t;
 
 	// POS_n+1 = POS_n + VEL_n * t
-	_pos = _pos + _vel * t;
+	_tf->p = _tf->p + _vel * t;
 }
 
 /*
@@ -73,17 +71,16 @@ Muy estable, popular en simulaciones con particulas.
 Se usa en motores como Box2D y en tecnicas de simulacion de telas y fluidos.
 */
 void Particle::integrateVerlet(double t){
-
-	Vector3D currentPos = _pos;
-	Vector3D prevPos;
+	physx::PxVec3 currentPos = _tf->p;
+	physx::PxVec3 prevPos;
 	if (!_firstVerlet){ // si no se ha dado la primera vuelta de verlet aun...
-		prevPos = _pos; // cogemos la pos anterior en la primera vuelta.
+		prevPos = _tf->p; // cogemos la pos anterior en la primera vuelta.
 		integrateEuler(t);
 		_firstVerlet = true; // primera vuelta con euler completada, pasamos a verlet...
 	}
 	else{ // verlet normal
 		// POS_n+1 = 2*POS_n - POS_i-1 + t^2 * a, a: acceleration
-		_pos = _pos * 2 - prevPos + _a * t * t;
+		_tf->p = _tf->p * 2 - prevPos + _a * t * t;
 		prevPos = currentPos; // hace que la actual sea la previa para la proxima vuelta.
 	}
 
