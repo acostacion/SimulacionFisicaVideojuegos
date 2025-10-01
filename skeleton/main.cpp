@@ -81,7 +81,8 @@ void initPhysics(bool interactive)
 	
 	_particle = new Particle(
 		{ 7.0, 0.0, 10.0 },
-		{ 200.0, 5.0, 5.0 }
+		{ 200.0, 5.0, 5.0 },
+		Particle::EULER
 	);
 	
 }
@@ -97,7 +98,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	_particle->integrate(t, Particle::EULER); // TODO el integrate no mueve nada.
+	_particle->integrate(t); 
 }
 
 // Function to clean data
@@ -120,7 +121,6 @@ void cleanupPhysics(bool interactive)
 	gFoundation->release();
 
 	delete _particle; 
-
 }
 
 

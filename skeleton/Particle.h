@@ -15,26 +15,32 @@ public:
 	Particle(
 		Vector3D pos, 
 		Vector3D vel, 
+		integrateMode i = EULER,
 		double size = 1.0, 
 		Vector4 color = { 1.0, 0.0, 0.0, 1.0 }
 	);
 
 	~Particle();
 
-	void integrate(double t, integrateMode i);
+	void integrate(double t);
 private:
 	RenderItem* _renderItem;
-	Vector3D _pos;  // position
+	physx::PxTransform _tf;  // transform
+	Vector3D _pos; // position
 	Vector3D _vel;  // velocity
 	Vector3D _a;    // acceleration
 	double _damping; // en cada frame la velocidad se decrementara en funcion del valor de damping
 	double _size;
 	Vector4 _color;
+	integrateMode _i;
+
+	bool _firstVerlet; // primera vuelta de Verlet en Euler.
 
 	// metodos integrar
 	void integrateEuler(double t);
 	void integrateSemiEuler(double t); 
-	void integrateVerlet(double t); 
+	void integrateVerlet(double t);
+	
 
 	// getters
 	inline RenderItem* getRenderItem() { return _renderItem; }
