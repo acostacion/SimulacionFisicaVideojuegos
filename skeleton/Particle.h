@@ -33,8 +33,8 @@ private:
 
 	// metodos integrar
 	void integrateEuler(double t);
-	//void integrateSemiEuler(double t); TODO
-	//void integrateVerlet(double t); TODO
+	void integrateSemiEuler(double t); 
+	void integrateVerlet(double t); 
 
 	// getters
 	inline RenderItem* getRenderItem() { return _renderItem; }
