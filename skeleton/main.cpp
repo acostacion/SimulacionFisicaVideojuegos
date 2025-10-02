@@ -81,12 +81,10 @@ void initPhysics(bool interactive)
 	
 	_particle = new Particle(
 		{ 7.0, 0.0, 10.0 },
-		{ 0.0, 1.0, 0.0 },
-		Particle::EULER
+		{ 0.0, 4.0, 0.0 },
+		Particle::SEMIEULER
 	);
 
-	
-	
 }
 
 

@@ -1,7 +1,7 @@
 #include "Particle.h"
 
 Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, integrateMode i, double size, Vector4 color)
-: _vel(vel), _i(i), _size(size)
+: _vel(vel), _i(i), _size(size), _a({0.0, 0.0, 0.0}), _damping(0.999)
 {
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(_size));
 	_tf = new physx::PxTransform(physx::PxVec3(pos.x, pos.y, pos.z));
