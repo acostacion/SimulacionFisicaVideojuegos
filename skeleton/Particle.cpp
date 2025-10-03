@@ -12,7 +12,7 @@ Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, integrateMode i, double
 	RegisterRenderItem(_renderItem);
 
 	// si decidimos hacerlo con verlet, la primera vuelta al principio no se ha dado (Euler).
-	if (i == VERLET) _firstVerlet = false;
+	if (i == VERLET) _firstVerlet = false; 
 }
 
 Particle::~Particle() {
@@ -35,7 +35,7 @@ void Particle::integrate(double t){
 	}
 
 	// VEL_n+1 = VEL_n * d^t damping (va en los tres metodos)
-	_vel = _vel * std::pow(_damping, t);
+	_vel = _vel * std::pow(_damping, t); // "es como la fuerza de rozamiento con el aire" (leer esto con pinzas, porque no es exactamente eso)
 }
 
 /*

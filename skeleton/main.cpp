@@ -9,6 +9,7 @@
 #include "callbacks.hpp"
 #include "Vector3D.h"
 #include "Particle.h" 
+#include "Projectile.h"
 
 #include <iostream>
 
@@ -34,7 +35,8 @@ ContactReportCallback   gContactReportCallback;
 
 RenderItem*			    gRenderItem = NULL;
 
-Particle*				_particle   = nullptr; 
+//Particle*				_particle   = nullptr; 
+Projectile*				_projectile = nullptr;
 
 void generateBall(float radius, Vector3D pos, Vector4 color) {
 	physx::PxShape* _shape = CreateShape(PxSphereGeometry(radius));
@@ -79,12 +81,19 @@ void initPhysics(bool interactive)
 	*/
 
 	
-	_particle = new Particle(
+	/*_particle = new Particle(
 		{ 7.0, 0.0, 10.0 },
 		{ 0.0, 4.0, 0.0 },
 		Particle::SEMIEULER
-	);
+	);*/
 
+	//_particle->setAccel(PxVec3(0.0, 5.0, 0.0));
+
+	_projectile = new Projectile(
+		physx::PxVec3(0.0f),
+		Projectile::CANNONBULLET
+	);
+	
 }
 
 
@@ -98,8 +107,14 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	_particle->integrate(t);
-	std::cout << _particle->getPos().x;
+	// TODO VECTOR DE ELEMENTOS Y QUE RECORRA Y HAGA EL INTEGRATE DE CADA PARTICULA.
+	// POP Y PUSH IMAGINO
+	// PILA DE ELEMENTOS.
+	_projectile->integrate(t);
+	//_particle->integrate(t);
+	std::cout << "PosX :" << (int)_projectile->getPos().x << "   ";
+	std::cout << "PosY :" << (int)_projectile->getPos().y << "   ";
+	std::cout << "PosZ :" << (int)_projectile->getPos().z << std::endl;
 }
 
 // Function to clean data
@@ -121,7 +136,9 @@ void cleanupPhysics(bool interactive)
 	
 	gFoundation->release();
 
-	delete _particle; 
+	// TODO LO MISMO ELIMINAR EL VECTOR DE ELEMENTOS Y CADA BICHO.
+	//delete _particle; 
+	delete _projectile;
 }
 
 
