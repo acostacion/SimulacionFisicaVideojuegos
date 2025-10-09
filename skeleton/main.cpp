@@ -5,16 +5,15 @@
 #include <vector>
 
 #include "core.hpp"
-#include "RenderUtils.hpp"
+#include "Render/RenderUtils.hpp"
 #include "callbacks.hpp"
 #include "Vector3D.h"
-#include "Particle.h" 
-#include "Projectile.h"
+#include "Objects/Particle.h"
+#include "Objects/Projectile.h"
 
 #include <iostream>
 
-std::string display_text = "This is a test";
-
+std::string display_text = "Simulador de disparo ('C', 'T', 'G', 'L').";
 
 using namespace physx;
 
@@ -35,8 +34,7 @@ ContactReportCallback   gContactReportCallback;
 
 RenderItem*			    gRenderItem = NULL;
 
-//Particle*				_particle   = nullptr; 
-Projectile*				_projectile = nullptr;
+std::vector<Particle*>  gParticles;
 
 void generateBall(float radius, Vector3D pos, Vector4 color) {
 	physx::PxShape* _shape = CreateShape(PxSphereGeometry(radius));
@@ -88,12 +86,6 @@ void initPhysics(bool interactive)
 	);*/
 
 	//_particle->setAccel(PxVec3(0.0, 5.0, 0.0));
-
-	_projectile = new Projectile(
-		physx::PxVec3(0.0f),
-		Projectile::CANNONBULLET
-	);
-	
 }
 
 
@@ -107,14 +99,13 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	// TODO VECTOR DE ELEMENTOS Y QUE RECORRA Y HAGA EL INTEGRATE DE CADA PARTICULA.
-	// POP Y PUSH IMAGINO
-	// PILA DE ELEMENTOS.
-	_projectile->integrate(t);
-	//_particle->integrate(t);
-	std::cout << "PosX :" << (int)_projectile->getPos().x << "   ";
-	std::cout << "PosY :" << (int)_projectile->getPos().y << "   ";
-	std::cout << "PosZ :" << (int)_projectile->getPos().z << std::endl;
+	for (Particle* p : gParticles) {
+		p->integrate(t);
+
+		std::cout << "PosX :" << (int)p->getPos().x << "   ";
+		std::cout << "PosY :" << (int)p->getPos().y << "   ";
+		std::cout << "PosZ :" << (int)p->getPos().z << std::endl;
+	}
 }
 
 // Function to clean data
@@ -136,9 +127,7 @@ void cleanupPhysics(bool interactive)
 	
 	gFoundation->release();
 
-	// TODO LO MISMO ELIMINAR EL VECTOR DE ELEMENTOS Y CADA BICHO.
-	//delete _particle; 
-	delete _projectile;
+	for (Particle* p : gParticles) delete p;
 }
 
 
@@ -148,16 +137,27 @@ void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
 
-	switch(toupper(key))
-	{
-	//case 'B': break;
-	//case ' ':	break;
-	case ' ':
-	{
+	switch(toupper(key)) {
+	case 'C': // c de cannon bullet (rojo)
+		gParticles.push_back(
+			new Projectile(physx::PxVec3(0.0f),Projectile::CANNONBULLET,	Vector4(1.0f, 0.0f, 0.0f, 1.0f)));
+			break;
+
+	case 'T': // t de tank (verde)
+		gParticles.push_back(
+			new Projectile(physx::PxVec3(0.0f),Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
 		break;
-	}
-	default:
+
+	case 'G': // g de gun (azul)
+		gParticles.push_back(new Projectile(physx::PxVec3(0.0f),Projectile::GUN, Vector4(0.0f, 0.0f, 1.0f, 1.0f)));
 		break;
+
+	case 'L': // l de laser (morado)
+		gParticles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::LASERBLASTER, Vector4(1.0f, 0.0f, 1.0f, 1.0f)));
+		break;
+
+	case ' ': break;
+	default: break;
 	}
 }
 

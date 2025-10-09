@@ -1,6 +1,6 @@
 #include "Projectile.h"
 
-Projectile::Projectile(physx::PxVec3 pos, projectileType p, integrateMode i, double size, Vector4 color)
+Projectile::Projectile(physx::PxVec3 pos, projectileType p, Vector4 color, integrateMode i, double size)
 	:Particle(pos, physx::PxVec3(0.0f), i, size, color) {
 	// inicialmente pone gravedad de la tierra
 	setGravity(EARTH_GRAVITY); 

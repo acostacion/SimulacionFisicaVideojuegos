@@ -255,20 +255,20 @@
   <ItemGroup>
     <ClCompile Include="callbacks.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="RenderUtils.cpp" />
+    <ClCompile Include="Objects\Particle.cpp" />
+    <ClCompile Include="Objects\Projectile.cpp" />
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
+    <ClCompile Include="Render\RenderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="callbacks.hpp" />
     <ClInclude Include="core.hpp" />
-    <ClInclude Include="Particle.h" />
-    <ClInclude Include="Projectile.h" />
-    <ClInclude Include="RenderUtils.hpp" />
+    <ClInclude Include="Objects\Particle.h" />
+    <ClInclude Include="Objects\Projectile.h" />
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
+    <ClInclude Include="Render\RenderUtils.hpp" />
     <ClInclude Include="Vector3D.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

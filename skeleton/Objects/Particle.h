@@ -1,7 +1,7 @@
 #pragma once
 #include <PxPhysicsAPI.h>
-#include "RenderUtils.hpp"
-#include "Vector3D.h"
+#include "../Render/RenderUtils.hpp"
+#include "../Vector3D.h"
 
 class Particle
 {

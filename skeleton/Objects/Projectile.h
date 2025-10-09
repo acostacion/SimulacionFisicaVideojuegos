@@ -12,9 +12,9 @@ public:
 	Projectile(
 		physx::PxVec3 pos,
 		projectileType p,
+		Vector4 color = { 1.0, 0.0, 0.0, 1.0 },
 		integrateMode i = EULER,
-		double size = 5.0,
-		Vector4 color = { 1.0, 0.0, 0.0, 1.0 }
+		double size = 5.0
 	);
 
 private:
