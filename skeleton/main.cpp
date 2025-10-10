@@ -8,8 +8,8 @@
 #include "Render/RenderUtils.hpp"
 #include "callbacks.hpp"
 #include "Vector3D.h"
-#include "Objects/Particle.h"
-#include "Objects/Projectile.h"
+#include "src/Particle.h"
+#include "src/Projectile.h"
 
 #include <iostream>
 

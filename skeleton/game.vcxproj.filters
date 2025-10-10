@@ -12,11 +12,20 @@
     <ClCompile Include="Render\RenderUtils.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Particle.cpp">
-      <Filter>Objects</Filter>
+    <ClCompile Include="src\Particle.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Objects\Projectile.cpp">
-      <Filter>Objects</Filter>
+    <ClCompile Include="src\ParticleSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Projectile.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParticleGen.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GaussianGen.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -32,18 +41,27 @@
     <ClInclude Include="Render\RenderUtils.hpp">
       <Filter>Render</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Particle.h">
-      <Filter>Objects</Filter>
+    <ClInclude Include="src\Particle.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="Objects\Projectile.h">
-      <Filter>Objects</Filter>
+    <ClInclude Include="src\ParticleSystem.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Projectile.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ParticleGen.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GaussianGen.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
       <UniqueIdentifier>{d04b4f9f-5a69-465e-8070-25c6d0bcd3c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Objects">
+    <Filter Include="src">
       <UniqueIdentifier>{626c6d27-6905-4956-90b3-7447a90c547f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
