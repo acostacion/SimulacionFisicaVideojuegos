@@ -10,10 +10,13 @@
 #include "Vector3D.h"
 #include "src/Particle.h"
 #include "src/Projectile.h"
+#include "src/Scene.h"
 
 #include <iostream>
 
 std::string display_text = "Simulador de disparo ('C', 'T', 'G', 'L').";
+
+// TODO: LA LOGICA DE LAS ESCENAS IR CAMBIANDOLA POCO A POCO, AHORA ESTA MARRONERA.
 
 using namespace physx;
 
@@ -34,14 +37,26 @@ ContactReportCallback   gContactReportCallback;
 
 RenderItem*			    gRenderItem = NULL;
 
-std::vector<Particle*>  gParticles;
+int						gCurrentScene = 0;
+std::vector<Scene*>		gScenes;
 
-void generateBall(float radius, Vector3D pos, Vector4 color) {
-	physx::PxShape* _shape = CreateShape(PxSphereGeometry(radius));
-	const physx::PxTransform* _trans = new physx::PxTransform(physx::PxVec3(pos.getX(), pos.getY(), pos.getZ()));
-	const Vector4 _color = { color.x, color.y, color.z, color.w };
+Scene const& scene() { return *gScenes[gCurrentScene]; }
 
-	gRenderItem = new RenderItem(_shape, _trans, _color);
+void initScenes()
+{
+	gScenes.push_back(new Scene0());
+	//gScenes.push_back(new Scene1());
+	//mScenes.push_back(new Scene2());
+	//mScenes.push_back(new Scene3());
+	//mScenes.push_back(new Scene4());
+	//mScenes.push_back(new Scene5());
+	//mScenes.push_back(new Scene6()); 
+	//mScenes.push_back(new Scene7());
+	//mScenes.push_back(new Scene8());
+	//mScenes.push_back(new Scene9());
+
+	/*for (int i = 0; i < gScenes.size(); i++)
+		gScenes[i]->init();*/
 }
 
 // Initialize physics engine
@@ -68,26 +83,8 @@ void initPhysics(bool interactive)
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
-	// Escribir aqui movidas en la practica 0.
-	//generateBall(5.0f, { 0.0f, 0.0f, 0.0f }, { 0.75f, 0.0f, 1.0f, 1.0f });
-
-	/*
-	generateBall(1.0f, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }); // 0.
-	generateBall(1.0f, { 7.0f, 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f, 1.0f }); // X.
-	generateBall(1.0f, { 0.0f, 7.0f, 0.0f }, { 0.0f, 1.0f, 0.0f, 1.0f }); // Y.
-	generateBall(1.0f, { 0.0f, 0.0f, 7.0f }, { 0.0f, 0.0f, 1.0f, 1.0f }); // Z.
-	*/
-
-	
-	/*_particle = new Particle(
-		{ 7.0, 0.0, 10.0 },
-		{ 0.0, 4.0, 0.0 },
-		Particle::SEMIEULER
-	);*/
-
-	//_particle->setAccel(PxVec3(0.0, 5.0, 0.0));
+	initScenes();
 }
-
 
 // Function to configure what happens in each step of physics
 // interactive: true if the game is rendering, false if it offline
@@ -99,13 +96,13 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	for (Particle* p : gParticles) {
-		p->integrate(t);
+	gScenes[gCurrentScene]->update(t);
+}
 
-		std::cout << "PosX :" << (int)p->getPos().x << "   ";
-		std::cout << "PosY :" << (int)p->getPos().y << "   ";
-		std::cout << "PosZ :" << (int)p->getPos().z << std::endl;
-	}
+void cleanupScene()
+{
+	for (Scene* s : gScenes)
+		delete s;
 }
 
 // Function to clean data
@@ -114,7 +111,9 @@ void cleanupPhysics(bool interactive)
 {
 	//gRenderItem->release(); si no hay gRenderItem no activar
 
-	PX_UNUSED(interactive);
+	PX_UNUSED(interactive); // para evitar una advertencia que sale
+
+	cleanupScene();
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
@@ -124,41 +123,54 @@ void cleanupPhysics(bool interactive)
 	PxPvdTransport* transport = gPvd->getTransport();
 	gPvd->release();
 	transport->release();
-	
-	gFoundation->release();
-
-	for (Particle* p : gParticles) delete p;
 }
 
-
+void changeScene(int newIndex){
+	cleanupPhysics(true);
+	gCurrentScene = newIndex;
+	initPhysics(true);
+}
 
 // Function called when a key is pressed
 void keyPress(unsigned char key, const PxTransform& camera)
 {
 	PX_UNUSED(camera);
+	int newIndex;
 
-	switch(toupper(key)) {
-	case 'C': // c de cannon bullet (rojo)
-		gParticles.push_back(
-			new Projectile(physx::PxVec3(0.0f),Projectile::CANNONBULLET,	Vector4(1.0f, 0.0f, 0.0f, 1.0f)));
-			break;
+	switch (toupper(key)) {
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+	case '9':
 
-	case 'T': // t de tank (verde)
-		gParticles.push_back(
-			new Projectile(physx::PxVec3(0.0f),Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
+		newIndex = key - '0'; // conversor char -> int
+
+		if (gCurrentScene != newIndex){
+			changeScene(newIndex);
+			gCurrentScene = newIndex;
+		}
+
 		break;
 
-	case 'G': // g de gun (azul)
-		gParticles.push_back(new Projectile(physx::PxVec3(0.0f),Projectile::GUN, Vector4(0.0f, 0.0f, 1.0f, 1.0f)));
+		// else si no es numerico hace el input de la escena actual.
+	default: 
+		gScenes[gCurrentScene]->handleKey(key);
 		break;
-
-	case 'L': // l de laser (morado)
-		gParticles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::LASERBLASTER, Vector4(1.0f, 0.0f, 1.0f, 1.0f)));
-		break;
-
-	case ' ': break;
-	default: break;
 	}
+}
+
+void generateBall(float radius, Vector3D pos, Vector4 color) {
+	physx::PxShape* _shape = CreateShape(PxSphereGeometry(radius));
+	const physx::PxTransform* _trans = new physx::PxTransform(physx::PxVec3(pos.getX(), pos.getY(), pos.getZ()));
+	const Vector4 _color = { color.x, color.y, color.z, color.w };
+
+	gRenderItem = new RenderItem(_shape, _trans, _color);
 }
 
 void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
@@ -166,7 +178,6 @@ void onCollision(physx::PxActor* actor1, physx::PxActor* actor2)
 	PX_UNUSED(actor1);
 	PX_UNUSED(actor2);
 }
-
 
 int main(int, const char*const*)
 {

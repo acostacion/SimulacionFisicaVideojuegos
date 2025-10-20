@@ -3,6 +3,7 @@
 #include "Particle.h"
 #include "ParticleGen.h"
 
+// Sistema que gestiona los diferentes Particle Generators.
 class ParticleSystem
 {
 public:

@@ -21,10 +21,10 @@
     <ClCompile Include="src\Projectile.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ParticleGen.cpp">
+    <ClCompile Include="src\GaussianGen.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\GaussianGen.cpp">
+    <ClCompile Include="src\Scene.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,6 +54,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\GaussianGen.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
