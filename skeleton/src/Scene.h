@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Particle.h"
 #include "Projectile.h"
+#include "GaussianGen.h"
 
 
 class Scene{
@@ -12,9 +13,9 @@ public:
 	Scene(const Scene& s) = delete;            // no copy constructor
 	Scene& operator=(const Scene& s) = delete; // no copy assignment
 
-	virtual void init() = 0;
-	virtual void update(double t) = 0;
-	virtual void handleKey(unsigned char key) = 0;
+	virtual void init();
+	virtual void update(double t);
+	virtual void handleKey(unsigned char key);
 };
 
 // --- ESCENAS HIJAS ---
@@ -22,8 +23,7 @@ public:
 
 class Scene0 : public Scene {
 public:
-	~Scene0();
-	void init() override;
+	~Scene0() override;
 	void update(double t) override;
 	void handleKey(unsigned char key) override;
 
@@ -31,10 +31,10 @@ private:
 	std::vector<Particle*> _particles;
 };
 
-//class Scene1 : public Scene {
-//public:
-//	void init() override;
-//};
+class Scene1 : public Scene {
+public:
+	void init() override;
+};
 
 //class Scene2 : public Scene {
 //public:

@@ -2,6 +2,7 @@
 #include <PxPhysicsAPI.h>
 #include "../Render/RenderUtils.hpp"
 #include "../Vector3D.h"
+#include <iostream>
 
 class Particle
 {
@@ -33,6 +34,7 @@ private:
 	double _size;
 	Vector4 _color;
 	integrateMode _i;
+	double _lifeTime;
 
 	bool _firstVerlet; // primera vuelta de Verlet en Euler.
 
@@ -50,6 +52,7 @@ public:
 	inline double getDamping() { return _damping; }
 	inline double getSize() { return _size; }
 	inline Vector4 getColor() { return _color; }
+	inline double getLifeTime() { return _lifeTime; }
 
 	// setters
 	inline void setPos(physx::PxVec3 pos) { _tf->p = pos; }

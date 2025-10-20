@@ -1,11 +1,22 @@
 #include "Scene.h"
 
-Scene0::~Scene0(){
-	for (Particle* p : _particles) delete p;
+#include "GaussianGen.h"
+
+
+void Scene::init()
+{
 }
 
-void Scene0::init()
+void Scene::update(double t)
 {
+}
+
+void Scene::handleKey(unsigned char key)
+{
+}
+
+Scene0::~Scene0(){
+	for (Particle* p : _particles) delete p;
 }
 
 // --- ESCENAS HIJAS ---
@@ -15,9 +26,9 @@ void Scene0::update(double t)
 	for (Particle* p : _particles) {
 		p->integrate(t);
 
-		std::cout << "PosX :" << (int)p->getPos().x << "   ";
+		/*std::cout << "PosX :" << (int)p->getPos().x << "   ";
 		std::cout << "PosY :" << (int)p->getPos().y << "   ";
-		std::cout << "PosZ :" << (int)p->getPos().z << std::endl;
+		std::cout << "PosZ :" << (int)p->getPos().z << std::endl;*/
 	}
 }
 
@@ -45,3 +56,9 @@ void Scene0::handleKey(unsigned char key)
 	default: break;
 	}
 }
+
+void Scene1::init()
+{
+	ParticleGen* pg = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
+}
+

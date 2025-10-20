@@ -45,7 +45,7 @@ Scene const& scene() { return *gScenes[gCurrentScene]; }
 void initScenes()
 {
 	gScenes.push_back(new Scene0());
-	//gScenes.push_back(new Scene1());
+	gScenes.push_back(new Scene1());
 	//mScenes.push_back(new Scene2());
 	//mScenes.push_back(new Scene3());
 	//mScenes.push_back(new Scene4());
@@ -99,21 +99,21 @@ void stepPhysics(bool interactive, double t)
 	gScenes[gCurrentScene]->update(t);
 }
 
-void cleanupScene()
-{
-	for (Scene* s : gScenes)
-		delete s;
+void cleanupCurrentScene(){
+	delete gScenes[gCurrentScene];
+	gScenes[gCurrentScene] = nullptr;
 }
 
 // Function to clean data
 // Add custom code to the begining of the function
-void cleanupPhysics(bool interactive)
-{
+void cleanupPhysics(bool interactive){
 	//gRenderItem->release(); si no hay gRenderItem no activar
 
 	PX_UNUSED(interactive); // para evitar una advertencia que sale
 
-	cleanupScene();
+	// elimina todas las escenas
+	for (Scene* s : gScenes) delete s;
+	gScenes.clear();
 
 	// Rigid Body ++++++++++++++++++++++++++++++++++++++++++
 	gScene->release();
@@ -123,12 +123,6 @@ void cleanupPhysics(bool interactive)
 	PxPvdTransport* transport = gPvd->getTransport();
 	gPvd->release();
 	transport->release();
-}
-
-void changeScene(int newIndex){
-	cleanupPhysics(true);
-	gCurrentScene = newIndex;
-	initPhysics(true);
 }
 
 // Function called when a key is pressed
@@ -152,7 +146,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		newIndex = key - '0'; // conversor char -> int
 
 		if (gCurrentScene != newIndex){
-			changeScene(newIndex);
+			cleanupCurrentScene();
 			gCurrentScene = newIndex;
 		}
 

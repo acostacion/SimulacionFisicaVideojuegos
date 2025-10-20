@@ -1,10 +1,13 @@
 #include "Particle.h"
 
+
+
 Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, integrateMode i, double size, Vector4 color)
 : _vel(vel), _i(i), _size(size), _a({0.0, 0.0, 0.0}), _damping(0.999)
 {
+	_lifeTime = 0; // al crear la particula inicia el tiempo de vida a 0.
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(_size));
-	_tf = new physx::PxTransform(physx::PxVec3(pos.x, pos.y, pos.z));
+	_tf = new physx::PxTransform(pos);
 	_color = { color.x, color.y, color.z, color.w };
 
 	_renderItem = new RenderItem(shape, _tf, _color);
@@ -20,6 +23,8 @@ Particle::~Particle() {
 }
 
 void Particle::integrate(double t){
+	_lifeTime++; // actualizar el tiempo que lleva vivo.
+	std::cout << _lifeTime << std::endl;
 	switch (_i){
 	case EULER:
 		integrateEuler(t);
