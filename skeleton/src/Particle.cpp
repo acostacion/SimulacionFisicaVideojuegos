@@ -24,7 +24,7 @@ Particle::~Particle() {
 
 void Particle::integrate(double t){
 	_lifeTime++; // actualizar el tiempo que lleva vivo.
-	std::cout << _lifeTime << std::endl;
+	//std::cout << _lifeTime << std::endl;
 	switch (_i){
 	case EULER:
 		integrateEuler(t);

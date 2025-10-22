@@ -55,8 +55,8 @@ void initScenes()
 	//mScenes.push_back(new Scene8());
 	//mScenes.push_back(new Scene9());
 
-	/*for (int i = 0; i < gScenes.size(); i++)
-		gScenes[i]->init();*/
+	for (int i = 0; i < gScenes.size(); i++)
+		gScenes[i]->init();
 }
 
 // Initialize physics engine
@@ -97,11 +97,6 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 
 	gScenes[gCurrentScene]->update(t);
-}
-
-void cleanupCurrentScene(){
-	delete gScenes[gCurrentScene];
-	gScenes[gCurrentScene] = nullptr;
 }
 
 // Function to clean data
@@ -146,7 +141,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		newIndex = key - '0'; // conversor char -> int
 
 		if (gCurrentScene != newIndex){
-			cleanupCurrentScene();
+			gScenes[gCurrentScene]->erase();
 			gCurrentScene = newIndex;
 		}
 

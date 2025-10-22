@@ -3,6 +3,7 @@
 #include "Particle.h"
 #include "Projectile.h"
 #include "GaussianGen.h"
+#include "ParticleSystem.h"
 
 
 class Scene{
@@ -16,6 +17,7 @@ public:
 	virtual void init();
 	virtual void update(double t);
 	virtual void handleKey(unsigned char key);
+	virtual void erase(); // limpia pero no elimina.
 };
 
 // --- ESCENAS HIJAS ---
@@ -24,8 +26,10 @@ public:
 class Scene0 : public Scene {
 public:
 	~Scene0() override;
+
 	void update(double t) override;
 	void handleKey(unsigned char key) override;
+	void erase() override;
 
 private:
 	std::vector<Particle*> _particles;
@@ -33,7 +37,13 @@ private:
 
 class Scene1 : public Scene {
 public:
+	~Scene1() override;
 	void init() override;
+	void update(double t) override;
+	void erase() override;
+private:
+	ParticleSystem* _ps;
+	ParticleGen* _pg;
 };
 
 //class Scene2 : public Scene {

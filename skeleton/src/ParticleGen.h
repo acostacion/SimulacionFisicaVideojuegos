@@ -35,7 +35,7 @@ protected:
 	int _probGen; // todo no se si es int.
 
 	// Numero de particulas que genera en cada llamada
-	const int N_PARTICLES = 50;
+	const int N_PARTICLES = 1;
 
 	/* Se usa como el motor de numeros aleatorios para alimentar a las distribuciones.
 	 * Su rango es [0, 2^32) */

@@ -22,18 +22,36 @@ void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
 	 *		- Aniadirlas a la lista de particulas
 	 */
 
-	// mantenimiento de particulas
-	for (Particle* p: particles){
-		if (p->getLifeTime() > MAX_LIFE_TIME) delete p;
 
-		p->integrate(t); // cuidao con integrar despues de eliminar!! TODO
-	}
-
-
+	// 1 - GENERA - 
 	// generacion de particulas
 	for (ParticleGen* pg : generators)
 	{
-		// particulas activas de un solo generador.
-		pg->generateP(particles); // genera particulas y modifica el vector.
+		if (pg != nullptr) {
+			// particulas activas de un solo generador.
+			pg->generateP(particles); // genera particulas y modifica el vector.
+		}
 	}
+	
+	// 2 - MANTIENE -
+	// mantenimiento de particulas
+	for (Particle* p: particles){
+		// daba problemas de que llamaba a integrates de particulas muertas
+		if (p != nullptr) { 
+			setGravity(p, GRAVITY); // le pone la gravedad
+			// TODO creo que llega a ser 0 porque se empieza a laguear y se raya (¿¿¿FUERA DE LA ZONA DE INTERES???).
+			std::cout << "Particula " << p->getIntegrateMode() << std::endl; 
+			p->integrate(t); // updatea particula.
+
+			// si ha superado su lifetime...
+			if (p->getLifeTime() > MAX_LIFE_TIME) {
+				delete p; // la eliminamos
+				//std::cout << "Particula eliminada por LIFETIME!" << std::endl;
+			}
+		}
+	}
+}
+
+void ParticleSystem::setGravity(Particle* p, float g){
+	p->setAccel(physx::PxVec3(0.0f, -g, 0.0f));
 }

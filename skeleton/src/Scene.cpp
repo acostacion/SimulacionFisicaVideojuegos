@@ -3,20 +3,13 @@
 #include "GaussianGen.h"
 
 
-void Scene::init()
-{
-}
-
-void Scene::update(double t)
-{
-}
-
-void Scene::handleKey(unsigned char key)
-{
-}
+void Scene::init(){}
+void Scene::update(double t){}
+void Scene::handleKey(unsigned char key){}
+void Scene::erase(){}
 
 Scene0::~Scene0(){
-	for (Particle* p : _particles) delete p;
+	erase();
 }
 
 // --- ESCENAS HIJAS ---
@@ -57,8 +50,32 @@ void Scene0::handleKey(unsigned char key)
 	}
 }
 
+void Scene0::erase(){
+	for (Particle* p : _particles) delete p;
+}
+
+Scene1::~Scene1(){
+	erase();
+}
+
 void Scene1::init()
 {
-	ParticleGen* pg = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
+	_pg = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
+	_ps = new ParticleSystem();
+	_ps->generators.push_back(_pg);
+}
+
+void Scene1::update(double t)
+{
+	_ps->update(t);
+}
+
+void Scene1::erase(){
+	delete _ps;
+	_ps = nullptr;
+	
+	delete _pg;
+    _pg = nullptr;
+	
 }
 

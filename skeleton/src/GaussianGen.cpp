@@ -1,8 +1,7 @@
 #include "GaussianGen.h"
 
-GaussianGen::GaussianGen(physx::PxVec3 p, physx::PxVec3 v, physx::PxVec3 d) : ParticleGen(p, v, d){
-	_tf = new physx::PxTransform(p); // inicializa transform
-}
+// el transform se crea en el padre.
+GaussianGen::GaussianGen(physx::PxVec3 p, physx::PxVec3 v, physx::PxVec3 d) : ParticleGen(p, v, d){}
 
 // se llama a esto en cada iteracion
 void GaussianGen::generateP(std::vector<Particle*>& particles){

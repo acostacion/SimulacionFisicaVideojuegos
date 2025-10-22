@@ -53,6 +53,7 @@ public:
 	inline double getSize() { return _size; }
 	inline Vector4 getColor() { return _color; }
 	inline double getLifeTime() { return _lifeTime; }
+	inline double getIntegrateMode() { return _i; }
 
 	// setters
 	inline void setPos(physx::PxVec3 pos) { _tf->p = pos; }
