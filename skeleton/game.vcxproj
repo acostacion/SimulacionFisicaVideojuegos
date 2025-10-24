@@ -258,6 +258,7 @@
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="Render\RenderUtils.cpp" />
+    <ClCompile Include="src\ForceGenerator.cpp" />
     <ClCompile Include="src\GaussianGen.cpp" />
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
@@ -270,6 +271,7 @@
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="Render\RenderUtils.hpp" />
+    <ClInclude Include="src\ForceGenerator.h" />
     <ClInclude Include="src\GaussianGen.h" />
     <ClInclude Include="src\Particle.h" />
     <ClInclude Include="src\ParticleGen.h" />

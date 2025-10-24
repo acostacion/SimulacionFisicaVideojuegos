@@ -12,6 +12,9 @@
 #include "src/Projectile.h"
 #include "src/Scene.h"
 
+#include <thread>
+#include <chrono>
+
 #include <iostream>
 
 std::string display_text = "Simulador de disparo ('C', 'T', 'G', 'L').";
@@ -97,6 +100,8 @@ void stepPhysics(bool interactive, double t)
 	gScene->fetchResults(true);
 
 	gScenes[gCurrentScene]->update(t);
+
+	std::this_thread::sleep_for(std::chrono::microseconds(10));
 }
 
 // Function to clean data

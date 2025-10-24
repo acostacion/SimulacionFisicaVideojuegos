@@ -51,7 +51,10 @@ void Scene0::handleKey(unsigned char key)
 }
 
 void Scene0::erase(){
-	for (Particle* p : _particles) delete p;
+	for (Particle* p : _particles) {
+		DeregisterRenderItem(p->getRenderItem());
+		delete p;
+	}
 }
 
 Scene1::~Scene1(){
@@ -71,11 +74,11 @@ void Scene1::update(double t)
 }
 
 void Scene1::erase(){
-	delete _ps;
-	_ps = nullptr;
-	
 	delete _pg;
     _pg = nullptr;
+
+	delete _ps;
+	_ps = nullptr;
 	
 }
 

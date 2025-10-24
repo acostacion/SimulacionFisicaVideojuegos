@@ -39,14 +39,15 @@ void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
 		// daba problemas de que llamaba a integrates de particulas muertas
 		if (p != nullptr) { 
 			setGravity(p, GRAVITY); // le pone la gravedad
-			// TODO creo que llega a ser 0 porque se empieza a laguear y se raya (¿¿¿FUERA DE LA ZONA DE INTERES???).
-			std::cout << "Particula " << p->getIntegrateMode() << std::endl; 
 			p->integrate(t); // updatea particula.
 
-			// si ha superado su lifetime...
-			if (p->getLifeTime() > MAX_LIFE_TIME) {
-				delete p; // la eliminamos
-				//std::cout << "Particula eliminada por LIFETIME!" << std::endl;
+			// si ha superado su lifetime o se ha salido del espacio de accion (modificar espacio de accion)
+			if ((p->getLifeTime() > MAX_LIFE_TIME) || (p->getPos().y >= ACTION_ZONE.y)) {
+				// eliminamos del vector, deregistereamos, lo ponemos a nullptr y lo eliminamos.
+				particles.erase(std::find(particles.begin(), particles.end(), p));
+				DeregisterRenderItem(p->getRenderItem());
+				p = nullptr;
+				delete p; 
 			}
 		}
 	}

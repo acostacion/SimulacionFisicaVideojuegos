@@ -18,10 +18,12 @@ public:
 
 private:
 	// TIEMPO DE VIDA maximo que puede vivir una particula.
-	const int MAX_LIFE_TIME = 400; // cada x llamadas al update...
+	const int MAX_LIFE_TIME = 50; // cada x llamadas al update...
 
 	// GRAVEDAD que indica el enunciado.
 	const float GRAVITY = -10.0f;
+
+	const physx::PxVec3 ACTION_ZONE = { 0.0f, 50.0f, 0.0f };
 
 	void setGravity(Particle* p, float g);
 };
