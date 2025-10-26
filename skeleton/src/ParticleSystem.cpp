@@ -3,7 +3,9 @@
 ParticleSystem::~ParticleSystem()
 {
 	for (Particle* p : particles) delete p;
+	particles.clear();
 	for (ParticleGen* pg : generators) delete pg;
+	generators.clear();
 }
 
 void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
@@ -13,7 +15,7 @@ void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
 	 *		- Actualizar el tiempo que lleva "vivo" -> cada particula actualiza su lifetime.············[DONE]
 	 *		- Recorrer la lista de particulas y revisar si cada una de ellas ha de seguir viva o no:
 	 *			- Se ha terminado su tiempo de vida·····················································[DONE]
-	 *			- Esta fuera de la zona de interes······················································[TODO]
+	 *			- Esta fuera de la zona de interes······················································[DONE]
 	 *		- Eliminar las particulas que "mueren"······················································[DONE]
 	 *		- Llamar al update de cada particula························································[DONE]
 	 * - Labores de generacion de particulas nuevas
@@ -23,25 +25,23 @@ void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
 	 */
 
 
-	// 1 - GENERA - 
-	// generacion de particulas
-	for (ParticleGen* pg : generators)
+	// GENERACION DE NUEVAS PARTICULAS
+	for (ParticleGen* pg : generators) 
 	{
 		if (pg != nullptr) {
-			// particulas activas de un solo generador.
-			pg->generateP(particles); // genera particulas y modifica el vector.
+			pg->generateP(particles); 
 		}
 	}
 	
-	// 2 - MANTIENE -
-	// mantenimiento de particulas
-	for (Particle* p: particles){
+	// MANTENIMIENTO DE PARTICULAS EXISTENTES
+	for (Particle* p: particles)
+	{
 		// daba problemas de que llamaba a integrates de particulas muertas
 		if (p != nullptr) { 
 			setGravity(p, GRAVITY); // le pone la gravedad
 			p->integrate(t); // updatea particula.
 
-			// si ha superado su lifetime o se ha salido del espacio de accion (modificar espacio de accion)
+			// si ha superado su lifetime o se ha salido del espacio de accion TODO (modificar espacio de accion)
 			if ((p->getLifeTime() > MAX_LIFE_TIME) || (p->getPos().y >= ACTION_ZONE.y)) {
 				// eliminamos del vector, deregistereamos, lo ponemos a nullptr y lo eliminamos.
 				particles.erase(std::find(particles.begin(), particles.end(), p));

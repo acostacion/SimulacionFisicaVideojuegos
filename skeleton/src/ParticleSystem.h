@@ -1,5 +1,5 @@
 #pragma once
-#include <list>
+#include <vector>
 #include "Particle.h"
 #include "ParticleGen.h"
 
@@ -18,7 +18,7 @@ public:
 
 private:
 	// TIEMPO DE VIDA maximo que puede vivir una particula.
-	const int MAX_LIFE_TIME = 50; // cada x llamadas al update...
+	const int MAX_LIFE_TIME = 200; // cada x llamadas al update...
 
 	// GRAVEDAD que indica el enunciado.
 	const float GRAVITY = -10.0f;

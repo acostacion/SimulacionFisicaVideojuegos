@@ -1,17 +1,10 @@
 #include "Particle.h"
 
-
-
 Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, integrateMode i, double size, Vector4 color)
-: _vel(vel), _i(i), _size(size), _a({0.0, 0.0, 0.0}), _damping(0.999)
-{
-	_lifeTime = 0; // al crear la particula inicia el tiempo de vida a 0.
+	: _tf(new physx::PxTransform(pos)), _vel(vel), _i(i), _size(size), _color(color), _a(0.0), _damping(0.999), _lifeTime(0) {
+
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(_size));
-	_tf = new physx::PxTransform(pos);
-	_color = { color.x, color.y, color.z, color.w };
-
 	_renderItem = new RenderItem(shape, _tf, _color);
-
 	RegisterRenderItem(_renderItem);
 
 	// si decidimos hacerlo con verlet, la primera vuelta al principio no se ha dado (Euler).
@@ -24,19 +17,12 @@ Particle::~Particle() {
 
 void Particle::integrate(double t){
 	_lifeTime++; // actualizar el tiempo que lleva vivo.
-	//std::cout << _lifeTime << std::endl;
+
 	switch (_i){
-	case EULER:
-		integrateEuler(t);
-		break;
-	case SEMIEULER:
-		integrateSemiEuler(t);
-		break;
-	case VERLET:
-		integrateVerlet(t);
-		break;
-	default:
-		break;
+		case EULER: integrateEuler(t); break;
+		case SEMIEULER: integrateSemiEuler(t); break;
+		case VERLET: integrateVerlet(t); break;
+		default: break;
 	}
 
 	// VEL_n+1 = VEL_n * d^t damping (va en los tres metodos)
@@ -88,5 +74,4 @@ void Particle::integrateVerlet(double t){
 		_tf->p = _tf->p * 2 - prevPos + _a * t * t;
 		prevPos = currentPos; // hace que la actual sea la previa para la proxima vuelta.
 	}
-
 }
