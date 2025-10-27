@@ -2,8 +2,8 @@
 
 ParticleSystem::~ParticleSystem()
 {
-	for (Particle* p : particles) delete p;
-	particles.clear();
+	for (Particle* p : _particles) delete p;
+	_particles.clear();
 	for (ParticleGen* pg : generators) delete pg;
 	generators.clear();
 }
@@ -29,12 +29,13 @@ void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
 	for (ParticleGen* pg : generators) 
 	{
 		if (pg != nullptr) {
-			pg->generateP(particles); 
+			pg->generateP(_particles); 
 		}
 	}
-	
+
+	// TODO: que mantenga las particulas aniadiendole fuerzas y recorriendo los forceGenerators por medio del particleforceregistry
 	// MANTENIMIENTO DE PARTICULAS EXISTENTES
-	for (Particle* p: particles)
+	for (Particle* p: _particles)
 	{
 		// daba problemas de que llamaba a integrates de particulas muertas
 		if (p != nullptr) { 
@@ -44,7 +45,7 @@ void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
 			// si ha superado su lifetime o se ha salido del espacio de accion TODO (modificar espacio de accion)
 			if ((p->getLifeTime() > MAX_LIFE_TIME) || (p->getPos().y >= ACTION_ZONE.y)) {
 				// eliminamos del vector, deregistereamos, lo ponemos a nullptr y lo eliminamos.
-				particles.erase(std::find(particles.begin(), particles.end(), p));
+				_particles.erase(std::find(_particles.begin(), _particles.end(), p));
 				DeregisterRenderItem(p->getRenderItem());
 				p = nullptr;
 				delete p; 

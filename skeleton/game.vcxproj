@@ -261,6 +261,7 @@
     <ClCompile Include="src\ForceGenerator.cpp" />
     <ClCompile Include="src\GaussianGen.cpp" />
     <ClCompile Include="src\Particle.cpp" />
+    <ClCompile Include="src\ParticleForceRegistry.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
     <ClCompile Include="src\Projectile.cpp" />
     <ClCompile Include="src\Scene.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="src\ForceGenerator.h" />
     <ClInclude Include="src\GaussianGen.h" />
     <ClInclude Include="src\Particle.h" />
+    <ClInclude Include="src\ParticleForceRegistry.h" />
     <ClInclude Include="src\ParticleGen.h" />
     <ClInclude Include="src\ParticleSystem.h" />
     <ClInclude Include="src\Projectile.h" />
