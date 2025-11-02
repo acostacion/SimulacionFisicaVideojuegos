@@ -49,7 +49,7 @@ void initScenes()
 {
 	gScenes.push_back(new Scene0());
 	gScenes.push_back(new Scene1());
-	//mScenes.push_back(new Scene2());
+	gScenes.push_back(new Scene2());
 	//mScenes.push_back(new Scene3());
 	//mScenes.push_back(new Scene4());
 	//mScenes.push_back(new Scene5());

@@ -17,12 +17,16 @@ public:
 		physx::PxVec3 vel,
 		integrateMode i = EULER,
 		double size = 1.0, 
-		Vector4 color = { 1.0, 0.0, 0.0, 1.0 }
+		Vector4 color = { 1.0, 0.0, 0.0, 1.0 },
+		double mass = 1.0
 	);
 
 	~Particle();
 
 	void integrate(double t);
+
+	inline void addForce(physx::PxVec3 f) { _force = f; }
+	inline void clearForce() { _force = physx::PxVec3(0.0f); }
 
 private:
 	RenderItem* _renderItem;
@@ -33,9 +37,11 @@ private:
 	double _size;
 	Vector4 _color;
 
+	double _mass;			  // masa
+	physx::PxVec3 _force;
+
 	physx::PxVec3 _a;		  // acceleration
 	double _damping;		  // en cada frame la velocidad se decrementara en funcion del valor de damping
-
 	double _lifeTime;
 
 	bool _firstVerlet; // primera vuelta de Verlet en Euler.
@@ -53,6 +59,8 @@ public:
 	inline double getIntegrateMode() { return _i; }
 	inline double getSize() { return _size; }
 	inline Vector4 getColor() { return _color; }
+	inline double getMass() { return _mass; }
+	inline physx::PxVec3 getForce() { return _force; }
 	inline physx::PxVec3 getAccel() { return _a; }
 	inline double getDamping() { return _damping; }
 	inline double getLifeTime() { return _lifeTime; }
@@ -62,6 +70,7 @@ public:
 	inline void setVel(physx::PxVec3 vel) { _vel = vel; }
 	inline void setSize(double size) { _size = size; }
 	inline void setColor(Vector4 color) { _color = color; }
+	inline void setMass(double mass) { _mass = mass; }
 	inline void setAccel(physx::PxVec3 acc) { _a = acc; }
 	inline void setDamping(double damp) { _damping = damp; }
 };

@@ -1,7 +1,7 @@
 #include "Particle.h"
 
-Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, integrateMode i, double size, Vector4 color)
-	: _tf(new physx::PxTransform(pos)), _vel(vel), _i(i), _size(size), _color(color), _a(0.0), _damping(0.999), _lifeTime(0) {
+Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, integrateMode i, double size, Vector4 color, double mass)
+	: _tf(new physx::PxTransform(pos)), _vel(vel), _i(i), _size(size), _color(color), _a(0.0), _damping(0.999), _lifeTime(0), _mass(mass) {
 
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(_size));
 	_renderItem = new RenderItem(shape, _tf, _color);
@@ -16,17 +16,23 @@ Particle::~Particle() {
 }
 
 void Particle::integrate(double t){
-	_lifeTime++; // actualizar el tiempo que lleva vivo.
+	// si la particula tiene masa...
+	if (_mass > 0.0){
+		_lifeTime++; // actualizar el tiempo que lleva vivo.
 
-	switch (_i){
+		// F = m*a -> a = F/m
+		_a = _force / _mass;
+
+		switch (_i) {
 		case EULER: integrateEuler(t); break;
 		case SEMIEULER: integrateSemiEuler(t); break;
 		case VERLET: integrateVerlet(t); break;
 		default: break;
-	}
+		}
 
-	// VEL_n+1 = VEL_n * d^t damping (va en los tres metodos)
-	_vel = _vel * std::pow(_damping, t); // "es como la fuerza de rozamiento con el aire" (leer esto con pinzas, porque no es exactamente eso)
+		// VEL_n+1 = VEL_n * d^t damping (va en los tres metodos)
+		_vel = _vel * std::pow(_damping, t); // "es como la fuerza de rozamiento con el aire" (leer esto con pinzas, porque no es exactamente eso)
+	}
 }
 
 /*

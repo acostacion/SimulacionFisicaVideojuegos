@@ -30,6 +30,6 @@ Projectile::Projectile(physx::PxVec3 pos, projectileType p, Vector4 color, integ
 	setVel(GetCamera()->getDir() * auxVel);
 }
 
-void Projectile::setGravity(float g){
+void Projectile::setGravity(float g){ // TODO quitar con el ForceGenerator.
 	setAccel(physx::PxVec3(0.0f, -g, 0.0f));
 }

@@ -2,15 +2,12 @@
 #include "Particle.h"
 #include <PxPhysicsAPI.h>
 
-// Clase ABSTRACTA para para generar fuerzas.
+// Clase ABSTRACTA (interfaz) para para generar fuerzas.
 // - Gravitatoria.
 // - Viento.
 // - ...
 class ForceGenerator {
 public:
 	virtual ~ForceGenerator() {}
-
-protected:
-	virtual void addForce(float force) = 0;
-	virtual void clearForce() = 0;
+	virtual void updateForce(Particle* p, double t) = 0;
 };

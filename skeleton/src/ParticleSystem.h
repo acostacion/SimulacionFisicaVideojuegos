@@ -9,7 +9,7 @@ public:
 	~ParticleSystem();
 
 	// GENERATORS: todos los generadores de particulas que existan.
-	std::vector<ParticleGen*> generators;
+	std::vector<ParticleGen*> particleGenerators;
 
 	void update(double t);
 
@@ -24,7 +24,5 @@ private:
 	const float GRAVITY = -10.0f;
 
 	const physx::PxVec3 ACTION_ZONE = { 0.0f, 50.0f, 0.0f };
-
-	void setGravity(Particle* p, float g);
 };
 

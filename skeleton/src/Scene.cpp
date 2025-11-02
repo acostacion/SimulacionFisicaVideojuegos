@@ -65,7 +65,7 @@ void Scene1::init()
 {
 	_pg = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
 	_ps = new ParticleSystem();
-	_ps->generators.push_back(_pg);
+	_ps->particleGenerators.push_back(_pg);
 }
 
 void Scene1::update(double t)
@@ -76,9 +76,36 @@ void Scene1::update(double t)
 void Scene1::erase(){
 	delete _pg;
     _pg = nullptr;
+	//_ps->particleGenerators.clear();
 
 	delete _ps;
 	_ps = nullptr;
 	
 }
 
+Scene2::~Scene2(){
+	erase();
+}
+
+void Scene2::init()
+{
+	_p = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0));
+	_gfg = new GravityForceGenerator();
+	_pfr = new ParticleForceRegistry();
+	_pfr->particles.push_back(_p);
+	_pfr->forceGenerators.push_back(_gfg);
+	
+}
+
+void Scene2::update(double t){
+	_pfr->update(t);
+	_p->integrate(t);
+}
+
+void Scene2::erase(){
+	delete _gfg;
+	_gfg = nullptr;
+
+	delete _pfr;
+	_pfr = nullptr;
+}

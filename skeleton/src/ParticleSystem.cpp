@@ -1,11 +1,10 @@
 #include "ParticleSystem.h"
 
-ParticleSystem::~ParticleSystem()
-{
+ParticleSystem::~ParticleSystem() {
 	for (Particle* p : _particles) delete p;
 	_particles.clear();
-	for (ParticleGen* pg : generators) delete pg;
-	generators.clear();
+	for (ParticleGen* pg : particleGenerators) delete pg;
+	particleGenerators.clear();
 }
 
 void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
@@ -26,7 +25,7 @@ void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
 
 
 	// GENERACION DE NUEVAS PARTICULAS
-	for (ParticleGen* pg : generators) 
+	for (ParticleGen* pg : particleGenerators)
 	{
 		if (pg != nullptr) {
 			pg->generateP(_particles); 
@@ -39,7 +38,6 @@ void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
 	{
 		// daba problemas de que llamaba a integrates de particulas muertas
 		if (p != nullptr) { 
-			setGravity(p, GRAVITY); // le pone la gravedad
 			p->integrate(t); // updatea particula.
 
 			// si ha superado su lifetime o se ha salido del espacio de accion TODO (modificar espacio de accion)
@@ -52,8 +50,4 @@ void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
 			}
 		}
 	}
-}
-
-void ParticleSystem::setGravity(Particle* p, float g){
-	p->setAccel(physx::PxVec3(0.0f, -g, 0.0f));
 }

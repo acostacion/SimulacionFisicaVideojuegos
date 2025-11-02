@@ -4,6 +4,8 @@
 #include "Projectile.h"
 #include "GaussianGen.h"
 #include "ParticleSystem.h"
+#include "ParticleForceRegistry.h"
+#include "GravityForceGenerator.h"
 
 
 class Scene{
@@ -36,7 +38,7 @@ private:
 };
 
 class Scene1 : public Scene {
-public:
+public: // TODO aniadir gravedad a este tambien.
 	~Scene1() override;
 	void init() override;
 	void update(double t) override;
@@ -46,11 +48,18 @@ private:
 	ParticleGen* _pg;
 };
 
-//class Scene2 : public Scene {
-//public:
-//	void init() override;
-//};
-//
+class Scene2 : public Scene {
+public:
+	~Scene2() override;
+	void init() override;
+	void update(double t) override;
+	void erase() override;
+private:
+	ParticleForceRegistry* _pfr;
+	ForceGenerator* _gfg;
+	Particle* _p;
+};
+
 //class Scene3 : public Scene {
 //public:
 //	void init() override;
