@@ -23,7 +23,7 @@ void GaussianGen::generateP(){
 			_dir = _dir + physx::PxVec3(_d(_mt) * 0.1f);
 
 			// modifica el vector de particulas 
-			particles.push_back(new Particle(_tf->p, _vel, Particle::SEMIEULER));
+			particles.push_back(new Particle(_tf->p, _vel, 1.0, 1.0, {0.0, 0.0, 1.0, 1.0}, Particle::SEMIEULER));
 		}
 	}
 }

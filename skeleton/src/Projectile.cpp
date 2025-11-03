@@ -4,20 +4,19 @@ Projectile::Projectile(physx::PxVec3 pos, projectileType p, Vector4 color, integ
 	:Particle(pos, physx::PxVec3(0.0f), 1.0, size, color, i) {
 
 	// TODO: que se elimine el proyectil al cabo de un rato.
-	// TODO: aun no hemos dado fuerzas, por lo que los proyectiles no tienen masa.
 
 	float auxVel;
 	switch (p){
-	case Projectile::CANNONBULLET:
+	case CANNONBULLET:
 		auxVel = 250.0f;
 		break;
-	case Projectile::TANKBULLET:
+	case TANKBULLET:
 		auxVel = 1800.0f;
 		break;
-	case Projectile::GUN:
+	case GUN:
 		auxVel = 330.0f;
 		break;
-	case Projectile::LASERBLASTER:
+	case LASERBLASTER:
 		auxVel = 300000000.0f;
 		break;
 	default:

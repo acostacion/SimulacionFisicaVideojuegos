@@ -49,8 +49,8 @@ public:
 	void update(double t) override;
 	void erase() override;
 private:
-	ParticleSystem* _ps;
-	ParticleGen* _pg;
+	ParticleSystem* _particleSys;
+	ParticleGen* _particleGen;
 };
 
 class Scene2 : public Scene {

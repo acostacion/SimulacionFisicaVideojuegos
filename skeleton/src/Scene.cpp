@@ -20,7 +20,9 @@ void Scene::erase(){
 
 
 // --- ESCENAS HIJAS ---
-// Scene0, Scene1, Scene2 ... 
+// Scene0, Scene1, Scene2 ...
+
+#pragma region Escena proyectiles
 Scene0::~Scene0(){
 	erase();
 }
@@ -65,45 +67,46 @@ void Scene0::erase()
 
 	Scene::erase();
 }
+#pragma endregion
 
+#pragma region Escena generador de particulas
 Scene1::~Scene1(){
 	erase();
 }
 
-void Scene1::init()
-{
+void Scene1::init(){
+	// este no llama al init del padre porque la gravedad es distinta.
+
 	_forceRegistry = new ParticleForceRegistry();
-	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, -10.0, 0.0));
-	_pg = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
-
-
-	for (Particle* p : _pg->particles){
-		if (p != nullptr){
-			_gravityGen->particles.push_back(p);
-		}
-	}
-	_ps = new ParticleSystem();
+	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, 10.0, 0.0));
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
-	_ps->particleGenerators.push_back(_pg);
-	
+
+	_particleSys = new ParticleSystem();
+	_particleGen = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
+	_particleSys->particleGenerators.push_back(_particleGen);
 }
 
 void Scene1::update(double t)
 {
+	for (ParticleGen* pg : _particleSys->particleGenerators) {
+		if (pg != nullptr) {
+			for (Particle* p : pg->particles) {
+				if (p != nullptr) {
+					_gravityGen->particles.push_back(p);
+				}
+			}
+		}
+	}
 
+	_particleSys->update(t);
 	_forceRegistry->update();
-	_ps->update(t);
 }
 
-void Scene1::erase(){ // TODO
-	delete _pg;
-    _pg = nullptr;
-	//_ps->particleGenerators.clear();
-
-	delete _ps;
-	_ps = nullptr;
-	
+void Scene1::erase(){
+	delete _particleSys; // borra particulas y generadores, borra todo, esta muy bien montado.
+	Scene::erase();
 }
+#pragma endregion
 
 Scene2::~Scene2(){
 	erase();
