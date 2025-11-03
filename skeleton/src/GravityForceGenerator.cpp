@@ -5,5 +5,11 @@ GravityForceGenerator::GravityForceGenerator(physx::PxVec3 g)
 }
 
 void GravityForceGenerator::updateForce(Particle* p) {
-	p->addForce(_gravity * p->getMass()); // F = m * g
+
+	physx::PxVec3 fuerzaGravedad = _gravity * p->getMass();
+
+	// esto es por lo de que haya varias fuerzas a la vez.
+	//physx::PxVec3 fuerzaTotal = p->getForce() + fuerzaGravedad;
+
+	p->setForce(fuerzaGravedad); // F = m * g
 }

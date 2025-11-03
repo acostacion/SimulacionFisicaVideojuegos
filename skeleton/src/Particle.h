@@ -54,7 +54,8 @@ private:
 	void integrateSemiEuler(double t); 
 	void integrateVerlet(double t);
 	
-	inline void addForce(physx::PxVec3 f) { _force = f; }
+	inline void addForce(physx::PxVec3 f) { _force += f; }
+	inline void setForce(physx::PxVec3 f) { _force = f; }
 	inline void clearForce() { _force = physx::PxVec3(0.0f); }
 public:
 	// getters

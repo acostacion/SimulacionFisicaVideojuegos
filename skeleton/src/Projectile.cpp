@@ -1,9 +1,7 @@
 #include "Projectile.h"
 
 Projectile::Projectile(physx::PxVec3 pos, projectileType p, Vector4 color, integrateMode i, double size)
-	:Particle(pos, physx::PxVec3(0.0f), i, size, color) {
-	// inicialmente pone gravedad de la tierra
-	setGravity(EARTH_GRAVITY); 
+	:Particle(pos, physx::PxVec3(0.0f), 1.0, size, color, i) {
 
 	// TODO: que se elimine el proyectil al cabo de un rato.
 	// TODO: aun no hemos dado fuerzas, por lo que los proyectiles no tienen masa.
@@ -30,6 +28,3 @@ Projectile::Projectile(physx::PxVec3 pos, projectileType p, Vector4 color, integ
 	setVel(GetCamera()->getDir() * auxVel);
 }
 
-void Projectile::setGravity(float g){ // TODO quitar con el ForceGenerator.
-	setAccel(physx::PxVec3(0.0f, -g, 0.0f));
-}

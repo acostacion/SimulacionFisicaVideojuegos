@@ -2,10 +2,21 @@
 
 #include "GaussianGen.h"
 
-void Scene::init(){}
+void Scene::init() {
+	_forceRegistry = new ParticleForceRegistry();
+	_gravityGen = new GravityForceGenerator(); // default, el de la tierra.
+	_forceRegistry->forceGenerators.push_back(_gravityGen);
+}
 void Scene::update(double t){}
 void Scene::handleKey(unsigned char key){}
-void Scene::erase(){}
+void Scene::erase(){
+	delete _gravityGen;
+	_gravityGen = nullptr;
+
+	_forceRegistry->forceGenerators.clear();
+	delete _forceRegistry;
+	_forceRegistry = nullptr;
+}
 
 
 // --- ESCENAS HIJAS ---
@@ -16,7 +27,9 @@ Scene0::~Scene0(){
 
 void Scene0::update(double t) {
 	for (Particle* p : _particles) {
+		_gravityGen->particles.push_back(p);
 		p->integrate(t);
+		_forceRegistry->update();
 	}
 }
 
@@ -24,13 +37,11 @@ void Scene0::handleKey(unsigned char key)
 {
 	switch (toupper(key)) {
 	case 'C': // c de cannon bullet (rojo)
-		_particles.push_back(
-			new Projectile(physx::PxVec3(0.0f), Projectile::CANNONBULLET, Vector4(1.0f, 0.0f, 0.0f, 1.0f)));
+		_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::CANNONBULLET, Vector4(1.0f, 0.0f, 0.0f, 1.0f)));
 		break;
 
 	case 'T': // t de tank (verde)
-		_particles.push_back(
-			new Projectile(physx::PxVec3(0.0f), Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
+		_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
 		break;
 
 	case 'G': // g de gun (azul)
@@ -51,6 +62,8 @@ void Scene0::erase()
 		delete p;
 	}
 	_particles.clear();
+
+	Scene::erase();
 }
 
 Scene1::~Scene1(){
@@ -60,17 +73,17 @@ Scene1::~Scene1(){
 void Scene1::init()
 {
 	_forceRegistry = new ParticleForceRegistry();
-	_gravityGenerator = new GravityForceGenerator(physx::PxVec3(0.0, -10.0, 0.0));
+	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, -10.0, 0.0));
 	_pg = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
 
 
 	for (Particle* p : _pg->particles){
 		if (p != nullptr){
-			_gravityGenerator->particles.push_back(p);
+			_gravityGen->particles.push_back(p);
 		}
 	}
 	_ps = new ParticleSystem();
-	_forceRegistry->forceGenerators.push_back(_gravityGenerator);
+	_forceRegistry->forceGenerators.push_back(_gravityGen);
 	_ps->particleGenerators.push_back(_pg);
 	
 }
@@ -98,14 +111,15 @@ Scene2::~Scene2(){
 
 void Scene2::init()
 {
-	_forceRegistry = new ParticleForceRegistry();
-	_gravityGen = new GravityForceGenerator(); // default, el de la tierra.
+	Scene::init();
+
 	_windGen = new WindForceGenerator(physx::PxVec3(5.0, 0.0, 0.0));
 
 	_p1 = new Particle(
 		physx::PxVec3(0.0, 50.0, 0.0), 
 		physx::PxVec3(0.0)
 	);
+	
 
 	_p2 = new Particle(
 		physx::PxVec3(0.0, 50.0, 0.0),
@@ -113,6 +127,7 @@ void Scene2::init()
 	);
 
 	_gravityGen->particles.push_back(_p1);
+
 	_windGen->particles.push_back(_p2);
 	_gravityGen->particles.push_back(_p2);
 

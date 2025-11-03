@@ -1,7 +1,7 @@
 #include "Particle.h"
 
 Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, double mass, double size, Vector4 color, integrateMode i)
-	: _tf(new physx::PxTransform(pos)), _vel(vel), _mass(mass), _size(size), _color(color), _i(i), _a(0.0), _damping(0.999), _lifeTime(0) { // TODO inicialization order
+	: _tf(new physx::PxTransform(pos)), _vel(vel), _mass(mass), _size(size), _color(color), _i(i), _a(0.0), _damping(0.999), _lifeTime(0), _force(0.0) { // TODO inicialization order
 
 	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(_size));
 	_renderItem = new RenderItem(shape, _tf, _color);
@@ -21,7 +21,7 @@ void Particle::integrate(double t){
 		_lifeTime++; // actualizar el tiempo que lleva vivo.
 
 		// F = m*a -> a = F/m
-		_a = _force / _mass;
+		_a = _force / _mass; // TODO esto bugea cosas si no tienen fuerzas metidas.
 
 		switch (_i) {
 		case EULER: integrateEuler(t); break;
@@ -32,6 +32,8 @@ void Particle::integrate(double t){
 
 		// VEL_n+1 = VEL_n * d^t damping (va en los tres metodos)
 		_vel = _vel * std::pow(_damping, t); // "es como la fuerza de rozamiento con el aire" (leer esto con pinzas, porque no es exactamente eso)
+
+		clearForce();
 	}
 }
 

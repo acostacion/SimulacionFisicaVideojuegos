@@ -21,6 +21,10 @@ public:
 	virtual void update(double t);
 	virtual void handleKey(unsigned char key);
 	virtual void erase(); // limpia pero no elimina.
+
+protected:
+	ParticleForceRegistry* _forceRegistry;
+	ForceGenerator* _gravityGen;
 };
 
 // --- ESCENAS HIJAS ---
@@ -47,9 +51,6 @@ public:
 private:
 	ParticleSystem* _ps;
 	ParticleGen* _pg;
-
-	ParticleForceRegistry* _forceRegistry;
-	ForceGenerator* _gravityGenerator;
 };
 
 class Scene2 : public Scene {
@@ -59,18 +60,17 @@ public:
 	void update(double t) override;
 	void erase() override;
 private:
-	ParticleForceRegistry* _forceRegistry;
-	ForceGenerator* _gravityGen;
 	ForceGenerator* _windGen;
 	Particle* _p1;
 	Particle* _p2;
 };
 
-//class Scene3 : public Scene {
-//public:
-//	void init() override;
-//};
-//
+// [Escena de la ENTREGA INTERMEDIA] TODO
+class Scene3 : public Scene {
+public:
+	void init() override;
+};
+
 //class Scene4 : public Scene {
 //public:
 //	void init() override;

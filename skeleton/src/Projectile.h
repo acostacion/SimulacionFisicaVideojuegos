@@ -16,10 +16,5 @@ public:
 		integrateMode i = EULER,
 		double size = 5.0
 	);
-
-private:
-	const float EARTH_GRAVITY = 9.8f; // 9.8 m/(s^2) la gravedad es una aceleracion
-
-	void setGravity(float g);
 };
 
