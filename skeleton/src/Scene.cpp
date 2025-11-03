@@ -2,26 +2,21 @@
 
 #include "GaussianGen.h"
 
-
 void Scene::init(){}
 void Scene::update(double t){}
 void Scene::handleKey(unsigned char key){}
 void Scene::erase(){}
 
+
+// --- ESCENAS HIJAS ---
+// Scene0, Scene1, Scene2 ... 
 Scene0::~Scene0(){
 	erase();
 }
 
-// --- ESCENAS HIJAS ---
-// Scene0, Scene1, Scene2 ... 
-void Scene0::update(double t)
-{
+void Scene0::update(double t) {
 	for (Particle* p : _particles) {
 		p->integrate(t);
-
-		/*std::cout << "PosX :" << (int)p->getPos().x << "   ";
-		std::cout << "PosY :" << (int)p->getPos().y << "   ";
-		std::cout << "PosZ :" << (int)p->getPos().z << std::endl;*/
 	}
 }
 
@@ -50,11 +45,12 @@ void Scene0::handleKey(unsigned char key)
 	}
 }
 
-void Scene0::erase(){
+void Scene0::erase()
+{
 	for (Particle* p : _particles) {
-		DeregisterRenderItem(p->getRenderItem());
 		delete p;
 	}
+	_particles.clear();
 }
 
 Scene1::~Scene1(){
@@ -63,17 +59,30 @@ Scene1::~Scene1(){
 
 void Scene1::init()
 {
+	_forceRegistry = new ParticleForceRegistry();
+	_gravityGenerator = new GravityForceGenerator(physx::PxVec3(0.0, -10.0, 0.0));
 	_pg = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
+
+
+	for (Particle* p : _pg->particles){
+		if (p != nullptr){
+			_gravityGenerator->particles.push_back(p);
+		}
+	}
 	_ps = new ParticleSystem();
+	_forceRegistry->forceGenerators.push_back(_gravityGenerator);
 	_ps->particleGenerators.push_back(_pg);
+	
 }
 
 void Scene1::update(double t)
 {
+
+	_forceRegistry->update();
 	_ps->update(t);
 }
 
-void Scene1::erase(){
+void Scene1::erase(){ // TODO
 	delete _pg;
     _pg = nullptr;
 	//_ps->particleGenerators.clear();
@@ -89,23 +98,30 @@ Scene2::~Scene2(){
 
 void Scene2::init()
 {
-	_p = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0));
-	_gfg = new GravityForceGenerator();
-	_pfr = new ParticleForceRegistry();
-	_pfr->particles.push_back(_p);
-	_pfr->forceGenerators.push_back(_gfg);
-	
+	_forceRegistry = new ParticleForceRegistry();
+	_gravityGen = new GravityForceGenerator(); // default, el de la tierra.
+
+	_p1 = new Particle(
+		physx::PxVec3(0.0, 50.0, 0.0), 
+		physx::PxVec3(0.0)
+	);
+
+	_gravityGen->particles.push_back(_p1);
+
+	_forceRegistry->forceGenerators.push_back(_gravityGen);
 }
 
 void Scene2::update(double t){
-	_pfr->update(t);
-	_p->integrate(t);
+	_forceRegistry->update();
+	_p1->integrate(t);
 }
 
 void Scene2::erase(){
-	delete _gfg;
-	_gfg = nullptr;
+	// de lo especifico a lo general, de lo pequenio a lo grande...
+	delete _p1;
+	_p1 = nullptr;
 
-	delete _pfr;
-	_pfr = nullptr;
+	// el registro se encarga de borrar los generadoresw.
+	delete _forceRegistry;
+	_forceRegistry = nullptr;
 }

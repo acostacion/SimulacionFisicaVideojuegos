@@ -3,7 +3,10 @@
 #include "../Render/RenderUtils.hpp"
 #include "../Vector3D.h"
 
+class GravityForceGenerator;
+
 class Particle{
+	friend class GravityForceGenerator;
 	// TODO cambiar todos los PxVec3 a Vector3D
 public:
 	enum integrateMode{
@@ -15,18 +18,16 @@ public:
 	Particle(
 		physx::PxVec3 pos,
 		physx::PxVec3 vel,
-		integrateMode i = EULER,
+		double mass = 1.0,
 		double size = 1.0, 
 		Vector4 color = { 1.0, 0.0, 0.0, 1.0 },
-		double mass = 1.0
+		integrateMode i = EULER
 	);
 
 	~Particle();
 
 	void integrate(double t);
 
-	inline void addForce(physx::PxVec3 f) { _force = f; }
-	inline void clearForce() { _force = physx::PxVec3(0.0f); }
 
 private:
 	RenderItem* _renderItem;
@@ -51,6 +52,8 @@ private:
 	void integrateSemiEuler(double t); 
 	void integrateVerlet(double t);
 	
+	inline void addForce(physx::PxVec3 f) { _force = f; }
+	inline void clearForce() { _force = physx::PxVec3(0.0f); }
 public:
 	// getters
 	inline RenderItem* getRenderItem() { return _renderItem; }

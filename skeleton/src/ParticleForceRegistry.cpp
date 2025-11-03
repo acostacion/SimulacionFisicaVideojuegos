@@ -1,16 +1,18 @@
 #include "ParticleForceRegistry.h"
 
 ParticleForceRegistry::~ParticleForceRegistry() {
-	for (Particle* p : particles) delete p;
-	particles.clear();
-	for (ForceGenerator* fg : forceGenerators) delete fg;
+	
+	for (ForceGenerator* fg : forceGenerators) {
+		delete fg;
+		fg = nullptr;
+	}
 	forceGenerators.clear();
 }
 
-void ParticleForceRegistry::update(double t) {
+void ParticleForceRegistry::update() {
 	for (ForceGenerator* fg: forceGenerators){
-		for (Particle* p : particles) {
-			fg->updateForce(p, t);
+		for (Particle* p : fg->particles) {
+			fg->updateForce(p);
 		}
 	}
 }

@@ -1,53 +1,49 @@
 #include "ParticleSystem.h"
 
 ParticleSystem::~ParticleSystem() {
-	for (Particle* p : _particles) delete p;
-	_particles.clear();
-	for (ParticleGen* pg : particleGenerators) delete pg;
+	for (ParticleGen* pg : particleGenerators) {
+		for (Particle* p : pg->particles) {
+			deleteParticle(p);
+		}
+	}
+
+	for (ParticleGen* pg : particleGenerators){
+		pg = nullptr;
+		delete pg;
+	}
 	particleGenerators.clear();
 }
 
-void ParticleSystem::update(double t) // TODO modificar creo k esta mal.
-{
-	/* En cada update mi sistema de particulas tendra que:
-	 * - Labores de mantenimiento de las particulas
-	 *		- Actualizar el tiempo que lleva "vivo" -> cada particula actualiza su lifetime.············[DONE]
-	 *		- Recorrer la lista de particulas y revisar si cada una de ellas ha de seguir viva o no:
-	 *			- Se ha terminado su tiempo de vida·····················································[DONE]
-	 *			- Esta fuera de la zona de interes······················································[DONE]
-	 *		- Eliminar las particulas que "mueren"······················································[DONE]
-	 *		- Llamar al update de cada particula························································[DONE]
-	 * - Labores de generacion de particulas nuevas
-	 *		- Recorrer los distintos generadores
-	 *		- Generar las particulas nuevas
-	 *		- Aniadirlas a la lista de particulas
-	 */
-
+void ParticleSystem::update(double t) {
 
 	// GENERACION DE NUEVAS PARTICULAS
-	for (ParticleGen* pg : particleGenerators)
-	{
+	for (ParticleGen* pg : particleGenerators) {
 		if (pg != nullptr) {
-			pg->generateP(_particles); 
+			pg->generateP();
 		}
 	}
 
-	// TODO: que mantenga las particulas aniadiendole fuerzas y recorriendo los forceGenerators por medio del particleforceregistry
 	// MANTENIMIENTO DE PARTICULAS EXISTENTES
-	for (Particle* p: _particles)
-	{
-		// daba problemas de que llamaba a integrates de particulas muertas
-		if (p != nullptr) { 
-			p->integrate(t); // updatea particula.
+	for (ParticleGen* pg : particleGenerators) {
+		if (pg != nullptr) {
+			for (Particle* p : pg->particles) {
+				if (p != nullptr) { // daba problemas de que llamaba a integrates de particulas muertas
+					p->integrate(t); // updatea particula.
 
-			// si ha superado su lifetime o se ha salido del espacio de accion TODO (modificar espacio de accion)
-			if ((p->getLifeTime() > MAX_LIFE_TIME) || (p->getPos().y >= ACTION_ZONE.y)) {
-				// eliminamos del vector, deregistereamos, lo ponemos a nullptr y lo eliminamos.
-				_particles.erase(std::find(_particles.begin(), _particles.end(), p));
-				DeregisterRenderItem(p->getRenderItem());
-				p = nullptr;
-				delete p; 
+					// si ha superado su lifetime o se ha salido del espacio de accion TODO (modificar espacio de accion)
+					if ((p->getLifeTime() > MAX_LIFE_TIME) || (p->getPos().y >= ACTION_ZONE.y)) {
+						// eliminamos del vector, deregistereamos, lo ponemos a nullptr y lo eliminamos.
+						deleteParticle(p);
+						pg->particles.erase(std::find(pg->particles.begin(), pg->particles.end(), p));
+					}
+				}
 			}
 		}
 	}
+}
+
+void ParticleSystem::deleteParticle(Particle* p){
+	DeregisterRenderItem(p->getRenderItem());
+	p = nullptr;
+	delete p;
 }

@@ -10,8 +10,6 @@ public:
 
 	// GENERATORS: todos los generadores de fuerzas que existan.
 	std::vector<ForceGenerator*> forceGenerators;
-	// PARTICLES: se encarga de almacenar todas las particulas que sean afectadas por una fuerza.
-	std::vector<Particle*> particles; 
 
-	void update(double t);
+	void update();
 };

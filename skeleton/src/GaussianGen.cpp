@@ -4,7 +4,7 @@
 GaussianGen::GaussianGen(physx::PxVec3 p, physx::PxVec3 v, physx::PxVec3 d) : ParticleGen(p, v, d){}
 
 // se llama a esto en cada iteracion
-void GaussianGen::generateP(std::vector<Particle*>& particles){
+void GaussianGen::generateP(){
 	// num aleatorio rango [0, 100]
 	double rnd = _u(_mt) * 100.0;
 
@@ -22,7 +22,7 @@ void GaussianGen::generateP(std::vector<Particle*>& particles){
 			// dir = dir + _d(_mt) * distDir
 			_dir = _dir + physx::PxVec3(_d(_mt) * 0.1f);
 
-			// modifica por referencia el vector de particulas del system
+			// modifica el vector de particulas 
 			particles.push_back(new Particle(_tf->p, _vel, Particle::SEMIEULER));
 		}
 	}

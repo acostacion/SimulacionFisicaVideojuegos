@@ -12,9 +12,11 @@ public:
 		_tf = new physx::PxTransform(p);
 	}
 
+	std::vector<Particle*> particles; // particulas de cada generador.
+
 	virtual ~ParticleGen() { delete _tf; }
 
-	virtual void generateP(std::vector<Particle*>& particles) = 0;
+	virtual void generateP() = 0;
 
 	// getters
 	physx::PxVec3 getPos() { return _tf->p; }
@@ -27,6 +29,7 @@ public:
 	void setDir(physx::PxVec3 d) { _dir = d; }
 
 protected:
+
 	physx::PxTransform* _tf; // TRANSFORM, desde donde se emiten las particulas (POS).
 	physx::PxVec3 _vel; // a que velocidad se emiten las particulas (TODO: no podria haber algunas con mayor velocidad que otras. Ej.: fuego).
 	physx::PxVec3 _dir; // direccion en la que se emiten las particulas

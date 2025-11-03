@@ -38,7 +38,7 @@ private:
 };
 
 class Scene1 : public Scene {
-public: // TODO aniadir gravedad a este tambien.
+public: 
 	~Scene1() override;
 	void init() override;
 	void update(double t) override;
@@ -46,6 +46,9 @@ public: // TODO aniadir gravedad a este tambien.
 private:
 	ParticleSystem* _ps;
 	ParticleGen* _pg;
+
+	ParticleForceRegistry* _forceRegistry;
+	ForceGenerator* _gravityGenerator;
 };
 
 class Scene2 : public Scene {
@@ -55,9 +58,10 @@ public:
 	void update(double t) override;
 	void erase() override;
 private:
-	ParticleForceRegistry* _pfr;
-	ForceGenerator* _gfg;
-	Particle* _p;
+	ParticleForceRegistry* _forceRegistry;
+	ForceGenerator* _gravityGen;
+	Particle* _p1;
+	Particle* _p2;
 };
 
 //class Scene3 : public Scene {

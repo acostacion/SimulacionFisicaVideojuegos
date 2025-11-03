@@ -58,8 +58,7 @@ void initScenes()
 	//mScenes.push_back(new Scene8());
 	//mScenes.push_back(new Scene9());
 
-	for (int i = 0; i < gScenes.size(); i++)
-		gScenes[i]->init();
+	gScenes[gCurrentScene]->init();
 }
 
 // Initialize physics engine
@@ -148,6 +147,7 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		if (gCurrentScene != newIndex){
 			gScenes[gCurrentScene]->erase();
 			gCurrentScene = newIndex;
+			gScenes[gCurrentScene]->init();
 		}
 
 		break;
