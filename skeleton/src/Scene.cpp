@@ -10,10 +10,7 @@ void Scene::init() {
 void Scene::update(double t){}
 void Scene::handleKey(unsigned char key){}
 void Scene::erase(){
-	delete _gravityGen;
-	_gravityGen = nullptr;
-
-	_forceRegistry->forceGenerators.clear();
+	// esto borra los generadores de fuerzas tambien.
 	delete _forceRegistry;
 	_forceRegistry = nullptr;
 }
@@ -77,10 +74,12 @@ Scene1::~Scene1(){
 void Scene1::init(){
 	// este no llama al init del padre porque la gravedad es distinta.
 
+	// crea la gravittoria y la mete en el registro!
 	_forceRegistry = new ParticleForceRegistry();
 	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, 10.0, 0.0));
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
 
+	// crea el generador gaussiano y lo mete en el particlesystem!!
 	_particleSys = new ParticleSystem();
 	_particleGen = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
 	_particleSys->particleGenerators.push_back(_particleGen);
@@ -88,6 +87,7 @@ void Scene1::init(){
 
 void Scene1::update(double t)
 {
+	// mete en el gravityforcegenerator todas las particulas activas ahora.
 	for (ParticleGen* pg : _particleSys->particleGenerators) {
 		if (pg != nullptr) {
 			for (Particle* p : pg->particles) {
@@ -108,6 +108,7 @@ void Scene1::erase(){
 }
 #pragma endregion
 
+#pragma region Escena de pruebas para fuerzas
 Scene2::~Scene2(){
 	erase();
 }
@@ -115,27 +116,20 @@ Scene2::~Scene2(){
 void Scene2::init()
 {
 	Scene::init();
-
 	_windGen = new WindForceGenerator(physx::PxVec3(5.0, 0.0, 0.0));
 
-	_p1 = new Particle(
-		physx::PxVec3(0.0, 50.0, 0.0), 
-		physx::PxVec3(0.0)
-	);
-	
-
-	_p2 = new Particle(
-		physx::PxVec3(0.0, 50.0, 0.0),
-		physx::PxVec3(0.0)
-	);
-
-	_gravityGen->particles.push_back(_p1);
-
-	_windGen->particles.push_back(_p2);
-	_gravityGen->particles.push_back(_p2);
-
+	// generadores de fuerzas al registro.
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
 	_forceRegistry->forceGenerators.push_back(_windGen);
+
+	// p1 y fuerzas que le afectan.
+	_p1 = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0));
+	_gravityGen->particles.push_back(_p1);
+
+	// p2 y fuerzas que le afectan.
+	_p2 = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0));
+	_windGen->particles.push_back(_p2);
+	_gravityGen->particles.push_back(_p2);
 }
 
 void Scene2::update(double t){
@@ -149,7 +143,9 @@ void Scene2::erase(){
 	delete _p1;
 	_p1 = nullptr;
 
-	// el registro se encarga de borrar los generadoresw.
-	delete _forceRegistry;
-	_forceRegistry = nullptr;
+	delete _p2;
+	_p2 = nullptr;
+
+	Scene::erase();
 }
+#pragma endregion
