@@ -4,9 +4,11 @@
 #include "../Vector3D.h"
 
 class GravityForceGenerator;
+class WindForceGenerator;
 
 class Particle{
 	friend class GravityForceGenerator;
+	friend class WindForceGenerator;
 	// TODO cambiar todos los PxVec3 a Vector3D
 public:
 	enum integrateMode{

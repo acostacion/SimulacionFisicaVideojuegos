@@ -100,20 +100,30 @@ void Scene2::init()
 {
 	_forceRegistry = new ParticleForceRegistry();
 	_gravityGen = new GravityForceGenerator(); // default, el de la tierra.
+	_windGen = new WindForceGenerator(physx::PxVec3(5.0, 0.0, 0.0));
 
 	_p1 = new Particle(
 		physx::PxVec3(0.0, 50.0, 0.0), 
 		physx::PxVec3(0.0)
 	);
 
+	_p2 = new Particle(
+		physx::PxVec3(0.0, 50.0, 0.0),
+		physx::PxVec3(0.0)
+	);
+
 	_gravityGen->particles.push_back(_p1);
+	_windGen->particles.push_back(_p2);
+	_gravityGen->particles.push_back(_p2);
 
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
+	_forceRegistry->forceGenerators.push_back(_windGen);
 }
 
 void Scene2::update(double t){
 	_forceRegistry->update();
 	_p1->integrate(t);
+	_p2->integrate(t);
 }
 
 void Scene2::erase(){

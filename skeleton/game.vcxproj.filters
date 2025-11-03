@@ -33,6 +33,9 @@
     <ClCompile Include="src\GravityForceGenerator.cpp">
       <Filter>src\Forces</Filter>
     </ClCompile>
+    <ClCompile Include="src\WindForceGenerator.cpp">
+      <Filter>src\Forces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -72,6 +75,9 @@
       <Filter>src\Forces</Filter>
     </ClInclude>
     <ClInclude Include="src\GravityForceGenerator.h">
+      <Filter>src\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WindForceGenerator.h">
       <Filter>src\Forces</Filter>
     </ClInclude>
   </ItemGroup>

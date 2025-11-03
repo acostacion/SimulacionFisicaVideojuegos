@@ -4,7 +4,7 @@
 #include "ParticleGen.h"
 
 // Sistema que gestiona los diferentes Particle Generators.
-class ParticleSystem {
+class ParticleSystem { // TODO arreglarlo que se ha roto.
 public:
 	~ParticleSystem();
 

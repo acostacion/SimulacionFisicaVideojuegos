@@ -6,6 +6,7 @@
 #include "ParticleSystem.h"
 #include "ParticleForceRegistry.h"
 #include "GravityForceGenerator.h"
+#include "WindForceGenerator.h"
 
 
 class Scene{
@@ -60,6 +61,7 @@ public:
 private:
 	ParticleForceRegistry* _forceRegistry;
 	ForceGenerator* _gravityGen;
+	ForceGenerator* _windGen;
 	Particle* _p1;
 	Particle* _p2;
 };
