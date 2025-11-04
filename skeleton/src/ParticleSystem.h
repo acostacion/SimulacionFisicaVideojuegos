@@ -17,7 +17,7 @@ private:
 	// TIEMPO DE VIDA maximo que puede vivir una particula.
 	const int MAX_LIFE_TIME = 200; // cada x llamadas al update...
 
-	constexpr physx::PxVec3 ACTION_ZONE = { 0.0f, 50.0f, 0.0f };
+	const physx::PxVec3 ACTION_ZONE = { 0.0f, 50.0f, 0.0f };
 
 	void deleteParticle(Particle* p);
 };

@@ -14,7 +14,7 @@ private:
 	physx::PxVec3 _center;
 	double _k; // lo de la formula.
 
-	constexpr physx::PxVec3 ACTION_ZONE = { 50.0, 50.0, 50.0 };
+	const physx::PxVec3 ACTION_ZONE = { 50.0, 50.0, 50.0 };
 
 	bool isInActionZone(Particle* p);
 };

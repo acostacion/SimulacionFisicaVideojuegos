@@ -25,30 +25,33 @@ Scene0::~Scene0(){
 }
 
 void Scene0::update(double t) {
-	for (Particle* p : _particles) {
-		_gravityGen->particles.push_back(p);
-		p->integrate(t);
-		_forceRegistry->update();
+	for (Particle* p : _particles) { // TODO fixear lo del lifetime.
+		if (p != nullptr){
+			_gravityGen->particles.push_back(p);
+			p->integrate(t);
+			_forceRegistry->update();
+		}
 	}
 }
 
 void Scene0::handleKey(unsigned char key)
 {
+	physx::PxVec3 cameraDir = GetCamera()->getDir();
 	switch (toupper(key)) {
 	case 'C': // c de cannon bullet (rojo)
-		_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::CANNONBULLET, Vector4(1.0f, 0.0f, 0.0f, 1.0f)));
+		_particles.push_back(new Projectile(physx::PxVec3(0.0f), cameraDir, Projectile::CANNONBULLET, Vector4(1.0f, 0.0f, 0.0f, 1.0f)));
 		break;
 
 	case 'T': // t de tank (verde)
-		_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
+		_particles.push_back(new Projectile(physx::PxVec3(0.0f), cameraDir, Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
 		break;
 
 	case 'G': // g de gun (azul)
-		_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::GUN, Vector4(0.0f, 0.0f, 1.0f, 1.0f)));
+		_particles.push_back(new Projectile(physx::PxVec3(0.0f), cameraDir, Projectile::GUN, Vector4(0.0f, 0.0f, 1.0f, 1.0f)));
 		break;
 
 	case 'L': // l de laser (morado)
-		_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::LASERBLASTER, Vector4(1.0f, 0.0f, 1.0f, 1.0f)));
+		_particles.push_back(new Projectile(physx::PxVec3(0.0f), cameraDir, Projectile::LASERBLASTER, Vector4(1.0f, 0.0f, 1.0f, 1.0f)));
 		break;
 
 	default: break;
@@ -149,3 +152,26 @@ void Scene2::erase(){
 	Scene::erase();
 }
 #pragma endregion
+
+void Scene3::handleKey(unsigned char key)
+{
+	//switch (toupper(key)) {
+	//case 'C': // c de cannon bullet (rojo)
+	//	_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::CANNONBULLET, Vector4(1.0f, 0.0f, 0.0f, 1.0f)));
+	//	break;
+
+	//case 'T': // t de tank (verde)
+	//	_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
+	//	break;
+
+	//case 'G': // g de gun (azul)
+	//	_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::GUN, Vector4(0.0f, 0.0f, 1.0f, 1.0f)));
+	//	break;
+
+	//case 'L': // l de laser (morado)
+	//	_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::LASERBLASTER, Vector4(1.0f, 0.0f, 1.0f, 1.0f)));
+	//	break;
+
+	//default: break;
+	//}
+}

@@ -69,6 +69,10 @@ private:
 class Scene3 : public Scene {
 public:
 	void init() override;
+	void handleKey(unsigned char key) override;
+
+private:
+	std::vector<Projectile*> _bullets;
 };
 
 //class Scene4 : public Scene {

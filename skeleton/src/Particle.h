@@ -28,8 +28,7 @@ public:
 
 	~Particle();
 
-	void integrate(double t);
-
+	virtual void integrate(double t);
 
 private:
 	RenderItem* _renderItem;

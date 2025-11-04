@@ -1,9 +1,7 @@
 #include "Projectile.h"
 
-Projectile::Projectile(physx::PxVec3 pos, projectileType p, Vector4 color, integrateMode i, double size)
-	:Particle(pos, physx::PxVec3(0.0f), 1.0, size, color, i) {
-
-	// TODO: que se elimine el proyectil al cabo de un rato.
+Projectile::Projectile(physx::PxVec3 pos, physx::PxVec3 dir, projectileType p, Vector4 color, integrateMode i, double size)
+	:Particle(pos, physx::PxVec3(0.0), 1.0, size, color, i) {
 
 	float auxVel;
 	switch (p){
@@ -24,6 +22,16 @@ Projectile::Projectile(physx::PxVec3 pos, projectileType p, Vector4 color, integ
 	}
 
 	// velocidad inicial
-	setVel(GetCamera()->getDir() * auxVel);
+	setVel(dir * auxVel);
+}
+
+void Projectile::integrate(double t)
+{
+	Particle::integrate(t);
+
+	// si ha superado su lifetime
+	if (getLifeTime() > MAX_LIFE_TIME) {
+		delete this;
+	}
 }
 
