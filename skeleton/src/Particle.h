@@ -26,7 +26,8 @@ public:
 		integrateMode i = EULER
 	);
 
-	~Particle();
+	// TODO ver por que no funciona lo del deregister...
+	virtual ~Particle() = default;
 
 	void integrate(double t);
 
@@ -71,7 +72,7 @@ public:
 	inline physx::PxVec3 getForce() { return _force; }
 	inline physx::PxVec3 getAccel() { return _a; }
 	inline double getDamping() { return _damping; }
-	inline bool isAlive()  { return _lifeTime > MAX_LIFE_TIME; }
+	inline bool isDead()  { return _lifeTime > MAX_LIFE_TIME; }
 
 	// setters
 	inline void setPos(physx::PxVec3 pos) { _tf->p = pos; }

@@ -31,7 +31,7 @@ void ParticleSystem::update(double t) {
 					p->integrate(t); // updatea particula.
 
 					// si ha superado su lifetime o se ha salido del espacio de accion TODO (modificar espacio de accion)
-					if (!p->isAlive() || (p->getPos().y >= ACTION_ZONE.y)) {
+					if (p->isDead() || (p->getPos().y >= ACTION_ZONE.y)) {
 						// eliminamos del vector, deregistereamos, lo ponemos a nullptr y lo eliminamos.
 						deleteParticle(p);
 						pg->particles.erase(std::find(pg->particles.begin(), pg->particles.end(), p));
@@ -43,6 +43,7 @@ void ParticleSystem::update(double t) {
 }
 
 void ParticleSystem::deleteParticle(Particle* p){
-	p = nullptr;
+	DeregisterRenderItem(p->getRenderItem());
 	delete p;
+	p = nullptr;
 }

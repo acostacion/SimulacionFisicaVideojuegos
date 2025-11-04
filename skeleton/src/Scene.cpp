@@ -32,8 +32,10 @@ void Scene0::update(double t) {
 			_forceRegistry->update();
 
 			// si ha superado su lifetime 
-			if (p->isAlive()) {
-				delete p; // TODO seguir por aqui y deregistrar.
+			if (p->isDead()) {
+				DeregisterRenderItem(p->getRenderItem());
+				delete p;
+				p = nullptr;
 				_particles.erase(std::find(_particles.begin(), _particles.end(), p));
 			}
 		}
