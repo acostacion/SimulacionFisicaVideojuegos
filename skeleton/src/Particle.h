@@ -27,7 +27,7 @@ public:
 	);
 
 	// TODO ver por que no funciona lo del deregister...
-	virtual ~Particle() = default;
+	virtual ~Particle();
 
 	void integrate(double t);
 

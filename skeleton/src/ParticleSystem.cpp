@@ -8,8 +8,8 @@ ParticleSystem::~ParticleSystem() {
 	}
 
 	for (ParticleGen* pg : particleGenerators){
-		pg = nullptr;
 		delete pg;
+		pg = nullptr;
 	}
 	particleGenerators.clear();
 }

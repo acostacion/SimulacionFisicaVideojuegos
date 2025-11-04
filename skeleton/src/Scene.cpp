@@ -33,10 +33,10 @@ void Scene0::update(double t) {
 
 			// si ha superado su lifetime 
 			if (p->isDead()) {
+				_particles.erase(std::find(_particles.begin(), _particles.end(), p));
 				DeregisterRenderItem(p->getRenderItem());
 				delete p;
 				p = nullptr;
-				_particles.erase(std::find(_particles.begin(), _particles.end(), p));
 			}
 		}
 	}

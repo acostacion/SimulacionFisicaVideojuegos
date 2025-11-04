@@ -11,6 +11,17 @@ Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, double mass, double siz
 	if (i == VERLET) _firstVerlet = false; 
 }
 
+Particle::~Particle()
+{
+	DeregisterRenderItem(_renderItem);
+
+	delete _renderItem; 
+	_renderItem = nullptr;
+
+	delete _tf; 
+	_tf = nullptr;
+}
+
 void Particle::integrate(double t){
 	// si la particula tiene masa...
 	if (_mass > 0.0){
