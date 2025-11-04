@@ -11,7 +11,7 @@ class Particle{
 	friend class WindForceGenerator;
 	// TODO cambiar todos los PxVec3 a Vector3D
 public:
-	enum integrateMode{
+	enum integrateMode {
 		EULER,
 		SEMIEULER,
 		VERLET
@@ -28,7 +28,7 @@ public:
 
 	~Particle();
 
-	virtual void integrate(double t);
+	void integrate(double t);
 
 private:
 	RenderItem* _renderItem;
@@ -56,6 +56,9 @@ private:
 	inline void addForce(physx::PxVec3 f) { _force += f; }
 	inline void setForce(physx::PxVec3 f) { _force = f; }
 	inline void clearForce() { _force = physx::PxVec3(0.0f); }
+
+	// TIEMPO DE VIDA maximo que puede vivir una particula.
+	const int MAX_LIFE_TIME = 200; // cada x llamadas al update...MAX_LIFE_TIME)
 public:
 	// getters
 	inline RenderItem* getRenderItem() { return _renderItem; }
@@ -68,7 +71,7 @@ public:
 	inline physx::PxVec3 getForce() { return _force; }
 	inline physx::PxVec3 getAccel() { return _a; }
 	inline double getDamping() { return _damping; }
-	inline double getLifeTime() { return _lifeTime; }
+	inline bool isAlive()  { return _lifeTime > MAX_LIFE_TIME; }
 
 	// setters
 	inline void setPos(physx::PxVec3 pos) { _tf->p = pos; }

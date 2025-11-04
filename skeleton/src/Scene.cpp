@@ -30,6 +30,12 @@ void Scene0::update(double t) {
 			_gravityGen->particles.push_back(p);
 			p->integrate(t);
 			_forceRegistry->update();
+
+			// si ha superado su lifetime 
+			if (p->isAlive()) {
+				delete p; // TODO seguir por aqui y deregistrar.
+				_particles.erase(std::find(_particles.begin(), _particles.end(), p));
+			}
 		}
 	}
 }

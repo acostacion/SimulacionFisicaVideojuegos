@@ -25,13 +25,3 @@ Projectile::Projectile(physx::PxVec3 pos, physx::PxVec3 dir, projectileType p, V
 	setVel(dir * auxVel);
 }
 
-void Projectile::integrate(double t)
-{
-	Particle::integrate(t);
-
-	// si ha superado su lifetime
-	if (getLifeTime() > MAX_LIFE_TIME) {
-		delete this;
-	}
-}
-

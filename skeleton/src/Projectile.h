@@ -17,11 +17,5 @@ public:
 		integrateMode i = SEMIEULER,
 		double size = 5.0
 	);
-
-	void integrate(double t) override;
-
-private:
-	// TIEMPO DE VIDA maximo que puede vivir una particula.
-	const int MAX_LIFE_TIME = 200; // cada x llamadas al update...MAX_LIFE_TIME)
 };
 
