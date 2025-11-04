@@ -123,11 +123,11 @@ void Scene2::init()
 	_forceRegistry->forceGenerators.push_back(_windGen);
 
 	// p1 y fuerzas que le afectan.
-	_p1 = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0));
+	_p1 = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0), 5.0);
 	_gravityGen->particles.push_back(_p1);
 
 	// p2 y fuerzas que le afectan.
-	_p2 = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0));
+	_p2 = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0), 5.0);
 	_windGen->particles.push_back(_p2);
 	_gravityGen->particles.push_back(_p2);
 }
