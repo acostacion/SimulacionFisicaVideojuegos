@@ -96,8 +96,7 @@ void Scene1::init(){
 	_particleSys->particleGenerators.push_back(_particleGen);
 }
 
-void Scene1::update(double t)
-{
+void Scene1::update(double t) {
 	// mete en el gravityforcegenerator todas las particulas activas ahora.
 	for (ParticleGen* pg : _particleSys->particleGenerators) {
 		if (pg != nullptr) {
@@ -127,14 +126,14 @@ Scene2::~Scene2(){
 void Scene2::init()
 {
 	Scene::init();
-	_windGen = new WindForceGenerator(physx::PxVec3(5.0, 0.0, 0.0));
+	_windGen = new WindForceGenerator(physx::PxVec3(30.0, 0.0, 0.0));
 
 	// generadores de fuerzas al registro.
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
 	_forceRegistry->forceGenerators.push_back(_windGen);
 
 	// p1 y fuerzas que le afectan.
-	_p1 = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0), 5.0);
+	_p1 = new Particle(physx::PxVec3(0.0, 50.0, 0.0), physx::PxVec3(0.0), 2.5);
 	_gravityGen->particles.push_back(_p1);
 
 	// p2 y fuerzas que le afectan.
