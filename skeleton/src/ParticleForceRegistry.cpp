@@ -12,7 +12,9 @@ ParticleForceRegistry::~ParticleForceRegistry() {
 void ParticleForceRegistry::update() {
 	for (ForceGenerator* fg: forceGenerators){
 		for (Particle* p : fg->particles) {
-			fg->updateForce(p);
+			if (fg->isActive()){
+				fg->updateForce(p);
+			}
 		}
 	}
 }

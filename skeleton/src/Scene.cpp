@@ -66,6 +66,7 @@ void Scene0::erase()
 {
 	for (Particle* p : _particles) {
 		delete p;
+		p = nullptr;
 	}
 	_particles.clear();
 
@@ -160,27 +161,49 @@ void Scene2::erase(){
 
 Scene3::~Scene3() { erase(); }
 
-void Scene3::init() {
-	_plane = new Plane(physx::PxVec3(0.0), 50.0);
-	GetCamera()->getTransform().p = physx::PxVec3(_plane->getPos().x, _plane->getPos().y, _plane->getPos().z - 1000);
-	GetCamera()->getTransform().rotate(physx::PxVec3(0.0));
-	_slingshot = new Slingshot(physx::PxVec3(_plane->getPos().x, _plane->getPos().y + 0.25, _plane->getPos().z), 1.0);
+void Scene3::init() { // TODO para el final mover la camara en lugar de mover los objetos.
+	Scene::init();
+
+	_plane = new Plane(physx::PxVec3(20.0), 50.0);
+
+	_slingshot = new Slingshot(physx::PxVec3(_plane->getPos().x -20, _plane->getPos().y + 0.25, _plane->getPos().z), 3.0);
 }
 
 void Scene3::update(double t){
+	_forceRegistry->update();
+	for (Particle* p : _birds) {
+		if (p != nullptr) {
+			p->integrate(t);
+
+			// si ha superado su lifetime 
+			if (p->isDead()) {
+				_gravityGen->particles.erase(std::find(_gravityGen->particles.begin(), _gravityGen->particles.end(), p));
+				_birds.erase(std::find(_birds.begin(), _birds.end(), p));
+				DeregisterRenderItem(p->getRenderItem());
+				delete p;
+				p = nullptr;
+			}
+		}
+	}
 }
 
 void Scene3::handleKey(unsigned char key)
 {
 	switch (toupper(key)) {
-	case 'S': // disparo desde el tirachinas (pajaro normal)
-		//_birds.push_back(new Projectile());
+	case 'B': // disparo desde el tirachinas (pajaro normal)
+		_birds.push_back(
+			new Projectile(_slingshot->getPos(), physx::PxVec3(0.25,1.0,0.0), Projectile::ANGRYBIRD, {1,0,0,1}, Particle::SEMIEULER, 1.0)
+		); // TODO SEGUIR POR AQUI
 		break;
 
 	case 'C': // disparo desde la camara (aguila)
-		//_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
+		_birds.push_back(
+		new Projectile(GetCamera()->getTransform().p, GetCamera()->getDir(), Projectile::ANGRYBIRD, { 1,1,1,1 }, Particle::SEMIEULER, 2.0)
+		);
 		break;
-
+	case 'F': // activar/desactivar generador de fuerza.
+		_gravityGen->setActive(!_gravityGen->isActive());
+		break;
 	default: break;
 	}
 }

@@ -3,6 +3,7 @@
 class Projectile : public Particle{
 public:
 	enum projectileType {
+		ANGRYBIRD,
 		CANNONBULLET,
 		TANKBULLET,
 		GUN,

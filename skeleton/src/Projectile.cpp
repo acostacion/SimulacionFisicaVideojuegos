@@ -1,10 +1,13 @@
 #include "Projectile.h"
 
 Projectile::Projectile(physx::PxVec3 pos, physx::PxVec3 dir, projectileType p, Vector4 color, integrateMode i, double size)
-	:Particle(pos, physx::PxVec3(0.0), 1.0, size, color, i) {
+	:Particle(pos, physx::PxVec3(0.0), 5.0, size, color, i) {
 
 	float auxVel;
 	switch (p){
+	case ANGRYBIRD:
+		auxVel = 25.0f;
+		break;
 	case CANNONBULLET:
 		auxVel = 250.0f;
 		break;
