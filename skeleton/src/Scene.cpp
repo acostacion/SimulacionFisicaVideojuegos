@@ -159,25 +159,44 @@ void Scene2::erase(){
 }
 #pragma endregion
 
+#pragma region Entrega Intermedia
 Scene3::~Scene3() { erase(); }
 
 void Scene3::init() { // TODO para el final mover la camara en lugar de mover los objetos.
 	Scene::init();
 
 	_plane = new Plane(physx::PxVec3(20.0), 50.0);
+	_slingshot = new Slingshot(physx::PxVec3(_plane->getPos().x - 20, _plane->getPos().y + 0.25, _plane->getPos().z), 3.0);
 
-	_slingshot = new Slingshot(physx::PxVec3(_plane->getPos().x -20, _plane->getPos().y + 0.25, _plane->getPos().z), 3.0);
+	_particleSys = new ParticleSystem();
+	initFountain();
+	initWindForce();
 }
 
 void Scene3::update(double t){
+	_particleSys->update(t);
+	// mete en el forcegenerator todas las particulas activas ahora.
+	for (ParticleGen* pg : _particleSys->particleGenerators) {
+		if (pg != nullptr) {
+			for (Particle* p : pg->particles) {
+				if (p != nullptr) {
+					_gravityGen->particles.push_back(p);
+					_windGenerator->particles.push_back(p);
+				}
+			}
+		}
+	}
 	_forceRegistry->update();
+
 	for (Particle* p : _birds) {
 		if (p != nullptr) {
 			p->integrate(t);
 
 			// si ha superado su lifetime 
 			if (p->isDead()) {
-				_gravityGen->particles.erase(std::find(_gravityGen->particles.begin(), _gravityGen->particles.end(), p));
+				for (ForceGenerator* fg : _forceRegistry->forceGenerators){
+					fg->particles.erase(std::find(fg->particles.begin(), fg->particles.end(), p));
+				}
 				_birds.erase(std::find(_birds.begin(), _birds.end(), p));
 				DeregisterRenderItem(p->getRenderItem());
 				delete p;
@@ -189,27 +208,53 @@ void Scene3::update(double t){
 
 void Scene3::handleKey(unsigned char key)
 {
+	Projectile* bird;
 	switch (toupper(key)) {
 	case 'B': // disparo desde el tirachinas (pajaro normal)
-		_birds.push_back(
-			new Projectile(_slingshot->getPos(), physx::PxVec3(0.25,1.0,0.0), Projectile::ANGRYBIRD, {1,0,0,1}, Particle::SEMIEULER, 1.0)
-		); // TODO SEGUIR POR AQUI
+		bird = new Projectile(_slingshot->getPos(), physx::PxVec3(0.25, 1.0, 0.0), Projectile::ANGRYBIRD, { 1,0,0,1 }, Particle::SEMIEULER, 1.0);
+		_birds.push_back(bird);
+		_gravityGen->particles.push_back(bird);
+		_windGenerator->particles.push_back(bird);
 		break;
 
 	case 'C': // disparo desde la camara (aguila)
-		_birds.push_back(
-		new Projectile(GetCamera()->getTransform().p, GetCamera()->getDir(), Projectile::ANGRYBIRD, { 1,1,1,1 }, Particle::SEMIEULER, 2.0)
-		);
+		bird = new Projectile(GetCamera()->getTransform().p, GetCamera()->getDir(), Projectile::ANGRYBIRD, { 1,1,1,1 }, Particle::SEMIEULER, 2.0);
+		_birds.push_back(bird);
+		_gravityGen->particles.push_back(bird);
+		_windGenerator->particles.push_back(bird);
 		break;
-	case 'F': // activar/desactivar generador de fuerza.
+
+	case 'G': // activar/desactivar generador de gravedad
 		_gravityGen->setActive(!_gravityGen->isActive());
+		break;
+
+	case 'V': // activar/desactivar generador de viento
+		_windGenerator->setActive(!_windGenerator->isActive());
 		break;
 	default: break;
 	}
 }
 
 void Scene3::erase(){
+	delete _plane;
+	_plane = nullptr;
+
 	delete _slingshot;
+	_slingshot = nullptr;
+
+	delete _particleSys;
+	_particleSys = nullptr;
 
 	Scene::erase();
 }
+void Scene3::initWindForce() {
+	_windGenerator = new WindForceGenerator(physx::PxVec3(50.0, 0.0, 0.0));
+	_forceRegistry->forceGenerators.push_back(_windGenerator);
+}
+void Scene3::initFountain()
+{
+	_fountain = new GaussianGen(
+		new Particle(_slingshot->getPos(), physx::PxVec3(0.0, 20.0, 0.0), 1.0, 1.0, {0.5, 0.5, 1.0, 1.0}, Particle::SEMIEULER), _slingshot->getPos());
+	_particleSys->particleGenerators.push_back(_fountain);
+}
+#pragma endregion

@@ -17,7 +17,7 @@
 
 #include <iostream>
 
-std::string display_text = "Simulador de disparo ('C', 'T', 'G', 'L').";
+std::string display_text = "ANGRY SUSY 3D";
 
 // TODO: LA LOGICA DE LAS ESCENAS IR CAMBIANDOLA POCO A POCO, AHORA ESTA MARRONERA.
 

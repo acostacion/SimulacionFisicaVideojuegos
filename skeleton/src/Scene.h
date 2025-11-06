@@ -78,51 +78,13 @@ public:
 	void erase() override;
 
 private:
+	ForceGenerator* _windGenerator;
+	ParticleSystem* _particleSys;
+	ParticleGen* _fountain; 
 	Plane* _plane;
 	Slingshot* _slingshot;
 	std::vector<Projectile*> _birds;
-};
 
-//class Scene4 : public Scene {
-//public:
-//	void init() override;
-//	bool handleKey(unsigned int key) override;
-//
-//private:
-//	void rotateFarmer();
-//	void orbitAHFarmer();
-//	void orbitHFarmer();
-//};
-//
-//class Scene5 : public Scene {
-//public:
-//	void init() override;
-//};
-//
-//class Scene6 : public Scene {
-//public:
-//	void init() override;
-//	void setBackgroundColor() override;
-//};
-//
-//class Scene7 : public Scene {
-//public:
-//	void init() override;
-//	void setBackgroundColor() override;
-//
-//	bool handleKey(unsigned int key) override;
-//
-//private:
-//	void rotateTie();
-//	void orbitTie();
-//};
-//
-//class Scene8 : public Scene {
-//public:
-//	void init() override;
-//};
-//
-//class Scene9 : public Scene {
-//public:
-//	void init() override;
-//};
+	void initWindForce();
+	void initFountain();
+};
