@@ -3,6 +3,7 @@
 #include "Particle.h"
 #include "Projectile.h"
 #include "GaussianGen.h"
+#include "NormalGen.h"
 #include "ParticleSystem.h"
 #include "ParticleForceRegistry.h"
 #include "GravityForceGenerator.h"

@@ -1,7 +1,5 @@
 #include "Scene.h"
 
-#include "GaussianGen.h"
-
 void Scene::init() {
 	_forceRegistry = new ParticleForceRegistry();
 	_gravityGen = new GravityForceGenerator(); // default, el de la tierra.
@@ -92,7 +90,9 @@ void Scene1::init(){
 
 	// crea el generador gaussiano y lo mete en el particlesystem!!
 	_particleSys = new ParticleSystem();
-	_particleGen = new GaussianGen(physx::PxVec3(0, 0, 0), physx::PxVec3(5, 5, 5), physx::PxVec3(0, 1, 0));
+	_particleGen = new GaussianGen(
+		new Particle(physx::PxVec3(0.0), physx::PxVec3(0, 5, 0), 1.0, 1.0, { 0.0, 0.0, 1.0, 1.0 }, Particle::SEMIEULER),
+		physx::PxVec3(0, 0, 0));
 	_particleSys->particleGenerators.push_back(_particleGen);
 }
 

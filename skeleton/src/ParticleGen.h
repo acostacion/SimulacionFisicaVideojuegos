@@ -1,38 +1,47 @@
 #pragma once
 #include "Particle.h"
+#include <cstdlib>
 #include <PxPhysicsAPI.h>
 #include <random>
 
 // Clase padre ABSTRACTA para los Particle Generators hijos:
 // - Gaussian Generator.
-// -
+// - Normal Generator.
+// - ...
 class ParticleGen{
 public:
-	ParticleGen(physx::PxVec3 p, physx::PxVec3 v, physx::PxVec3 d) : _vel(v), _dir(d){ // TODO probGen
+	ParticleGen(Particle* modelP, physx::PxVec3 p, bool active = true)
+		: _modelParticle(modelP), _isActive(active), _vel(modelP->getVel()){
 		_tf = new physx::PxTransform(p);
 	}
 
 	std::vector<Particle*> particles; // particulas de cada generador.
 
-	virtual ~ParticleGen() { delete _tf; }
+	virtual ~ParticleGen() {
+		delete _modelParticle;
+		delete _tf;
+	}
 
 	virtual void generateP() = 0;
 
 	// getters
-	physx::PxVec3 getPos() { return _tf->p; }
-	physx::PxVec3 getVel() { return _vel; }
-	physx::PxVec3 getDir() { return _dir; }
+	physx::PxVec3 getPos() const { return _tf->p; }
+	physx::PxVec3 getVel() const { return _vel; }
+	bool isActive() const { return _isActive; }
 
 	// setters
 	void setPos(physx::PxVec3 p) { _tf->p = p; }
 	void setVel(physx::PxVec3 v) { _vel = v; }
-	void setDir(physx::PxVec3 d) { _dir = d; }
+	void setActive(bool active) { _isActive = active; }
 
 protected:
+	// particula modelo de la que generaran nuevas particulas...
+	Particle* _modelParticle;
 
-	physx::PxTransform* _tf; // TRANSFORM, desde donde se emiten las particulas (POS).
+	physx::PxTransform* _tf; // TRANSFORM, del particlegen (POS).
 	physx::PxVec3 _vel; // a que velocidad se emiten las particulas (TODO: no podria haber algunas con mayor velocidad que otras. Ej.: fuego).
-	physx::PxVec3 _dir; // direccion en la que se emiten las particulas
+
+	bool _isActive; // para ver si esta activa ahora mismo o no.
 
 	const int PROB_GEN = 5; // probabilidad de generar una particula 
 
@@ -42,9 +51,5 @@ protected:
 	/* Se usa como el motor de numeros aleatorios para alimentar a las distribuciones.
 	 * Su rango es [0, 2^32) */
 	std::mt19937 _mt;
-
-	/* _u genera numeros aleatorios uniformemente distribuidos entre 0 y 1,
-	 * sirve para generar variaciones en las propiedades de las particulas (pos, vel, dir...) */
-	std::uniform_real_distribution<double> _u{ 0,1 };
 };
 

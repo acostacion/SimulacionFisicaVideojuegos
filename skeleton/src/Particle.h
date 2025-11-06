@@ -62,17 +62,17 @@ private:
 	const int MAX_LIFE_TIME = 200; // cada x llamadas al update...MAX_LIFE_TIME)
 public:
 	// getters
-	inline RenderItem* getRenderItem() { return _renderItem; }
-	inline physx::PxVec3 getPos() { return _tf->p; }
-	inline physx::PxVec3 getVel() { return _vel; }
-	inline double getIntegrateMode() { return _i; }
-	inline double getSize() { return _size; }
-	inline Vector4 getColor() { return _color; }
-	inline double getMass() { return _mass; }
-	inline physx::PxVec3 getForce() { return _force; }
-	inline physx::PxVec3 getAccel() { return _a; }
-	inline double getDamping() { return _damping; }
-	inline bool isDead()  { return _lifeTime > MAX_LIFE_TIME; }
+	inline RenderItem* getRenderItem() const { return _renderItem; }
+	inline physx::PxVec3 getPos() const { return _tf->p; }
+	inline physx::PxVec3 getVel() const { return _vel; }
+	inline integrateMode getIntegrateMode() const { return _i; }
+	inline double getSize() const { return _size; }
+	inline Vector4 getColor() const { return _color; }
+	inline double getMass() const { return _mass; }
+	inline physx::PxVec3 getForce() const { return _force; }
+	inline physx::PxVec3 getAccel() const { return _a; }
+	inline double getDamping() const { return _damping; }
+	inline bool isDead() const { return _lifeTime > MAX_LIFE_TIME; }
 
 	// setters
 	inline void setPos(physx::PxVec3 pos) { _tf->p = pos; }

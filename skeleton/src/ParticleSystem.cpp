@@ -25,7 +25,7 @@ void ParticleSystem::update(double t) {
 
 	// MANTENIMIENTO DE PARTICULAS EXISTENTES
 	for (ParticleGen* pg : particleGenerators) {
-		if (pg != nullptr) {
+		if (pg != nullptr && pg->isActive()) {
 			for (Particle* p : pg->particles) {
 				if (p != nullptr) { // daba problemas de que llamaba a integrates de particulas muertas
 					p->integrate(t); // updatea particula.

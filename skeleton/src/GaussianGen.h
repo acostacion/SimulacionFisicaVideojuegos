@@ -3,7 +3,7 @@
 class GaussianGen : public ParticleGen
 {
 public:
-	GaussianGen(physx::PxVec3 p, physx::PxVec3 v, physx::PxVec3 d);
+	GaussianGen(Particle* modelP, physx::PxVec3 p);
 
 	void generateP() override;
 private:

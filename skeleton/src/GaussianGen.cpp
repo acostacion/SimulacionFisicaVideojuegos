@@ -1,12 +1,13 @@
 #include "GaussianGen.h"
 
 // el transform se crea en el padre.
-GaussianGen::GaussianGen(physx::PxVec3 p, physx::PxVec3 v, physx::PxVec3 d) : ParticleGen(p, v, d){}
+GaussianGen::GaussianGen(Particle* modelP, physx::PxVec3 p)
+: ParticleGen(modelP,p){}
 
 // se llama a esto en cada iteracion
 void GaussianGen::generateP(){
-	// num aleatorio rango [0, 100]
-	double rnd = _u(_mt) * 100.0;
+	// num aleatorio rango [0, 100)
+	double rnd = rand() % 100;
 
 	// si entra dentro de la probabilidad de generar la particula...
 	if (rnd <= PROB_GEN)
@@ -19,11 +20,11 @@ void GaussianGen::generateP(){
 			// vel = vel + _d(_mt) * distVel
 			_vel = _vel + physx::PxVec3(_d(_mt) * 0.1f);
 
-			// dir = dir + _d(_mt) * distDir
-			_dir = _dir + physx::PxVec3(_d(_mt) * 0.1f);
-
-			// modifica el vector de particulas 
-			particles.push_back(new Particle(_tf->p, _vel, 1.0, 1.0, {0.0, 0.0, 1.0, 1.0}, Particle::SEMIEULER));
+			// modifica el vector de particulas
+			particles.push_back(new Particle(
+				_modelParticle->getPos(), _modelParticle->getVel(), _modelParticle->getMass(), 
+				_modelParticle->getSize(), _modelParticle->getColor(), _modelParticle->getIntegrateMode())
+			);
 		}
 	}
 }
