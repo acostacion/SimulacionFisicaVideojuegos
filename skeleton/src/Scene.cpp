@@ -18,9 +18,7 @@ void Scene::erase(){
 // Scene0, Scene1, Scene2 ...
 
 #pragma region Escena proyectiles
-Scene0::~Scene0(){
-	erase();
-}
+Scene0::~Scene0() { erase(); }
 
 void Scene0::update(double t) {
 	for (Particle* p : _particles) { // TODO fixear lo del lifetime.
@@ -160,25 +158,35 @@ void Scene2::erase(){
 }
 #pragma endregion
 
+Scene3::~Scene3() { erase(); }
+
+void Scene3::init() {
+	_plane = new Plane(physx::PxVec3(0.0), 50.0);
+	GetCamera()->getTransform().p = physx::PxVec3(_plane->getPos().x, _plane->getPos().y, _plane->getPos().z - 1000);
+	GetCamera()->getTransform().rotate(physx::PxVec3(0.0));
+	_slingshot = new Slingshot(physx::PxVec3(_plane->getPos().x, _plane->getPos().y + 0.25, _plane->getPos().z), 1.0);
+}
+
+void Scene3::update(double t){
+}
+
 void Scene3::handleKey(unsigned char key)
 {
-	//switch (toupper(key)) {
-	//case 'C': // c de cannon bullet (rojo)
-	//	_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::CANNONBULLET, Vector4(1.0f, 0.0f, 0.0f, 1.0f)));
-	//	break;
+	switch (toupper(key)) {
+	case 'S': // disparo desde el tirachinas (pajaro normal)
+		//_birds.push_back(new Projectile());
+		break;
 
-	//case 'T': // t de tank (verde)
-	//	_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
-	//	break;
+	case 'C': // disparo desde la camara (aguila)
+		//_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::TANKBULLET, Vector4(0.0f, 1.0f, 0.0f, 1.0f)));
+		break;
 
-	//case 'G': // g de gun (azul)
-	//	_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::GUN, Vector4(0.0f, 0.0f, 1.0f, 1.0f)));
-	//	break;
+	default: break;
+	}
+}
 
-	//case 'L': // l de laser (morado)
-	//	_particles.push_back(new Projectile(physx::PxVec3(0.0f), Projectile::LASERBLASTER, Vector4(1.0f, 0.0f, 1.0f, 1.0f)));
-	//	break;
+void Scene3::erase(){
+	delete _slingshot;
 
-	//default: break;
-	//}
+	Scene::erase();
 }

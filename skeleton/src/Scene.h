@@ -8,6 +8,8 @@
 #include "ParticleForceRegistry.h"
 #include "GravityForceGenerator.h"
 #include "WindForceGenerator.h"
+#include "Slingshot.h"
+#include "Plane.h"
 
 
 class Scene{
@@ -69,11 +71,16 @@ private:
 // [Escena de la ENTREGA INTERMEDIA] TODO
 class Scene3 : public Scene {
 public:
+	~Scene3() override;
 	void init() override;
+	void update(double t) override;
 	void handleKey(unsigned char key) override;
+	void erase() override;
 
 private:
-	std::vector<Projectile*> _bullets;
+	Plane* _plane;
+	Slingshot* _slingshot;
+	std::vector<Projectile*> _birds;
 };
 
 //class Scene4 : public Scene {

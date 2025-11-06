@@ -264,8 +264,10 @@
     <ClCompile Include="src\Particle.cpp" />
     <ClCompile Include="src\ParticleForceRegistry.cpp" />
     <ClCompile Include="src\ParticleSystem.cpp" />
+    <ClCompile Include="src\Plane.cpp" />
     <ClCompile Include="src\Projectile.cpp" />
     <ClCompile Include="src\Scene.cpp" />
+    <ClCompile Include="src\Slingshot.cpp" />
     <ClCompile Include="src\WhirlwindForceGenerator.cpp" />
     <ClCompile Include="src\WindForceGenerator.cpp" />
   </ItemGroup>
@@ -283,8 +285,10 @@
     <ClInclude Include="src\ParticleForceRegistry.h" />
     <ClInclude Include="src\ParticleGen.h" />
     <ClInclude Include="src\ParticleSystem.h" />
+    <ClInclude Include="src\Plane.h" />
     <ClInclude Include="src\Projectile.h" />
     <ClInclude Include="src\Scene.h" />
+    <ClInclude Include="src\Slingshot.h" />
     <ClInclude Include="src\WhirlwindForceGenerator.h" />
     <ClInclude Include="src\WindForceGenerator.h" />
     <ClInclude Include="Vector3D.h" />

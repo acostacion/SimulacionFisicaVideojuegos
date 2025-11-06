@@ -43,14 +43,14 @@ RenderItem*			    gRenderItem = NULL;
 int						gCurrentScene = 0;
 std::vector<Scene*>		gScenes;
 
-Scene const& scene() { return *gScenes[gCurrentScene]; }
+Scene* scene() { return gScenes[gCurrentScene]; }
 
 void initScenes()
 {
 	gScenes.push_back(new Scene0());
 	gScenes.push_back(new Scene1());
 	gScenes.push_back(new Scene2());
-	//mScenes.push_back(new Scene3());
+	gScenes.push_back(new Scene3());
 	//mScenes.push_back(new Scene4());
 	//mScenes.push_back(new Scene5());
 	//mScenes.push_back(new Scene6()); 
@@ -98,7 +98,7 @@ void stepPhysics(bool interactive, double t)
 	gScene->simulate(t);
 	gScene->fetchResults(true);
 
-	gScenes[gCurrentScene]->update(t);
+	scene()->update(t);
 
 	std::this_thread::sleep_for(std::chrono::microseconds(10));
 }
@@ -145,16 +145,16 @@ void keyPress(unsigned char key, const PxTransform& camera)
 		newIndex = key - '0'; // conversor char -> int
 
 		if (gCurrentScene != newIndex){
-			gScenes[gCurrentScene]->erase();
+			scene()->erase();
 			gCurrentScene = newIndex;
-			gScenes[gCurrentScene]->init();
+			scene()->init();
 		}
 
 		break;
 
 		// else si no es numerico hace el input de la escena actual.
-	default: 
-		gScenes[gCurrentScene]->handleKey(key);
+	default:
+		scene()->handleKey(key);
 		break;
 	}
 }
