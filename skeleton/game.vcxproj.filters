@@ -48,6 +48,9 @@
     <ClCompile Include="src\Plane.cpp">
       <Filter>src\Proyecto Intermedio</Filter>
     </ClCompile>
+    <ClCompile Include="src\Axis.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -103,6 +106,9 @@
     </ClInclude>
     <ClInclude Include="src\Plane.h">
       <Filter>src\Proyecto Intermedio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Axis.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

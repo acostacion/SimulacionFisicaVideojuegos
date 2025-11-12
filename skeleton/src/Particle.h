@@ -61,7 +61,7 @@ private:
 	inline void clearForce() { _force = physx::PxVec3(0.0f); }
 
 	// TIEMPO DE VIDA maximo que puede vivir una particula.
-	const int MAX_LIFE_TIME = 300; // cada x llamadas al update...MAX_LIFE_TIME)
+	const int MAX_LIFE_TIME = 1000; // cada x llamadas al update...MAX_LIFE_TIME)
 public:
 	// getters
 	inline RenderItem* getRenderItem() const { return _renderItem; }

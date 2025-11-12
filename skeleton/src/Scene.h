@@ -10,6 +10,7 @@
 #include "WindForceGenerator.h"
 #include "Slingshot.h"
 #include "Plane.h"
+#include "Axis.h"
 
 
 class Scene{
@@ -28,6 +29,7 @@ public:
 protected:
 	ParticleForceRegistry* _forceRegistry;
 	ForceGenerator* _gravityGen;
+	Axis* _axis;
 };
 
 // --- ESCENAS HIJAS ---
@@ -54,6 +56,7 @@ public:
 private:
 	ParticleSystem* _particleSys;
 	ParticleGen* _particleGen;
+	ForceGenerator* _whirlwindGen;
 };
 
 class Scene2 : public Scene {

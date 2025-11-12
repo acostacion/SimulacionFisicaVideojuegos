@@ -7,6 +7,7 @@ class ParticleForceRegistry;
 // Clase ABSTRACTA (interfaz) para para generar fuerzas.
 // - Gravitatoria.
 // - Viento.
+// - Torbellino.
 // - ...
 class ForceGenerator {
 	friend class ParticleForceRegistry;

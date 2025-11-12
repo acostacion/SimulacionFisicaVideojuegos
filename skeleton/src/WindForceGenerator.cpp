@@ -9,7 +9,5 @@ void WindForceGenerator::updateForce(Particle* p){
 	physx::PxVec3 fuerzaViento = _k1 * (_windSpeed - p->getVel());
 
 	// esto es por lo de que haya varias fuerzas a la vez.
-	physx::PxVec3 fuerzaTotal = p->getForce() + fuerzaViento;
-
-	p->setForce(fuerzaTotal);
+	p->setForce(p->getForce() + fuerzaViento);
 }

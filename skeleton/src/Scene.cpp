@@ -1,6 +1,9 @@
 #include "Scene.h"
 
+#include "WhirlwindForceGenerator.h"
+
 void Scene::init() {
+	_axis = new Axis();
 	_forceRegistry = new ParticleForceRegistry();
 	_gravityGen = new GravityForceGenerator(); // default, el de la tierra.
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
@@ -11,8 +14,8 @@ void Scene::erase(){
 	// esto borra los generadores de fuerzas tambien.
 	delete _forceRegistry;
 	_forceRegistry = nullptr;
+	delete _axis;
 }
-
 
 // --- ESCENAS HIJAS ---
 // Scene0, Scene1, Scene2 ...
@@ -84,31 +87,39 @@ void Scene1::init(){
 
 	// crea la gravittoria y la mete en el registro!
 	_forceRegistry = new ParticleForceRegistry();
-	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, 10.0, 0.0));
+	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, -9.8, 0.0));
+	_whirlwindGen = new WhirlwindForceGenerator(physx::PxVec3(100.0f));
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
+	_forceRegistry->forceGenerators.push_back(_whirlwindGen);
 
 	// crea el generador gaussiano y lo mete en el particlesystem!!
 	_particleSys = new ParticleSystem();
 	_particleGen = new GaussianGen(
-		new Particle(physx::PxVec3(0.0), physx::PxVec3(0, 5, 0), 1.0, 1.0, { 0.0, 0.0, 1.0, 1.0 }, Particle::SEMIEULER),
+		new Particle(physx::PxVec3(5.0), physx::PxVec3(0, 5, 0), 1.0, 1.0, { 0.0, 0.0, 1.0, 1.0 }, Particle::SEMIEULER),
 		physx::PxVec3(0, 0, 0));
 	_particleSys->particleGenerators.push_back(_particleGen);
 }
 
 void Scene1::update(double t) {
+	// para que no vaya engordando el vector con particulas vacias,
+	// elimina al principio y luego solo escoge las que son validas para que las fuerzas actuen sobnnre ellas...
+	_gravityGen->particles.clear();
+	_whirlwindGen->particles.clear();
+
 	// mete en el gravityforcegenerator todas las particulas activas ahora.
 	for (ParticleGen* pg : _particleSys->particleGenerators) {
 		if (pg != nullptr) {
 			for (Particle* p : pg->particles) {
 				if (p != nullptr) {
 					_gravityGen->particles.push_back(p);
+					_whirlwindGen->particles.push_back(p);
 				}
 			}
 		}
 	}
 
-	_particleSys->update(t);
 	_forceRegistry->update();
+	_particleSys->update(t);
 }
 
 void Scene1::erase(){

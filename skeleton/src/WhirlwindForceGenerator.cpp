@@ -5,13 +5,20 @@ WhirlwindForceGenerator::WhirlwindForceGenerator(physx::PxVec3 speed, double k, 
 }
 
 void WhirlwindForceGenerator::updateForce(Particle* p) {
-	if (isInActionZone(p)) { // TODO me he quedado por aqui
-		physx::PxVec3 velTorbellino =
-			physx::PxVec3(
-				-(p->getPos().z - _center.z),
-				50 - (p->getPos().y - _center.y),
-				p->getPos().x - _center.x
-			);
+	if (isInActionZone(p)) {
+		// distancias del centro a la particula a cada componente.
+		float dx = p->getPos().x - _center.x;
+		float dy = p->getPos().y - _center.y;
+		float dz = p->getPos().z - _center.z;
+
+		// formula velocidad del torbellino del enunciado.
+		physx::PxVec3 fuerzaTorbellino = _k * physx::PxVec3(-dz, 50 - dy, dx);
+
+		// se asigna a la velocidad del viento de la clase padre.
+		_windSpeed = fuerzaTorbellino;
+
+		// calcula la fuerza del viento.
+		WindForceGenerator::updateForce(p);
 	}
 }
 
