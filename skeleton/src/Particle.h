@@ -6,11 +6,13 @@
 class GravityForceGenerator;
 class WindForceGenerator;
 class WhirlwindForceGenerator;
+class ExplosionForceGenerator;
 
 class Particle{
 	friend class GravityForceGenerator;
 	friend class WindForceGenerator;
 	friend class WhirlwindForceGenerator;
+	friend class ExplosionForceGenerator;
 	// TODO cambiar todos los PxVec3 a Vector3D
 public:
 	enum integrateMode {

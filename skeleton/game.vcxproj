@@ -259,6 +259,7 @@
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="Render\RenderUtils.cpp" />
     <ClCompile Include="src\Axis.cpp" />
+    <ClCompile Include="src\ExplosionForceGenerator.cpp" />
     <ClCompile Include="src\GaussianGen.cpp" />
     <ClCompile Include="src\GravityForceGenerator.cpp" />
     <ClCompile Include="src\NormalGen.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="Render\RenderUtils.hpp" />
     <ClInclude Include="src\Axis.h" />
+    <ClInclude Include="src\ExplosionForceGenerator.h" />
     <ClInclude Include="src\ForceGenerator.h" />
     <ClInclude Include="src\GaussianGen.h" />
     <ClInclude Include="src\GravityForceGenerator.h" />

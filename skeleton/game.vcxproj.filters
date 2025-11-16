@@ -51,6 +51,9 @@
     <ClCompile Include="src\Axis.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ExplosionForceGenerator.cpp">
+      <Filter>src\Forces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -109,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="src\Axis.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ExplosionForceGenerator.h">
+      <Filter>src\Forces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
