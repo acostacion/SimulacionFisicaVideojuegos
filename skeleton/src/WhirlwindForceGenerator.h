@@ -7,7 +7,7 @@ public:
 	WhirlwindForceGenerator(physx::PxVec3 speed, double k = 1.0, physx::PxVec3 center = physx::PxVec3(0.0)); 
 
 protected:
-	void updateForce(Particle* p) override;
+	void updateForce(Particle* p, double t) override;
 
 private:
 	// centro del torbellino.

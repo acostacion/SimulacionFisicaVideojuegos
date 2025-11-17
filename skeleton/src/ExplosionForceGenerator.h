@@ -3,18 +3,16 @@
 
 class ExplosionForceGenerator : public ForceGenerator {
 public:
-	ExplosionForceGenerator(physx::PxVec3 force, double k = 1.0, physx::PxVec3 center = physx::PxVec3(0.0));
+	ExplosionForceGenerator(double k = 1.0, physx::PxVec3 center = physx::PxVec3(0.0), float radius = 50.0f, double t = 1.0);
 
 protected:
-	void updateForce(Particle* p) override;
+	// TODO de todas las que he hecho esta es la unica que necesita tiempo, hacer clase abstracta para solo las de tiempo y t ahorras un parametro...
+	void updateForce(Particle* p, double t) override; 
 
 private:
-	physx::PxVec3 _explosionSpeed; // velocidad de la explosion
-	physx::PxVec3 _center;		   // centro de la explosion
-	double _k;					   // intensidad de la explosion
-
-
-	const physx::PxVec3 ACTION_ZONE = { 50.0, 50.0, 50.0 };
-
-	bool isInActionZone(Particle* p);
+	float _R;			    // radio de la explosion
+	physx::PxVec3 _center;	// centro de la explosion
+	double _K;			    // intensidad de la explosion
+	double _t;				// constante de tiempo de la explosion.
+	// a partir de 4t la explosion practicamente se ha desvanecido.
 };

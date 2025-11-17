@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-#include "WhirlwindForceGenerator.h"
+
 
 void Scene::init() {
 	_axis = new Axis();
@@ -88,7 +88,8 @@ void Scene1::init(){
 	// crea la gravittoria y la mete en el registro!
 	_forceRegistry = new ParticleForceRegistry();
 	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, -9.8, 0.0));
-	_whirlwindGen = new WhirlwindForceGenerator(physx::PxVec3(100.0f));
+	_explosionGen = new ExplosionForceGenerator();
+	// _whirlwindGen = new WhirlwindForceGenerator(physx::PxVec3(100.0f));
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
 	_forceRegistry->forceGenerators.push_back(_whirlwindGen);
 

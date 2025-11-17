@@ -8,6 +8,7 @@ class ParticleForceRegistry;
 // - Gravitatoria.
 // - Viento.
 // - Torbellino.
+// - Explosion.
 // - ...
 class ForceGenerator {
 	friend class ParticleForceRegistry;
@@ -23,5 +24,5 @@ public:
 
 protected:
 	bool _isActive; // para ver si esta activa ahora mismo o no.
-	virtual void updateForce(Particle* p) = 0;
+	virtual void updateForce(Particle* p, double t) = 0;
 };

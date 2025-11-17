@@ -9,11 +9,11 @@ ParticleForceRegistry::~ParticleForceRegistry() {
 	forceGenerators.clear();
 }
 
-void ParticleForceRegistry::update() {
+void ParticleForceRegistry::update(double t) {
 	for (ForceGenerator* fg: forceGenerators){
 		if (fg->isActive()){
 			for (Particle* p : fg->particles) {
-				fg->updateForce(p);
+				fg->updateForce(p, t);
 			}
 		}
 	}

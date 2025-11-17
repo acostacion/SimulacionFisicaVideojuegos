@@ -8,6 +8,8 @@
 #include "ParticleForceRegistry.h"
 #include "GravityForceGenerator.h"
 #include "WindForceGenerator.h"
+#include "ExplosionForceGenerator.h"
+#include "WhirlwindForceGenerator.h"
 #include "Slingshot.h"
 #include "Plane.h"
 #include "Axis.h"
@@ -56,7 +58,8 @@ public:
 private:
 	ParticleSystem* _particleSys;
 	ParticleGen* _particleGen;
-	ForceGenerator* _whirlwindGen;
+	//ForceGenerator* _whirlwindGen;
+	ForceGenerator* _explosionGen;
 };
 
 class Scene2 : public Scene {

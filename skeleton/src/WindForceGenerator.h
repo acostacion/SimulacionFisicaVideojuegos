@@ -8,8 +8,7 @@ public:
 protected:
 	physx::PxVec3 _windSpeed; // la velocidad del viento.
 
-	virtual void updateForce(Particle* p) override;
+	virtual void updateForce(Particle* p, double t) override;
 private:
 	double _k1; // lo de la formula.
-
 };

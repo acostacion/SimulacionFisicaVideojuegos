@@ -11,5 +11,5 @@ public:
 	// GENERATORS: todos los generadores de fuerzas que existan.
 	std::vector<ForceGenerator*> forceGenerators;
 
-	void update();
+	void update(double t);
 };

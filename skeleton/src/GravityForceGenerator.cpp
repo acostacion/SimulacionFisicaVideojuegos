@@ -4,7 +4,7 @@ GravityForceGenerator::GravityForceGenerator(physx::PxVec3 g)
 	: _gravity(g) {
 }
 
-void GravityForceGenerator::updateForce(Particle* p) {
+void GravityForceGenerator::updateForce(Particle* p, double t) {
 
 	physx::PxVec3 fuerzaGravedad = _gravity * p->getMass();
 

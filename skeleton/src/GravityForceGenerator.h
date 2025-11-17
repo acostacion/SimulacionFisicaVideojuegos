@@ -8,6 +8,6 @@ public:
 private:
 	physx::PxVec3 _gravity; // la gravedad que le pongas.
 
-	void updateForce(Particle* p) override;
+	void updateForce(Particle* p, double t) override;
 };
 
