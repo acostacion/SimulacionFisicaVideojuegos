@@ -3,7 +3,7 @@
 
 
 void Scene::init() {
-	_axis = new Axis();
+	//_axis = new Axis();
 	_forceRegistry = new ParticleForceRegistry();
 	_gravityGen = new GravityForceGenerator(); // default, el de la tierra.
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
@@ -28,7 +28,7 @@ void Scene0::update(double t) {
 		if (p != nullptr){
 			_gravityGen->particles.push_back(p);
 			p->integrate(t);
-			_forceRegistry->update();
+			_forceRegistry->update(t);
 
 			// si ha superado su lifetime 
 			if (p->isDead()) {
@@ -87,11 +87,12 @@ void Scene1::init(){
 
 	// crea la gravittoria y la mete en el registro!
 	_forceRegistry = new ParticleForceRegistry();
-	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, -9.8, 0.0));
-	_explosionGen = new ExplosionForceGenerator();
+	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, 9.8, 0.0));
+	_explosionGen = new ExplosionForceGenerator(50);
 	// _whirlwindGen = new WhirlwindForceGenerator(physx::PxVec3(100.0f));
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
-	_forceRegistry->forceGenerators.push_back(_whirlwindGen);
+	_forceRegistry->forceGenerators.push_back(_explosionGen);
+	// _forceRegistry->forceGenerators.push_back(_whirlwindGen);
 
 	// crea el generador gaussiano y lo mete en el particlesystem!!
 	_particleSys = new ParticleSystem();
@@ -101,11 +102,22 @@ void Scene1::init(){
 	_particleSys->particleGenerators.push_back(_particleGen);
 }
 
+void Scene1::handleKey(unsigned char key){
+	switch (toupper(key)) {
+	case 'E': // e de explosion
+		if (_explosionGen != nullptr) _explosionGen->explode();
+		break;
+
+	default: break;
+	}
+}
+
 void Scene1::update(double t) {
 	// para que no vaya engordando el vector con particulas vacias,
 	// elimina al principio y luego solo escoge las que son validas para que las fuerzas actuen sobnnre ellas...
 	_gravityGen->particles.clear();
-	_whirlwindGen->particles.clear();
+	_explosionGen->particles.clear();
+	//_whirlwindGen->particles.clear();
 
 	// mete en el gravityforcegenerator todas las particulas activas ahora.
 	for (ParticleGen* pg : _particleSys->particleGenerators) {
@@ -113,13 +125,14 @@ void Scene1::update(double t) {
 			for (Particle* p : pg->particles) {
 				if (p != nullptr) {
 					_gravityGen->particles.push_back(p);
-					_whirlwindGen->particles.push_back(p);
+					_explosionGen->particles.push_back(p);
+					//_whirlwindGen->particles.push_back(p);
 				}
 			}
 		}
 	}
 
-	_forceRegistry->update();
+	_forceRegistry->update(t);
 	_particleSys->update(t);
 }
 
@@ -154,7 +167,7 @@ void Scene2::init()
 }
 
 void Scene2::update(double t){
-	_forceRegistry->update();
+	_forceRegistry->update(t);
 	_p1->integrate(t);
 	_p2->integrate(t);
 }
@@ -198,7 +211,7 @@ void Scene3::update(double t){
 			}
 		}
 	}
-	_forceRegistry->update();
+	_forceRegistry->update(t);
 
 	for (Particle* p : _birds) {
 		if (p != nullptr) {

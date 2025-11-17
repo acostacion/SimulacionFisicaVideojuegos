@@ -53,13 +53,14 @@ class Scene1 : public Scene {
 public: 
 	~Scene1() override;
 	void init() override;
+	void handleKey(unsigned char key) override;
 	void update(double t) override;
 	void erase() override;
 private:
 	ParticleSystem* _particleSys;
 	ParticleGen* _particleGen;
 	//ForceGenerator* _whirlwindGen;
-	ForceGenerator* _explosionGen;
+	ExplosionForceGenerator* _explosionGen;
 };
 
 class Scene2 : public Scene {
