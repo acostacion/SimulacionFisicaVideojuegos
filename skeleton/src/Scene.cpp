@@ -1,7 +1,5 @@
 #include "Scene.h"
 
-
-
 void Scene::init() {
 	//_axis = new Axis();
 	_forceRegistry = new ParticleForceRegistry();
@@ -281,5 +279,41 @@ void Scene3::initFountain()
 	_fountain = new GaussianGen(
 		new Particle(_slingshot->getPos(), physx::PxVec3(0.0, 20.0, 0.0), 1.0, 1.0, {0.5, 0.5, 1.0, 1.0}, Particle::SEMIEULER), _slingshot->getPos());
 	_particleSys->particleGenerators.push_back(_fountain);
+}
+#pragma endregion
+
+#pragma region Muelles y flotacion
+Scene4::~Scene4() {
+	Scene::erase();
+}
+
+void Scene4::init() {
+	Scene::init();
+	generateSpringDemo();
+}
+
+void Scene4::update(double t) {
+	_forceRegistry->update(t);
+	_p1->integrate(t);
+	_p2->integrate(t);
+}
+
+void Scene4::generateSpringDemo() {
+	// First one standard spring uniting 2 particles.
+	_p1 = new Particle(physx::PxVec3(-10.0f, 10.0f, 0.0f), physx::PxVec3(0.0), 2.0);
+	_p2 = new Particle(physx::PxVec3(10.0f, 10.0f, 0.0f), physx::PxVec3(0.0), 2.0);
+
+	SpringForceGenerator* f1 = new SpringForceGenerator(1, 10, _p2);
+	SpringForceGenerator* f2 = new SpringForceGenerator(1, 10, _p1);
+
+	f1->particles.push_back(_p1);
+	f2->particles.push_back(_p2);
+
+	_forceRegistry->forceGenerators.push_back(f1);
+	_forceRegistry->forceGenerators.push_back(f2);
+
+	// que afecte la gravedad
+	_gravityGen->particles.push_back(_p1);
+	_gravityGen->particles.push_back(_p2);
 }
 #pragma endregion

@@ -10,6 +10,7 @@
 #include "WindForceGenerator.h"
 #include "ExplosionForceGenerator.h"
 #include "WhirlwindForceGenerator.h"
+#include "SpringForceGenerator.h"
 #include "Slingshot.h"
 #include "Plane.h"
 #include "Axis.h"
@@ -94,4 +95,17 @@ private:
 
 	void initWindForce();
 	void initFountain();
+};
+
+class Scene4 : public Scene {
+public:
+	~Scene4() override;
+	void init() override;
+	void update(double t) override;
+
+private:
+	Particle* _p1;
+	Particle* _p2;
+
+	void generateSpringDemo();
 };

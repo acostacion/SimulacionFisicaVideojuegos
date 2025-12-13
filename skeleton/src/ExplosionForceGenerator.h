@@ -1,6 +1,7 @@
 #pragma once
 #include "ForceGenerator.h"
 
+// TODO
 class ExplosionForceGenerator : public ForceGenerator {
 public:
 	ExplosionForceGenerator(double k = 1.0, physx::PxVec3 center = physx::PxVec3(0.0), float radius = 50.0f, double t = 1.0);
