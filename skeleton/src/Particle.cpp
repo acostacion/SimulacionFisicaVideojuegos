@@ -1,9 +1,16 @@
 #include "Particle.h"
 
-Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, double mass, double size, Vector4 color, integrateMode i)
+Particle::Particle(physx::PxVec3 pos, physx::PxVec3 vel, double mass, double size, Vector4 color, integrateMode i, visualRepresentation vr)
 	: _tf(new physx::PxTransform(pos)), _vel(vel), _mass(mass), _size(size), _color(color), _i(i), _a(0.0), _damping(0.999), _lifeTime(0), _force(0.0) { // TODO inicialization order
 
-	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(_size));
+	physx::PxShape* shape;
+	if (vr == SPHERE) {
+		shape = CreateShape(physx::PxSphereGeometry(_size));
+	}
+	else if (vr == CUBE){
+		shape = CreateShape(physx::PxBoxGeometry(_size, _size, _size));
+	}
+	
 	_renderItem = new RenderItem(shape, _tf, _color);
 	RegisterRenderItem(_renderItem);
 

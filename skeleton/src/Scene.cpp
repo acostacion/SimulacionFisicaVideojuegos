@@ -282,6 +282,7 @@ void Scene3::initFountain()
 }
 #pragma endregion
 
+// TODO eliminar todas las cosas que hagan new.
 #pragma region Muelles y flotacion
 Scene4::~Scene4() {
 	Scene::erase();
@@ -289,13 +290,15 @@ Scene4::~Scene4() {
 
 void Scene4::init() {
 	Scene::init();
-	generateSpringDemo();
+	//generateSpringDemo();
+	generateAnchoredSpringDemo();
 }
 
 void Scene4::update(double t) {
 	_forceRegistry->update(t);
-	_p1->integrate(t);
-	_p2->integrate(t);
+	if (_p1) _p1->integrate(t);
+	if (_p2) _p2->integrate(t);
+	if (_p3) _p3->integrate(t);
 }
 
 void Scene4::generateSpringDemo() {
@@ -315,5 +318,14 @@ void Scene4::generateSpringDemo() {
 	// que afecte la gravedad
 	_gravityGen->particles.push_back(_p1);
 	_gravityGen->particles.push_back(_p2);
+}
+
+void Scene4::generateAnchoredSpringDemo() {
+	// Then one spring with one fixed side
+	_p3 = new Particle(physx::PxVec3(-10.0f, 20.0f, 0.0f), physx::PxVec3(0.0), 0.5);
+	AnchoredSpringForceGenerator* f3 = new AnchoredSpringForceGenerator(1, 10, physx::PxVec3(10.0f, 20.0f, 0.0f));
+	f3->particles.push_back(_p3);
+	_forceRegistry->forceGenerators.push_back(f3);
+	_gravityGen->particles.push_back(_p3);
 }
 #pragma endregion

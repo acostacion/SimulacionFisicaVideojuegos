@@ -11,6 +11,7 @@
 #include "ExplosionForceGenerator.h"
 #include "WhirlwindForceGenerator.h"
 #include "SpringForceGenerator.h"
+#include "AnchoredSpringForceGenerator.h"
 #include "Slingshot.h"
 #include "Plane.h"
 #include "Axis.h"
@@ -106,6 +107,8 @@ public:
 private:
 	Particle* _p1;
 	Particle* _p2;
+	Particle* _p3;
 
 	void generateSpringDemo();
+	void generateAnchoredSpringDemo();
 };

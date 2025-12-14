@@ -8,6 +8,7 @@ class WindForceGenerator;
 class WhirlwindForceGenerator;
 class ExplosionForceGenerator;
 class SpringForceGenerator;
+class AnchoredSpringForceGenerator;
 
 class Particle{
 	friend class GravityForceGenerator;
@@ -15,6 +16,7 @@ class Particle{
 	friend class WhirlwindForceGenerator;
 	friend class ExplosionForceGenerator;
 	friend class SpringForceGenerator;
+	friend class AnchoredSpringForceGenerator;
 	// TODO cambiar todos los PxVec3 a Vector3D
 public:
 	enum integrateMode {
@@ -23,13 +25,19 @@ public:
 		VERLET
 	};
 
+	enum visualRepresentation {
+		SPHERE,
+		CUBE
+	};
+
 	Particle(
 		physx::PxVec3 pos,
 		physx::PxVec3 vel,
 		double mass = 1.0,
 		double size = 1.0, 
 		Vector4 color = { 1.0, 0.0, 0.0, 1.0 },
-		integrateMode i = EULER
+		integrateMode i = EULER,
+		visualRepresentation vr = SPHERE
 	);
 
 	// TODO ver por que no funciona lo del deregister...
