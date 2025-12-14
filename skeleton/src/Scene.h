@@ -12,6 +12,7 @@
 #include "WhirlwindForceGenerator.h"
 #include "SpringForceGenerator.h"
 #include "AnchoredSpringForceGenerator.h"
+#include "BuoyancyForceGenerator.h"
 #include "Slingshot.h"
 #include "Plane.h"
 #include "Axis.h"
@@ -103,12 +104,15 @@ public:
 	~Scene4() override;
 	void init() override;
 	void update(double t) override;
+	void erase() override;
 
 private:
 	Particle* _p1;
 	Particle* _p2;
 	Particle* _p3;
+	Particle* _p4;
 
 	void generateSpringDemo();
 	void generateAnchoredSpringDemo();
+	void generateBuoyancyDemo();
 };

@@ -60,6 +60,9 @@
     <ClCompile Include="src\AnchoredSpringForceGenerator.cpp">
       <Filter>src\Forces</Filter>
     </ClCompile>
+    <ClCompile Include="src\BuoyancyForceGenerator.cpp">
+      <Filter>src\Forces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -126,6 +129,9 @@
       <Filter>src\Forces</Filter>
     </ClInclude>
     <ClInclude Include="src\AnchoredSpringForceGenerator.h">
+      <Filter>src\Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BuoyancyForceGenerator.h">
       <Filter>src\Forces</Filter>
     </ClInclude>
   </ItemGroup>

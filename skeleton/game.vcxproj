@@ -260,6 +260,7 @@
     <ClCompile Include="Render\RenderUtils.cpp" />
     <ClCompile Include="src\AnchoredSpringForceGenerator.cpp" />
     <ClCompile Include="src\Axis.cpp" />
+    <ClCompile Include="src\BuoyancyForceGenerator.cpp" />
     <ClCompile Include="src\ExplosionForceGenerator.cpp" />
     <ClCompile Include="src\GaussianGen.cpp" />
     <ClCompile Include="src\GravityForceGenerator.cpp" />
@@ -283,6 +284,7 @@
     <ClInclude Include="Render\RenderUtils.hpp" />
     <ClInclude Include="src\AnchoredSpringForceGenerator.h" />
     <ClInclude Include="src\Axis.h" />
+    <ClInclude Include="src\BuoyancyForceGenerator.h" />
     <ClInclude Include="src\ExplosionForceGenerator.h" />
     <ClInclude Include="src\ForceGenerator.h" />
     <ClInclude Include="src\GaussianGen.h" />

@@ -10,11 +10,12 @@ AnchoredSpringForceGenerator::AnchoredSpringForceGenerator(double k, double rest
 		1.0, 
 		1.0, 
 		Vector4(0.5, 0.5, 0.5, 1.0),
-		Particle::EULER, 
+		Particle::SEMIEULER, 
 		Particle::CUBE
 	);
 }
 
 AnchoredSpringForceGenerator::~AnchoredSpringForceGenerator() {
 	delete _other;
+	_other = nullptr;
 }

@@ -285,13 +285,14 @@ void Scene3::initFountain()
 // TODO eliminar todas las cosas que hagan new.
 #pragma region Muelles y flotacion
 Scene4::~Scene4() {
-	Scene::erase();
+	erase();
 }
 
 void Scene4::init() {
 	Scene::init();
 	//generateSpringDemo();
-	generateAnchoredSpringDemo();
+	//generateAnchoredSpringDemo();
+	generateBuoyancyDemo();
 }
 
 void Scene4::update(double t) {
@@ -299,6 +300,16 @@ void Scene4::update(double t) {
 	if (_p1) _p1->integrate(t);
 	if (_p2) _p2->integrate(t);
 	if (_p3) _p3->integrate(t);
+	if (_p4) _p4->integrate(t);
+}
+
+void Scene4::erase() {
+	delete _p1; _p1 = nullptr;
+	delete _p2; _p2 = nullptr;
+	delete _p3; _p3 = nullptr;
+	delete _p4; _p4 = nullptr;
+
+	Scene::erase();
 }
 
 void Scene4::generateSpringDemo() {
@@ -327,5 +338,22 @@ void Scene4::generateAnchoredSpringDemo() {
 	f3->particles.push_back(_p3);
 	_forceRegistry->forceGenerators.push_back(f3);
 	_gravityGen->particles.push_back(_p3);
+}
+void Scene4::generateBuoyancyDemo()
+{
+	_p4 = new Particle(
+		physx::PxVec3(0.0f, 5.0f, 0.0f),
+		physx::PxVec3(0.0),
+		2.0,
+		1,
+		Vector4(1.0, 0.0, 0.5, 1.0),
+		Particle::SEMIEULER,
+		Particle::CUBE
+	);
+
+	BuoyancyForceGenerator* f4 = new BuoyancyForceGenerator(2.0f, 0.009f, 1000.0f);
+	f4->particles.push_back(_p4);
+	_forceRegistry->forceGenerators.push_back(f4);
+	_gravityGen->particles.push_back(_p4);
 }
 #pragma endregion

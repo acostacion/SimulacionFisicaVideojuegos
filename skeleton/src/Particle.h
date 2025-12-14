@@ -9,6 +9,7 @@ class WhirlwindForceGenerator;
 class ExplosionForceGenerator;
 class SpringForceGenerator;
 class AnchoredSpringForceGenerator;
+class BuoyancyForceGenerator;
 
 class Particle{
 	friend class GravityForceGenerator;
@@ -17,6 +18,8 @@ class Particle{
 	friend class ExplosionForceGenerator;
 	friend class SpringForceGenerator;
 	friend class AnchoredSpringForceGenerator;
+	friend class BuoyancyForceGenerator;
+
 	// TODO cambiar todos los PxVec3 a Vector3D
 public:
 	enum integrateMode {
@@ -36,7 +39,7 @@ public:
 		double mass = 1.0,
 		double size = 1.0, 
 		Vector4 color = { 1.0, 0.0, 0.0, 1.0 },
-		integrateMode i = EULER,
+		integrateMode i = SEMIEULER,
 		visualRepresentation vr = SPHERE
 	);
 
