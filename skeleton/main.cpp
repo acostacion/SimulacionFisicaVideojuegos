@@ -22,27 +22,20 @@ std::string display_text = "ANGRY SUSY 3D";
 // TODO: LA LOGICA DE LAS ESCENAS IR CAMBIANDOLA POCO A POCO, AHORA ESTA MARRONERA.
 
 using namespace physx;
-
-PxDefaultAllocator		gAllocator;
-PxDefaultErrorCallback	gErrorCallback;
-
-PxFoundation*			gFoundation = NULL;
-PxPhysics*				gPhysics	= NULL;
-
-
-PxMaterial*				gMaterial	= NULL;
-
-PxPvd*                  gPvd        = NULL;
-
-PxDefaultCpuDispatcher*	gDispatcher = NULL;
-PxScene*				gScene      = NULL;
-ContactReportCallback   gContactReportCallback;
+physx::PxDefaultAllocator		gAllocator;
+physx::PxDefaultErrorCallback	gErrorCallback;
+physx::PxFoundation* gFoundation = NULL;
+physx::PxPhysics* gPhysics = NULL;
+physx::PxMaterial* gMaterial = NULL;
+physx::PxPvd* gPvd = NULL;
+physx::PxDefaultCpuDispatcher* gDispatcher = NULL;
+physx::PxScene* gScene = NULL;
+ContactReportCallback			gContactReportCallback;
 
 RenderItem*			    gRenderItem = NULL;
 
 int						gCurrentScene = 0;
 std::vector<Scene*>		gScenes;
-
 Scene* scene() { return gScenes[gCurrentScene]; }
 
 void initScenes()
@@ -52,8 +45,8 @@ void initScenes()
 	gScenes.push_back(new Scene2());
 	gScenes.push_back(new Scene3());
 	gScenes.push_back(new Scene4());
-	//mScenes.push_back(new Scene5());
-	//mScenes.push_back(new Scene6()); 
+	gScenes.push_back(new Scene5(gPhysics, gScene));
+	gScenes.push_back(new Scene6()); 
 	//mScenes.push_back(new Scene7());
 	//mScenes.push_back(new Scene8());
 	//mScenes.push_back(new Scene9());
@@ -62,24 +55,23 @@ void initScenes()
 }
 
 // Initialize physics engine
-void initPhysics(bool interactive)
-{
+void initPhysics(bool interactive) {
 	PX_UNUSED(interactive);
 
 	gFoundation = PxCreateFoundation(PX_FOUNDATION_VERSION, gAllocator, gErrorCallback);
 
-	gPvd = PxCreatePvd(*gFoundation);
-	PxPvdTransport* transport = PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
-	gPvd->connect(*transport,PxPvdInstrumentationFlag::eALL);
+	gPvd = physx::PxCreatePvd(*gFoundation);
+	physx::PxPvdTransport* transport = physx::PxDefaultPvdSocketTransportCreate(PVD_HOST, 5425, 10);
+	gPvd->connect(*transport, physx::PxPvdInstrumentationFlag::eALL);
 
-	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, PxTolerancesScale(),true,gPvd);
+	gPhysics = PxCreatePhysics(PX_PHYSICS_VERSION, *gFoundation, physx::PxTolerancesScale(), true, gPvd);
 
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);
 
 	// For Solid Rigids +++++++++++++++++++++++++++++++++++++
-	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.8f, 0.0f);
-	gDispatcher = PxDefaultCpuDispatcherCreate(2);
+	physx::PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
+	sceneDesc.gravity = physx::PxVec3(0.0f, -9.8f, 0.0f);
+	gDispatcher = physx::PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = contactReportFilterShader;
 	sceneDesc.simulationEventCallback = &gContactReportCallback;
@@ -118,7 +110,7 @@ void cleanupPhysics(bool interactive){
 	gScene->release();
 	gDispatcher->release();
 	// -----------------------------------------------------
-	gPhysics->release();	
+	gPhysics->release();
 	PxPvdTransport* transport = gPvd->getTransport();
 	gPvd->release();
 	transport->release();

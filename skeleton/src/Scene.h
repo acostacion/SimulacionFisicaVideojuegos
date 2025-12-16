@@ -1,4 +1,5 @@
 #include <vector>
+#include "../callbacks.hpp"
 #include <iostream>
 #include "Particle.h"
 #include "Projectile.h"
@@ -17,7 +18,6 @@
 #include "Plane.h"
 #include "Axis.h"
 
-
 class Scene{
 public:
 	Scene() = default;
@@ -32,9 +32,10 @@ public:
 	virtual void erase(); // limpia pero no elimina.
 
 protected:
-	ParticleForceRegistry* _forceRegistry;
-	ForceGenerator* _gravityGen;
-	Axis* _axis;
+	ParticleForceRegistry* _forceRegistry = nullptr;
+	ForceGenerator* _gravityGen = nullptr;
+	Axis* _axis = nullptr;
+
 };
 
 // --- ESCENAS HIJAS ---
@@ -115,4 +116,41 @@ private:
 	void generateSpringDemo();
 	void generateAnchoredSpringDemo();
 	void generateBuoyancyDemo();
+};
+
+class Scene5 : public Scene {
+public:
+	Scene5(physx::PxPhysics* physics, physx::PxScene* pxscene); // TODO hacer esto pa maniana
+	~Scene5() override;
+	void init() override;
+	void update(double t) override;
+	void erase() override;
+
+private:
+	physx::PxPhysics* _physics;
+	physx::PxScene* _pxscene;
+
+	void createFloor();
+	void generateSolidRigidDemo();
+};
+
+// [Escena de la ENTREGA FINAL] TODO
+class Scene6 : public Scene {
+public:
+	~Scene6() override;
+	void init() override;
+	void update(double t) override;
+	void handleKey(unsigned char key) override;
+	void erase() override;
+
+private:
+	ForceGenerator* _windGenerator;
+	ParticleSystem* _particleSys;
+	ParticleGen* _fountain;
+	Plane* _plane;
+	Slingshot* _slingshot;
+	std::vector<Projectile*> _birds;
+
+	void initWindForce();
+	void initFountain();
 };

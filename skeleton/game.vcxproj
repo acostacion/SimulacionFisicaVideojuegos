@@ -258,6 +258,7 @@
     <ClCompile Include="Render\Camera.cpp" />
     <ClCompile Include="Render\Render.cpp" />
     <ClCompile Include="Render\RenderUtils.cpp" />
+    <ClCompile Include="SolidGen.cpp" />
     <ClCompile Include="src\AnchoredSpringForceGenerator.cpp" />
     <ClCompile Include="src\Axis.cpp" />
     <ClCompile Include="src\BuoyancyForceGenerator.cpp" />
@@ -272,6 +273,8 @@
     <ClCompile Include="src\Projectile.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Slingshot.cpp" />
+    <ClCompile Include="src\SolidGen.cpp" />
+    <ClCompile Include="src\SolidSystem.cpp" />
     <ClCompile Include="src\SpringForceGenerator.cpp" />
     <ClCompile Include="src\WhirlwindForceGenerator.cpp" />
     <ClCompile Include="src\WindForceGenerator.cpp" />
@@ -282,6 +285,7 @@
     <ClInclude Include="Render\Camera.h" />
     <ClInclude Include="Render\Render.h" />
     <ClInclude Include="Render\RenderUtils.hpp" />
+    <ClInclude Include="SolidGen.h" />
     <ClInclude Include="src\AnchoredSpringForceGenerator.h" />
     <ClInclude Include="src\Axis.h" />
     <ClInclude Include="src\BuoyancyForceGenerator.h" />
@@ -298,6 +302,8 @@
     <ClInclude Include="src\Projectile.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Slingshot.h" />
+    <ClInclude Include="src\SolidGen.h" />
+    <ClInclude Include="src\SolidSystem.h" />
     <ClInclude Include="src\SpringForceGenerator.h" />
     <ClInclude Include="src\WhirlwindForceGenerator.h" />
     <ClInclude Include="src\WindForceGenerator.h" />

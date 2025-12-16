@@ -9,6 +9,9 @@ class ParticleForceRegistry;
 // - Viento.
 // - Torbellino.
 // - Explosion.
+// - Muelle.
+// - Muelle (anchored).
+// - Flotacion
 // - ...
 class ForceGenerator {
 	friend class ParticleForceRegistry;

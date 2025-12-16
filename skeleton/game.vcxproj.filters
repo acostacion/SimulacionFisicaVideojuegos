@@ -63,6 +63,13 @@
     <ClCompile Include="src\BuoyancyForceGenerator.cpp">
       <Filter>src\Forces</Filter>
     </ClCompile>
+    <ClCompile Include="src\SolidSystem.cpp">
+      <Filter>src\Solidos Rigidos</Filter>
+    </ClCompile>
+    <ClCompile Include="SolidGen.cpp" />
+    <ClCompile Include="src\SolidGen.cpp">
+      <Filter>src\Solidos Rigidos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -134,6 +141,13 @@
     <ClInclude Include="src\BuoyancyForceGenerator.h">
       <Filter>src\Forces</Filter>
     </ClInclude>
+    <ClInclude Include="src\SolidSystem.h">
+      <Filter>src\Solidos Rigidos</Filter>
+    </ClInclude>
+    <ClInclude Include="SolidGen.h" />
+    <ClInclude Include="src\SolidGen.h">
+      <Filter>src\Solidos Rigidos</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Render">
@@ -150,6 +164,9 @@
     </Filter>
     <Filter Include="src\Proyecto Intermedio">
       <UniqueIdentifier>{ab272e57-92e8-4a00-ace5-9f6504ca098a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Solidos Rigidos">
+      <UniqueIdentifier>{44d10eca-bcfe-431d-a2a1-8b460ceeacd8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
