@@ -1,5 +1,4 @@
 #pragma once
-#include <PxRigidDynamic.h>
 #include "SolidGen.h"
 #include <vector>
 

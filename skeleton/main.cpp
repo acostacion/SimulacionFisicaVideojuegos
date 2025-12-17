@@ -46,7 +46,7 @@ void initScenes()
 	gScenes.push_back(new Scene3());
 	gScenes.push_back(new Scene4());
 	gScenes.push_back(new Scene5(gPhysics, gScene));
-	gScenes.push_back(new Scene6()); 
+	//gScenes.push_back(new Scene6()); 
 	//mScenes.push_back(new Scene7());
 	//mScenes.push_back(new Scene8());
 	//mScenes.push_back(new Scene9());

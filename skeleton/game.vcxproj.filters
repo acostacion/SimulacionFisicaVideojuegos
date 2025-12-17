@@ -66,8 +66,10 @@
     <ClCompile Include="src\SolidSystem.cpp">
       <Filter>src\Solidos Rigidos</Filter>
     </ClCompile>
-    <ClCompile Include="SolidGen.cpp" />
-    <ClCompile Include="src\SolidGen.cpp">
+    <ClCompile Include="src\SolidBoxGen.cpp">
+      <Filter>src\Solidos Rigidos</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SolidSphereGen.cpp">
       <Filter>src\Solidos Rigidos</Filter>
     </ClCompile>
   </ItemGroup>
@@ -144,8 +146,13 @@
     <ClInclude Include="src\SolidSystem.h">
       <Filter>src\Solidos Rigidos</Filter>
     </ClInclude>
-    <ClInclude Include="SolidGen.h" />
     <ClInclude Include="src\SolidGen.h">
+      <Filter>src\Solidos Rigidos</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SolidBoxGen.h">
+      <Filter>src\Solidos Rigidos</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SolidSphereGen.h">
       <Filter>src\Solidos Rigidos</Filter>
     </ClInclude>
   </ItemGroup>
