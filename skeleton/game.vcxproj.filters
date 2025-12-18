@@ -12,12 +12,6 @@
     <ClCompile Include="Render\RenderUtils.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="src\Particle.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Projectile.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\Scene.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -72,6 +66,12 @@
     <ClCompile Include="src\SolidSphereGen.cpp">
       <Filter>src\Solidos Rigidos</Filter>
     </ClCompile>
+    <ClCompile Include="src\Particle.cpp">
+      <Filter>src\Particle Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Projectile.cpp">
+      <Filter>src\Particle Generators</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="core.hpp" />
@@ -85,12 +85,6 @@
     <ClInclude Include="Vector3D.h" />
     <ClInclude Include="Render\RenderUtils.hpp">
       <Filter>Render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Particle.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Projectile.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Scene.h">
       <Filter>src</Filter>
@@ -154,6 +148,12 @@
     </ClInclude>
     <ClInclude Include="src\SolidSphereGen.h">
       <Filter>src\Solidos Rigidos</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Particle.h">
+      <Filter>src\Particle Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Projectile.h">
+      <Filter>src\Particle Generators</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

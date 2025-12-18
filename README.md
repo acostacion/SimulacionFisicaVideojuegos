@@ -1,8 +1,9 @@
-# SimulacionFisicaVideojuegos
-Repositorio de las prácticas de la asignatura de Simulación Física de Videojuegos
+**Importante:** presionar la tecla ‘6’ al ejecutar el programa para iniciar la escena del Proyecto Final.
 
-En la carpeta skeleton estará vuestro código fuente
+**Controles:**
 
-Necesitaréis además descomprimir el archivo que se indica a continuación en la raíz del repositorio:
-
-Carpetas bin y common https://ucomplutense-my.sharepoint.com/:f:/g/personal/liagar05_ucm_es/ElNxHPmZVj9Ni9-8FKTKp7cBJHAarnL3vvEvG50z0QMrzg
+- **Tecla ‘B’**: disparar al pájaro rojo desde el tirachinas.  
+- **Tecla ‘C’**: disparar al águila blanca desde la cámara.  
+- **Tecla ‘G’**: desactivar la gravedad.  
+- **Tecla ‘V’**: desactivar el viento.  
+- **Tecla ‘K’**: desangrar al cerdo.
