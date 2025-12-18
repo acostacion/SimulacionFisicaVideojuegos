@@ -188,7 +188,7 @@ Scene3::~Scene3() { erase(); }
 void Scene3::init() { // TODO para el final mover la camara en lugar de mover los objetos.
 	Scene::init();
 
-	_plane = new Plane(physx::PxVec3(20.0), 50.0);
+	//_plane = new Plane(physx::PxVec3(20.0), 50.0);
 	_slingshot = new Slingshot(physx::PxVec3(_plane->getPos().x - 20, _plane->getPos().y + 0.25, _plane->getPos().z), 3.0);
 
 	_particleSys = new ParticleSystem();
@@ -254,6 +254,7 @@ void Scene3::handleKey(unsigned char key)
 	case 'V': // activar/desactivar generador de viento
 		_windGenerator->setActive(!_windGenerator->isActive());
 		break;
+
 	default: break;
 	}
 }
@@ -416,115 +417,178 @@ void Scene5::generateSolidRigidDemo()
 
 #pragma endregion
 
-#pragma region Entrega Final
-//Scene6::Scene6(physx::PxPhysics* physics, physx::PxScene* pxscene)
-//	: _physics(physics), _pxscene(pxscene){
-//}
-//Scene6::~Scene6() { erase(); }
-//
-//void Scene6::init() { // TODO para el final mover la camara en lugar de mover los objetos.
-//	Scene::init();
-//
-//	_axis = new Axis();
-//	_plane = new Plane(physx::PxVec3(20.0), 50.0);
-//	_slingshot = new Slingshot(physx::PxVec3(_plane->getPos().x - 20, _plane->getPos().y + 0.25, _plane->getPos().z), 3.0);
-//	
-//	_particleSys = new ParticleSystem();
-//	initFountain();
-//	initWindForce();
-//}
-//
-//void Scene6::update(double t) {
-//	_particleSys->update(t);
-//	// mete en el forcegenerator todas las particulas activas ahora.
-//	for (ParticleGen* pg : _particleSys->particleGenerators) {
-//		if (pg != nullptr) {
-//			for (Particle* p : pg->particles) {
-//				if (p != nullptr) {
-//					_gravityGen->particles.push_back(p);
-//					_windGenerator->particles.push_back(p);
-//				}
-//			}
-//		}
-//	}
-//	_forceRegistry->update(t);
-//
-//	for (Particle* p : _birds) {
-//		if (p != nullptr) {
-//			p->integrate(t);
-//
-//			// si ha superado su lifetime 
-//			if (p->isDead()) {
-//				for (ForceGenerator* fg : _forceRegistry->forceGenerators) {
-//					fg->particles.erase(std::find(fg->particles.begin(), fg->particles.end(), p));
-//				}
-//				_birds.erase(std::find(_birds.begin(), _birds.end(), p));
-//				DeregisterRenderItem(p->getRenderItem());
-//				delete p;
-//				p = nullptr;
-//			}
-//		}
-//	}
-//}
-//
-//void Scene6::handleKey(unsigned char key)
-//{
-//	//physx::PxRigidDynamic* bird;
-//	//switch (toupper(key)) {
-//	//case 'B': // disparo desde el tirachinas (pajaro normal)
-//
-//	//	_birds.push_back(bird);
-//	//	_gravityGen->particles.push_back(bird);
-//	//	_windGenerator->particles.push_back(bird);
-//	//	break;
-//
-//	//case 'C': // disparo desde la camara (aguila)
-//	//	//bird = new Projectile(GetCamera()->getTransform().p, GetCamera()->getDir(), Projectile::ANGRYBIRD, { 1,1,1,1 }, Particle::SEMIEULER, 2.0);
-//	//	//_birds.push_back(bird);
-//	//	//_gravityGen->particles.push_back(bird);
-//	//	//_windGenerator->particles.push_back(bird);
-//	//	break;
-//
-//	//case 'G': // activar/desactivar generador de gravedad
-//	//	_gravityGen->setActive(!_gravityGen->isActive());
-//	//	break;
-//
-//	//case 'V': // activar/desactivar generador de viento
-//	//	_windGenerator->setActive(!_windGenerator->isActive());
-//	//	break;
-//	//default: break;
-//	//}
-//}
-//
-//void Scene6::erase() {
-//	delete _plane;
-//	_plane = nullptr;
-//
-//	delete _slingshot;
-//	_slingshot = nullptr;
-//
-//	delete _particleSys;
-//	_particleSys = nullptr;
-//
-//	Scene::erase();
-//}
-//physx::PxRigidDynamic* Scene6::createBird(physx::PxVec3 pos) {
-//	physx::PxRigidDynamic* bird = _physics->createRigidDynamic(physx::PxTransform(pos));
-//	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(0.5f));
-//	bird->attachShape(*shape);
-//	physx::PxRigidBodyExt::updateMassAndInertia(*bird, 1.0f);
-//	_pxscene->addActor(*bird);
-//	new RenderItem(shape, bird, { 1, 0, 0, 1 });
-//	return bird;
-//}
-//void Scene6::initWindForce() {
-//	_windGenerator = new WindForceGenerator(physx::PxVec3(50.0, 0.0, 0.0));
-//	_forceRegistry->forceGenerators.push_back(_windGenerator);
-//}
-//void Scene6::initFountain()
-//{
-//	_fountain = new GaussianGen(
-//		new Particle(_slingshot->getPos(), physx::PxVec3(0.0, 20.0, 0.0), 1.0, 1.0, { 0.5, 0.5, 1.0, 1.0 }, Particle::SEMIEULER), _slingshot->getPos());
-//	_particleSys->particleGenerators.push_back(_fountain);
-//}
+#pragma region Entrega Final // TODO
+Scene6::Scene6(physx::PxPhysics* physics, physx::PxScene* pxscene)
+	: _physics(physics), _pxscene(pxscene){
+}
+Scene6::~Scene6() { erase(); }
+
+void Scene6::init() { 
+	Scene::init();
+
+	_particleSys = new ParticleSystem();
+	_solidSys = new SolidSystem();
+
+	_axis = new Axis();
+	_plane = new Plane(physx::PxVec3(20.0), 500, _physics, _pxscene);
+	_slingshot = new Slingshot(physx::PxVec3(_plane->getPos().x - 20, _plane->getPos().y + 0.25, _plane->getPos().z), 3.0);
+	
+
+	_pig = createPig(physx::PxVec3(10.0f, 21.0f, 0.0f));
+	initPigSprings();
+
+	initFountainGaussian(); // TODO cambiar posicion
+	initFountainNormal(); // TODO
+	
+	initWindForce();
+}
+
+void Scene6::update(double t) {
+	// --- particulas ---
+	_particleSys->update(t);
+
+	_gravityGen->particles.clear();
+	_windGenerator->particles.clear();
+
+	// mete en el forcegenerator todas las particulas activas ahora.
+	for (ParticleGen* pg : _particleSys->particleGenerators) {
+		for (Particle* p : pg->particles) {
+			if (p != nullptr) {
+				_gravityGen->particles.push_back(p);
+				_windGenerator->particles.push_back(p);
+			}
+		}
+		
+	}
+
+	// --- solidos ---
+	_solidSys->update(t);
+
+	_pigSpringLeftArm->setAnchor(physx::PxVec3(_pig->getGlobalPose().p.x, _pig->getGlobalPose().p.y, _pig->getGlobalPose().p.z - 7));
+	_pigSpringRightArm->setAnchor(physx::PxVec3(_pig->getGlobalPose().p.x, _pig->getGlobalPose().p.y, _pig->getGlobalPose().p.z + 7));
+
+
+	// --- todo ---
+	_forceRegistry->update(t);
+
+	_pigLeftArm->integrate(t);
+	_pigRightArm->integrate(t);
+}
+
+void Scene6::handleKey(unsigned char key) {
+	physx::PxRigidDynamic* bird;
+	physx::PxVec3 shootDir;
+	
+	switch (toupper(key)) {
+	case 'B': // disparo desde el tirachinas (pajaro normal)
+		bird = createBird(_slingshot->getPos(), 1.0f, { 1, 0, 0, 1 });
+
+		// pig.xyz - bird.xyz
+		shootDir = _pig->getGlobalPose().p - bird->getGlobalPose().p;
+		shootDir.normalize();
+
+		bird->addForce(shootDir * 90.0f, physx::PxForceMode::eIMPULSE);
+		break;
+
+	case 'C': // disparo desde la camara (aguila)
+		bird = createBird(GetCamera()->getTransform().p, 2.0f, { 1, 1, 1, 1 });
+
+		// pig.xyz - bird.xyz
+		shootDir = _pig->getGlobalPose().p - bird->getGlobalPose().p;
+		shootDir.normalize();
+
+		bird->addForce(shootDir * 130.0f, physx::PxForceMode::eIMPULSE);
+		break;
+
+	case 'G': // activar/desactivar generador de gravedad (SOLO AFECTA A PARTICULAS)
+		_gravityGen->setActive(!_gravityGen->isActive());
+		break;
+
+	case 'V': // activar/desactivar generador de viento
+		_windGenerator->setActive(!_windGenerator->isActive());
+		break;
+
+	case 'K': // mata al cerdo
+		_bloodGen = new SolidBoxGen(_physics, _pxscene, physx::PxTransform(_pig->getGlobalPose().p + physx::PxVec3(0, 2.0f, 0)));
+		_solidSys->solidGenerators.push_back(_bloodGen);
+
+		// a la sangre le afecta el viento
+		for (physx::PxRigidDynamic* s : _bloodGen->solids) {
+			_windGenerator->solids.push_back(s);
+		}
+		break;
+	default: break;
+	}
+}
+
+void Scene6::erase() {
+	delete _plane;
+	_plane = nullptr;
+
+	delete _slingshot;
+	_slingshot = nullptr;
+
+	delete _particleSys;
+	_particleSys = nullptr;
+
+	delete _solidSys;
+	_solidSys = nullptr;
+
+	Scene::erase();
+}
+
+physx::PxRigidDynamic* Scene6::createBird(physx::PxVec3 pos, float mass, Vector4 color) {
+
+	physx::PxRigidDynamic* bird = _physics->createRigidDynamic(physx::PxTransform(pos));
+	physx::PxShape* shape = CreateShape(physx::PxSphereGeometry(0.5));
+	bird->attachShape(*shape);
+	physx::PxRigidBodyExt::updateMassAndInertia(*bird, mass);
+	_pxscene->addActor(*bird);
+	new RenderItem(shape, bird, color);
+	return bird;
+}
+
+physx::PxRigidDynamic* Scene6::createPig(physx::PxVec3 pos) {
+	physx::PxRigidDynamic* pig = _physics->createRigidDynamic(physx::PxTransform(pos));
+	physx::PxShape* shape = CreateShape(physx::PxBoxGeometry(5.0f, 5.0f, 5.0f));
+	pig->attachShape(*shape);
+	physx::PxRigidBodyExt::updateMassAndInertia(*pig, 200.0f);
+	_pxscene->addActor(*pig);
+	new RenderItem(shape, pig, { 0,1,0,1 });
+	return pig;
+}
+
+void Scene6::initPigSprings() {
+	_pigLeftArm = new Particle(_pig->getGlobalPose().p + physx::PxVec3(-3, 2, 0), physx::PxVec3(0), 0.5f, 2, {0, 1, 0, 1});
+
+	_pigRightArm = new Particle(_pig->getGlobalPose().p + physx::PxVec3(3, 2, 0), physx::PxVec3(0), 1.5f, 2, {0, 1, 0, 1});
+
+	_pigSpringLeftArm = new AnchoredSpringForceGenerator(20.0, 1.0, _pig->getGlobalPose().p);
+
+	_pigSpringRightArm = new AnchoredSpringForceGenerator(20.0, 1.0, _pig->getGlobalPose().p);
+
+	_pigSpringLeftArm->particles.push_back(_pigLeftArm);
+	_pigSpringRightArm->particles.push_back(_pigRightArm);
+
+	_forceRegistry->forceGenerators.push_back(_pigSpringLeftArm);
+	_forceRegistry->forceGenerators.push_back(_pigSpringRightArm);
+
+	_gravityGen->particles.push_back(_pigLeftArm);
+	_gravityGen->particles.push_back(_pigRightArm);
+}
+
+void Scene6::initWindForce() {
+	_windGenerator = new WindForceGenerator(physx::PxVec3(50.0, 0.0, 0.0));
+	_forceRegistry->forceGenerators.push_back(_windGenerator);
+}
+void Scene6::initFountainGaussian() {
+	_fountainGaussian = new GaussianGen(
+		new Particle(physx::PxVec3(_slingshot->getPos().x + 7, _slingshot->getPos().y, _slingshot->getPos().z - 7), physx::PxVec3(0.0, 20.0, 0.0), 1.0, 1.0, { 0.5, 0.5, 1.0, 1.0 }, Particle::SEMIEULER), _slingshot->getPos());
+	_particleSys->particleGenerators.push_back(_fountainGaussian);
+}
+void Scene6::initFountainNormal() {
+	_fountainNormal = new NormalGen(
+		new Particle(physx::PxVec3(_slingshot->getPos().x - 7, _slingshot->getPos().y, _slingshot->getPos().z + 7), physx::PxVec3(0.0, 40.0, 0.0), 1.0, 1.0, {1, 0, 0.5, 1.0}, Particle::SEMIEULER), _slingshot->getPos());
+	_particleSys->particleGenerators.push_back(_fountainNormal);
+}
 #pragma endregion

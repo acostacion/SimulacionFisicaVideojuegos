@@ -29,3 +29,13 @@ AnchoredSpringForceGenerator::AnchoredSpringForceGenerator(double k, double rest
 	RenderItem* item = new RenderItem(shape, _otherSolid, Vector4(0.5, 0.5, 0.5, 1.0));
 	RegisterRenderItem(item);
 }
+
+void AnchoredSpringForceGenerator::setAnchor(physx::PxVec3 pos) {
+	if (_otherParticle != nullptr) {
+		_otherParticle->setPos(pos);
+	}
+
+	if (_otherSolid != nullptr) {
+		_otherSolid->setGlobalPose(physx::PxTransform(pos));
+	}
+}

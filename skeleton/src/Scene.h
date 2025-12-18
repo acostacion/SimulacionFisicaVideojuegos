@@ -142,29 +142,56 @@ private:
 	void generateSolidRigidDemo();
 };
 
-//// [Escena de la ENTREGA FINAL] TODO
-//class Scene6 : public Scene {
-//public:
-//	Scene6(physx::PxPhysics* physics, physx::PxScene* pxscene);
-//	~Scene6() override;
-//	void init() override;
-//	void update(double t) override;
-//	void handleKey(unsigned char key) override;
-//	void erase() override;
-//
-//
-//private:
-//	physx::PxPhysics* _physics;
-//	physx::PxScene* _pxscene;
-//
-//	ForceGenerator* _windGenerator;
-//	ParticleSystem* _particleSys;
-//	ParticleGen* _fountain;
-//	Plane* _plane;
-//	Slingshot* _slingshot;
-//	std::vector<physx::PxRigidDynamic*> _birds;
-//
-//	physx::PxRigidDynamic* createBird(physx::PxVec3 pos);
-//	void initWindForce();
-//	void initFountain();
-//};
+// [Escena de la ENTREGA FINAL] TODO
+class Scene6 : public Scene {
+public:
+	Scene6(physx::PxPhysics* physics, physx::PxScene* pxscene);
+
+	~Scene6() override;
+
+	void init() override;
+	void update(double t) override;
+	void handleKey(unsigned char key) override;
+	void erase() override;
+
+private:
+	// Herramientas
+	physx::PxPhysics* _physics;
+	physx::PxScene* _pxscene;
+
+	// Objetos
+	Slingshot* _slingshot;
+	Plane* _plane; // TODO hacer que sea solido rigido estatico.
+	std::vector<physx::PxRigidDynamic*> _birds;
+
+	physx::PxRigidDynamic* _pig;
+	Particle* _pigLeftArm;
+	Particle* _pigRightArm;
+	AnchoredSpringForceGenerator* _pigSpringLeftArm;
+	AnchoredSpringForceGenerator* _pigSpringRightArm;
+
+	/// ----------------------
+	/// SISTEMAS Y GENERADORES
+	/// ----------------------
+
+	// Particulas
+	ParticleSystem* _particleSys;
+	ParticleGen* _fountainGaussian; // GaussianGen
+	ParticleGen* _fountainNormal; // NormalGen
+
+	// Fuerzas
+	ForceGenerator* _windGenerator;
+
+	// Solidos Rigidos
+	SolidSystem* _solidSys;
+	SolidGen* _bloodGen;
+
+	// Metodos auxiliares
+	physx::PxRigidDynamic* createBird(physx::PxVec3 pos, float mass, Vector4 color);
+	void initPigSprings();
+	physx::PxRigidDynamic* createPig(physx::PxVec3 pos);
+
+	void initWindForce();
+	void initFountainGaussian();
+	void initFountainNormal();
+};
