@@ -13,12 +13,13 @@ public:
 		: _physics(physics), _scene(scene), _spawnPos(spawnPos), _isActive(active) { }
 
 	virtual ~SolidGen() {
-		for (physx::PxRigidDynamic* s : _solids) {
+		for (physx::PxRigidDynamic* s : solids) {
 			_scene->removeActor(*s);
 			s->release();
 		}
 	}
 
+	std::vector<physx::PxRigidDynamic*> solids;
 	virtual void generateS() = 0;
 
 	// getters/setters
@@ -33,5 +34,4 @@ protected:
 	physx::PxTransform _spawnPos;
 	bool _isActive;
 
-	std::vector<physx::PxRigidDynamic*> _solids;
 };

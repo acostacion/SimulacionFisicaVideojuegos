@@ -13,3 +13,9 @@ void GravityForceGenerator::updateForce(Particle* p, double t) {
 
 	p->setForce(fuerzaGravedad); // F = m * g
 }
+
+void GravityForceGenerator::updateForce(physx::PxRigidDynamic* s, double t) {
+	physx::PxVec3 fuerzaGravedad = _gravity * s->getMass();
+
+	s->addForce(fuerzaGravedad);
+}

@@ -136,6 +136,8 @@ private:
 
 	SolidSystem* _solidSystem;
 
+	WindForceGenerator* _wind;
+
 	void createFloor();
 	void generateSolidRigidDemo();
 };

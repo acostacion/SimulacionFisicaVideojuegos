@@ -8,6 +8,7 @@ public:
 
 protected:
 	void updateForce(Particle* p, double t) override;
+	void updateForce(physx::PxRigidDynamic* s, double t) override;
 
 private:
 	// centro del torbellino.
@@ -16,6 +17,6 @@ private:
 
 	const physx::PxVec3 ACTION_ZONE = { 50.0, 50.0, 50.0 };
 
-	bool isInActionZone(Particle* p);
+	bool isInActionZone(physx::PxVec3 p);
 };
 

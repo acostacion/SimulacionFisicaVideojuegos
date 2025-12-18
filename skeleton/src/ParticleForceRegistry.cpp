@@ -12,8 +12,14 @@ ParticleForceRegistry::~ParticleForceRegistry() {
 void ParticleForceRegistry::update(double t) {
 	for (ForceGenerator* fg: forceGenerators){
 		if (fg->isActive()){
+			// particulas
 			for (Particle* p : fg->particles) {
 				fg->updateForce(p, t);
+			}
+
+			// solidos rigidos
+			for (physx::PxRigidDynamic* s : fg->solids) {
+				fg->updateForce(s, t);
 			}
 		}
 	}

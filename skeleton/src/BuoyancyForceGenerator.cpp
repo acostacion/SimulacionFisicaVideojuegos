@@ -37,6 +37,28 @@ void BuoyancyForceGenerator::updateForce(Particle* p, double t) {
 	p->setForce(p->getForce() + f);
 }
 
+void BuoyancyForceGenerator::updateForce(physx::PxRigidDynamic* s, double t) {
+	float h = s->getGlobalPose().p.y;
+	float h0 = _liquid_particle->getPos().y;
+
+	physx::PxVec3 f = physx::PxVec3(0.0f);
+	float immersed = 0.0;
+	if (h - h0 > _height * 0.5) {
+		immersed = 0.0;
+	}
+	else if (h0 - h > _height * 0.5) {
+		// Totally immersed
+		immersed = 1.0;
+	}
+	else {
+		immersed = (h0 - h) / _height + 0.5;
+	}
+
+	f.y = _liquid_density * _volume * immersed * 9.8;
+
+	s->addForce(f);
+}
+
 BuoyancyForceGenerator::~BuoyancyForceGenerator() {
 	delete _liquid_particle;
 	_liquid_particle = nullptr;

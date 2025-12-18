@@ -86,7 +86,7 @@ void Scene1::init(){
 	// crea la gravittoria y la mete en el registro!
 	_forceRegistry = new ParticleForceRegistry();
 	_gravityGen = new GravityForceGenerator(physx::PxVec3(0.0, 9.8, 0.0));
-	_explosionGen = new ExplosionForceGenerator(50);
+	/*_explosionGen = new ExplosionForceGenerator(50);*/
 	// _whirlwindGen = new WhirlwindForceGenerator(physx::PxVec3(100.0f));
 	_forceRegistry->forceGenerators.push_back(_gravityGen);
 	_forceRegistry->forceGenerators.push_back(_explosionGen);
@@ -317,14 +317,14 @@ void Scene4::generateSpringDemo() {
 	_p1 = new Particle(physx::PxVec3(-10.0f, 10.0f, 0.0f), physx::PxVec3(0.0), 2.0);
 	_p2 = new Particle(physx::PxVec3(10.0f, 10.0f, 0.0f), physx::PxVec3(0.0), 2.0);
 
-	SpringForceGenerator* f1 = new SpringForceGenerator(1, 10, _p2);
-	SpringForceGenerator* f2 = new SpringForceGenerator(1, 10, _p1);
+	/*SpringForceGenerator* f1 = new SpringForceGenerator(1, 10, _p2);
+	SpringForceGenerator* f2 = new SpringForceGenerator(1, 10, _p1);*/
 
-	f1->particles.push_back(_p1);
+	/*f1->particles.push_back(_p1);
 	f2->particles.push_back(_p2);
 
 	_forceRegistry->forceGenerators.push_back(f1);
-	_forceRegistry->forceGenerators.push_back(f2);
+	_forceRegistry->forceGenerators.push_back(f2);*/
 
 	// que afecte la gravedad
 	_gravityGen->particles.push_back(_p1);
@@ -334,9 +334,9 @@ void Scene4::generateSpringDemo() {
 void Scene4::generateAnchoredSpringDemo() {
 	// Then one spring with one fixed side
 	_p3 = new Particle(physx::PxVec3(-10.0f, 20.0f, 0.0f), physx::PxVec3(0.0), 0.5);
-	AnchoredSpringForceGenerator* f3 = new AnchoredSpringForceGenerator(1, 10, physx::PxVec3(10.0f, 20.0f, 0.0f));
-	f3->particles.push_back(_p3);
-	_forceRegistry->forceGenerators.push_back(f3);
+	//AnchoredSpringForceGenerator* f3 = new AnchoredSpringForceGenerator(1, 10, physx::PxVec3(10.0f, 20.0f, 0.0f));
+	/*f3->particles.push_back(_p3);
+	_forceRegistry->forceGenerators.push_back(f3);*/
 	_gravityGen->particles.push_back(_p3);
 }
 void Scene4::generateBuoyancyDemo()
@@ -358,6 +358,7 @@ void Scene4::generateBuoyancyDemo()
 }
 #pragma endregion
 
+// NOTA: LOS SOLIDOS RIGIDOS YA APARECEN CON GRAVEDAD DE BASE.
 #pragma region Solidos rigidos
 Scene5::Scene5(physx::PxPhysics* physics, physx::PxScene* pxscene)
 	: _physics(physics), _pxscene(pxscene) {
@@ -375,6 +376,7 @@ void Scene5::init() {
 
 void Scene5::update(double t) {
 	_solidSystem->update(t);
+	_forceRegistry->update(t); // TODO aqui me he quedao
 }
 
 void Scene5::erase() {
@@ -398,12 +400,20 @@ void Scene5::generateSolidRigidDemo()
 {
 	_solidSystem = new SolidSystem();
 
-	SolidGen* boxGen = new SolidBoxGen(_physics, _pxscene, physx::PxTransform(physx::PxVec3(0, 10, 0)));
+	//SolidGen* boxGen = new SolidBoxGen(_physics, _pxscene, physx::PxTransform(physx::PxVec3(0, 10, 0)));
 	SolidGen* sphereGen = new SolidSphereGen(_physics, _pxscene, physx::PxTransform(physx::PxVec3(0, 12, 0)));
 
-	_solidSystem->solidGenerators.push_back(boxGen);
+	//_solidSystem->solidGenerators.push_back(boxGen);
 	_solidSystem->solidGenerators.push_back(sphereGen);
+
+	// VIENTO A LAS ESFERAS.
+	_wind = new WindForceGenerator(physx::PxVec3(100.0f, 0.0f, 0.0f), 1.0);
+
+	for (physx::PxRigidDynamic* s : sphereGen->solids) {
+		_wind->solids.push_back(s);
+	}
 }
+
 #pragma endregion
 
 #pragma region Entrega Final

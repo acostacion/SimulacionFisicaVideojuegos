@@ -5,6 +5,7 @@ public:
 	BuoyancyForceGenerator(float h, float V, float d);
 
 	virtual void updateForce(Particle* p, double t) override;
+	void updateForce(physx::PxRigidDynamic* s, double t) override;
 
 	virtual ~BuoyancyForceGenerator();
 
